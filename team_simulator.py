@@ -142,7 +142,7 @@ class TeamSimulator:
             logger.info(f"Team quality: {team_quality}")
             
             # Calculate base win probability
-            base_win_prob = self._calculate_win_probability(team_stats)
+            base_win_prob = self.calculate_win_probability(team_stats)
             
             # Adjust win probability based on team quality
             win_prob = self._adjust_win_probability(base_win_prob, team_quality)
@@ -373,62 +373,47 @@ class TeamSimulator:
 
 def main():
     # Test the simulator
-    simulator = TeamSimulator(budget=11)
-    
-    # Example teams with $11 budget
-    teams = [
-        {
-            "name": "Superstar + Balanced Support",
-            "players": [
-                "Nikola Jokic",      # $3 (MVP candidate)
-                "Devin Booker",      # $2 (All-Star)
-                "Anthony Edwards",   # $2 (All-Star)
-                "Kyle Kuzma",        # $1 (Solid starter)
-                "Alex Caruso"        # $1 (Elite defender)
-            ]  # Total: $9
-        },
-        {
-            "name": "Two Stars + Quality Role Players",
-            "players": [
-                "Nikola Jokic",      # $3 (MVP candidate)
-                "Jayson Tatum",      # $2 (All-Star)
-                "Josh Hart",         # $1 (Solid role player)
-                "Georges Niang",     # $1 (Role player)
-                "Alex Caruso"        # $1 (Elite defender)
-            ]  # Total: $8
-        },
-        {
-            "name": "Balanced All-Stars",
-            "players": [
-                "Devin Booker",      # $2 (All-Star)
-                "Anthony Edwards",   # $2 (All-Star)
-                "Jayson Tatum",      # $2 (All-Star)
-                "Kyle Kuzma",        # $1 (Solid starter)
-                "Josh Hart"          # $1 (Solid role player)
-            ]  # Total: $8
-        }
-    ]
-    
-    # Test each team
-    for team in teams:
-        print(f"\n{'='*50}")
-        print(f"Testing {team['name']}...")
-        print("Building team...")
-        simulator.build_team(team['players'])
-        
-        print("\nSimulating season...")
-        results = simulator.simulate_season()
-        
-        print("\nSeason Simulation Results:")
-        print(f"Team Composition (Total: ${sum(player['cost'] for player in team['players'])}):")
-        for player in team['players']:
-            print(f"- {player['name']}: ${player['cost']}")
-        print(f"\nWins: {results['wins']}")
-        print(f"Losses: {results['losses']}")
-        print(f"Win Percentage: {results['win_pct']:.3f}")
-        print(f"Power Rating: {results['power_rating']:.1f}")
-        print(f"{'Made playoffs' if results['makes_playoffs'] else 'Did not make playoffs'}")
-        print(f"{'='*50}")
+    simulator = TeamSimulator()
+    players = simulator.get_random_players()
+    if players:
+        print("Random players:", players)
+    else:
+        print("Failed to get random players")
 
-if __name__ == "__main__":
-    main() 
+# Add API endpoints
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+simulator = TeamSimulator()
+
+@app.route('/player_pool', methods=['GET'])
+def get_player_pool():
+    try:
+        players = simulator.get_random_players()
+        if players:
+            return jsonify(players)
+        else:
+            return jsonify({'error': 'Failed to get player pool'}), 500
+    except Exception as e:
+        logger.error(f"Error in get_player_pool: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/simulate', methods=['POST'])
+def simulate():
+    try:
+        data = request.get_json()
+        if not data or 'players' not in data:
+            return jsonify({'error': 'Missing players in request'}), 400
+
+        players = data['players']
+        result = simulator.simulate_team(players)
+        if result:
+            return jsonify(result)
+        else:
+            return jsonify({'error': 'Failed to simulate team'}), 500
+    except Exception as e:
+        logger.error(f"Error in simulate: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000) 
