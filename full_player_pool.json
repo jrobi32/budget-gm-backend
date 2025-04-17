@@ -1,0 +1,5610 @@
+{
+    "$3": [
+        {
+            "id": 1629029,
+            "name": "Luka Don\u010di\u0107",
+            "stats": {
+                "games_played": 70.0,
+                "points": 33.9,
+                "rebounds": 9.2,
+                "assists": 9.8,
+                "steals": 1.4,
+                "blocks": 0.5,
+                "fg_pct": 0.487,
+                "ft_pct": 0.786,
+                "three_pct": 0.382,
+                "minutes": 37.5
+            }
+        },
+        {
+            "id": 203507,
+            "name": "Giannis Antetokounmpo",
+            "stats": {
+                "games_played": 73.0,
+                "points": 30.4,
+                "rebounds": 11.5,
+                "assists": 6.5,
+                "steals": 1.2,
+                "blocks": 1.1,
+                "fg_pct": 0.611,
+                "ft_pct": 0.657,
+                "three_pct": 0.274,
+                "minutes": 35.2
+            }
+        },
+        {
+            "id": 1628983,
+            "name": "Shai Gilgeous-Alexander",
+            "stats": {
+                "games_played": 75.0,
+                "points": 30.1,
+                "rebounds": 5.5,
+                "assists": 6.2,
+                "steals": 2.0,
+                "blocks": 0.9,
+                "fg_pct": 0.535,
+                "ft_pct": 0.874,
+                "three_pct": 0.353,
+                "minutes": 34.0
+            }
+        },
+        {
+            "id": 1628973,
+            "name": "Jalen Brunson",
+            "stats": {
+                "games_played": 77.0,
+                "points": 28.7,
+                "rebounds": 3.6,
+                "assists": 6.7,
+                "steals": 0.9,
+                "blocks": 0.2,
+                "fg_pct": 0.479,
+                "ft_pct": 0.847,
+                "three_pct": 0.401,
+                "minutes": 35.4
+            }
+        },
+        {
+            "id": 1626164,
+            "name": "Devin Booker",
+            "stats": {
+                "games_played": 68.0,
+                "points": 27.1,
+                "rebounds": 4.5,
+                "assists": 6.9,
+                "steals": 0.9,
+                "blocks": 0.4,
+                "fg_pct": 0.492,
+                "ft_pct": 0.886,
+                "three_pct": 0.364,
+                "minutes": 36.0
+            }
+        },
+        {
+            "id": 201142,
+            "name": "Kevin Durant",
+            "stats": {
+                "games_played": 75.0,
+                "points": 27.1,
+                "rebounds": 6.6,
+                "assists": 5.0,
+                "steals": 0.9,
+                "blocks": 1.2,
+                "fg_pct": 0.523,
+                "ft_pct": 0.856,
+                "three_pct": 0.413,
+                "minutes": 37.2
+            }
+        },
+        {
+            "id": 1628369,
+            "name": "Jayson Tatum",
+            "stats": {
+                "games_played": 74.0,
+                "points": 26.9,
+                "rebounds": 8.1,
+                "assists": 4.9,
+                "steals": 1.0,
+                "blocks": 0.6,
+                "fg_pct": 0.471,
+                "ft_pct": 0.833,
+                "three_pct": 0.376,
+                "minutes": 35.7
+            }
+        },
+        {
+            "id": 1628368,
+            "name": "De'Aaron Fox",
+            "stats": {
+                "games_played": 74.0,
+                "points": 26.6,
+                "rebounds": 4.6,
+                "assists": 5.6,
+                "steals": 2.0,
+                "blocks": 0.4,
+                "fg_pct": 0.465,
+                "ft_pct": 0.738,
+                "three_pct": 0.369,
+                "minutes": 35.9
+            }
+        },
+        {
+            "id": 203999,
+            "name": "Nikola Joki\u0107",
+            "stats": {
+                "games_played": 79.0,
+                "points": 26.4,
+                "rebounds": 12.4,
+                "assists": 9.0,
+                "steals": 1.4,
+                "blocks": 0.9,
+                "fg_pct": 0.583,
+                "ft_pct": 0.817,
+                "three_pct": 0.359,
+                "minutes": 34.6
+            }
+        },
+        {
+            "id": 201939,
+            "name": "Stephen Curry",
+            "stats": {
+                "games_played": 74.0,
+                "points": 26.4,
+                "rebounds": 4.5,
+                "assists": 5.1,
+                "steals": 0.7,
+                "blocks": 0.4,
+                "fg_pct": 0.45,
+                "ft_pct": 0.923,
+                "three_pct": 0.408,
+                "minutes": 32.7
+            }
+        },
+        {
+            "id": 1630178,
+            "name": "Tyrese Maxey",
+            "stats": {
+                "games_played": 70.0,
+                "points": 25.9,
+                "rebounds": 3.7,
+                "assists": 6.2,
+                "steals": 1.0,
+                "blocks": 0.5,
+                "fg_pct": 0.45,
+                "ft_pct": 0.868,
+                "three_pct": 0.373,
+                "minutes": 37.5
+            }
+        },
+        {
+            "id": 1630162,
+            "name": "Anthony Edwards",
+            "stats": {
+                "games_played": 79.0,
+                "points": 25.9,
+                "rebounds": 5.4,
+                "assists": 5.1,
+                "steals": 1.3,
+                "blocks": 0.5,
+                "fg_pct": 0.461,
+                "ft_pct": 0.836,
+                "three_pct": 0.357,
+                "minutes": 35.1
+            }
+        },
+        {
+            "id": 1629027,
+            "name": "Trae Young",
+            "stats": {
+                "games_played": 54.0,
+                "points": 25.7,
+                "rebounds": 2.8,
+                "assists": 10.8,
+                "steals": 1.3,
+                "blocks": 0.2,
+                "fg_pct": 0.43,
+                "ft_pct": 0.855,
+                "three_pct": 0.373,
+                "minutes": 36.0
+            }
+        },
+        {
+            "id": 2544,
+            "name": "LeBron James",
+            "stats": {
+                "games_played": 71.0,
+                "points": 25.7,
+                "rebounds": 7.3,
+                "assists": 8.3,
+                "steals": 1.3,
+                "blocks": 0.5,
+                "fg_pct": 0.54,
+                "ft_pct": 0.75,
+                "three_pct": 0.41,
+                "minutes": 35.3
+            }
+        },
+        {
+            "id": 203076,
+            "name": "Anthony Davis",
+            "stats": {
+                "games_played": 76.0,
+                "points": 24.7,
+                "rebounds": 12.6,
+                "assists": 3.5,
+                "steals": 1.2,
+                "blocks": 2.3,
+                "fg_pct": 0.556,
+                "ft_pct": 0.816,
+                "three_pct": 0.271,
+                "minutes": 35.5
+            }
+        },
+        {
+            "id": 203081,
+            "name": "Damian Lillard",
+            "stats": {
+                "games_played": 73.0,
+                "points": 24.3,
+                "rebounds": 4.4,
+                "assists": 7.0,
+                "steals": 1.0,
+                "blocks": 0.2,
+                "fg_pct": 0.424,
+                "ft_pct": 0.92,
+                "three_pct": 0.354,
+                "minutes": 35.3
+            }
+        },
+        {
+            "id": 201942,
+            "name": "DeMar DeRozan",
+            "stats": {
+                "games_played": 79.0,
+                "points": 24.0,
+                "rebounds": 4.3,
+                "assists": 5.3,
+                "steals": 1.1,
+                "blocks": 0.6,
+                "fg_pct": 0.48,
+                "ft_pct": 0.853,
+                "three_pct": 0.333,
+                "minutes": 37.8
+            }
+        },
+        {
+            "id": 202695,
+            "name": "Kawhi Leonard",
+            "stats": {
+                "games_played": 68.0,
+                "points": 23.7,
+                "rebounds": 6.1,
+                "assists": 3.6,
+                "steals": 1.6,
+                "blocks": 0.9,
+                "fg_pct": 0.525,
+                "ft_pct": 0.885,
+                "three_pct": 0.417,
+                "minutes": 34.3
+            }
+        },
+        {
+            "id": 1629627,
+            "name": "Zion Williamson",
+            "stats": {
+                "games_played": 70.0,
+                "points": 22.9,
+                "rebounds": 5.8,
+                "assists": 5.0,
+                "steals": 1.1,
+                "blocks": 0.7,
+                "fg_pct": 0.57,
+                "ft_pct": 0.702,
+                "three_pct": 0.333,
+                "minutes": 31.5
+            }
+        },
+        {
+            "id": 1631094,
+            "name": "Paolo Banchero",
+            "stats": {
+                "games_played": 80.0,
+                "points": 22.6,
+                "rebounds": 6.9,
+                "assists": 5.4,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.455,
+                "ft_pct": 0.725,
+                "three_pct": 0.339,
+                "minutes": 35.0
+            }
+        },
+        {
+            "id": 1627749,
+            "name": "Dejounte Murray",
+            "stats": {
+                "games_played": 78.0,
+                "points": 22.5,
+                "rebounds": 5.3,
+                "assists": 6.4,
+                "steals": 1.4,
+                "blocks": 0.3,
+                "fg_pct": 0.459,
+                "ft_pct": 0.794,
+                "three_pct": 0.363,
+                "minutes": 35.7
+            }
+        },
+        {
+            "id": 1627783,
+            "name": "Pascal Siakam",
+            "stats": {
+                "games_played": 80.0,
+                "points": 21.7,
+                "rebounds": 7.1,
+                "assists": 4.3,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.536,
+                "ft_pct": 0.732,
+                "three_pct": 0.346,
+                "minutes": 33.2
+            }
+        },
+        {
+            "id": 1641705,
+            "name": "Victor Wembanyama",
+            "stats": {
+                "games_played": 71.0,
+                "points": 21.4,
+                "rebounds": 10.6,
+                "assists": 3.9,
+                "steals": 1.2,
+                "blocks": 3.6,
+                "fg_pct": 0.465,
+                "ft_pct": 0.796,
+                "three_pct": 0.325,
+                "minutes": 29.7
+            }
+        },
+        {
+            "id": 1630578,
+            "name": "Alperen Sengun",
+            "stats": {
+                "games_played": 63.0,
+                "points": 21.1,
+                "rebounds": 9.3,
+                "assists": 5.0,
+                "steals": 1.2,
+                "blocks": 0.7,
+                "fg_pct": 0.537,
+                "ft_pct": 0.693,
+                "three_pct": 0.297,
+                "minutes": 32.5
+            }
+        },
+        {
+            "id": 1630169,
+            "name": "Tyrese Haliburton",
+            "stats": {
+                "games_played": 69.0,
+                "points": 20.1,
+                "rebounds": 3.9,
+                "assists": 10.9,
+                "steals": 1.2,
+                "blocks": 0.7,
+                "fg_pct": 0.477,
+                "ft_pct": 0.855,
+                "three_pct": 0.364,
+                "minutes": 32.2
+            }
+        },
+        {
+            "id": 1627734,
+            "name": "Domantas Sabonis",
+            "stats": {
+                "games_played": 82.0,
+                "points": 19.4,
+                "rebounds": 13.7,
+                "assists": 8.2,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.594,
+                "ft_pct": 0.704,
+                "three_pct": 0.379,
+                "minutes": 35.7
+            }
+        },
+        {
+            "id": 1628389,
+            "name": "Bam Adebayo",
+            "stats": {
+                "games_played": 71.0,
+                "points": 19.3,
+                "rebounds": 10.4,
+                "assists": 3.9,
+                "steals": 1.1,
+                "blocks": 0.9,
+                "fg_pct": 0.521,
+                "ft_pct": 0.755,
+                "three_pct": 0.357,
+                "minutes": 34.0
+            }
+        },
+        {
+            "id": 1628386,
+            "name": "Jarrett Allen",
+            "stats": {
+                "games_played": 77.0,
+                "points": 16.5,
+                "rebounds": 10.5,
+                "assists": 2.7,
+                "steals": 0.7,
+                "blocks": 1.1,
+                "fg_pct": 0.634,
+                "ft_pct": 0.742,
+                "three_pct": 0.0,
+                "minutes": 31.7
+            }
+        },
+        {
+            "id": 1631096,
+            "name": "Chet Holmgren",
+            "stats": {
+                "games_played": 82.0,
+                "points": 16.5,
+                "rebounds": 7.9,
+                "assists": 2.4,
+                "steals": 0.6,
+                "blocks": 2.3,
+                "fg_pct": 0.53,
+                "ft_pct": 0.793,
+                "three_pct": 0.37,
+                "minutes": 29.4
+            }
+        }
+    ],
+    "$2": [
+        {
+            "id": 203954,
+            "name": "Joel Embiid",
+            "stats": {
+                "games_played": 39.0,
+                "points": 34.7,
+                "rebounds": 11.0,
+                "assists": 5.6,
+                "steals": 1.2,
+                "blocks": 1.7,
+                "fg_pct": 0.529,
+                "ft_pct": 0.883,
+                "three_pct": 0.388,
+                "minutes": 33.6
+            }
+        },
+        {
+            "id": 1628378,
+            "name": "Donovan Mitchell",
+            "stats": {
+                "games_played": 55.0,
+                "points": 26.6,
+                "rebounds": 5.1,
+                "assists": 6.1,
+                "steals": 1.8,
+                "blocks": 0.5,
+                "fg_pct": 0.462,
+                "ft_pct": 0.865,
+                "three_pct": 0.368,
+                "minutes": 35.3
+            }
+        },
+        {
+            "id": 202681,
+            "name": "Kyrie Irving",
+            "stats": {
+                "games_played": 58.0,
+                "points": 25.6,
+                "rebounds": 5.0,
+                "assists": 5.2,
+                "steals": 1.3,
+                "blocks": 0.5,
+                "fg_pct": 0.497,
+                "ft_pct": 0.905,
+                "three_pct": 0.411,
+                "minutes": 35.0
+            }
+        },
+        {
+            "id": 1627759,
+            "name": "Jaylen Brown",
+            "stats": {
+                "games_played": 70.0,
+                "points": 23.0,
+                "rebounds": 5.5,
+                "assists": 3.6,
+                "steals": 1.2,
+                "blocks": 0.5,
+                "fg_pct": 0.499,
+                "ft_pct": 0.703,
+                "three_pct": 0.354,
+                "minutes": 33.5
+            }
+        },
+        {
+            "id": 1630595,
+            "name": "Cade Cunningham",
+            "stats": {
+                "games_played": 62.0,
+                "points": 22.7,
+                "rebounds": 4.3,
+                "assists": 7.5,
+                "steals": 0.9,
+                "blocks": 0.4,
+                "fg_pct": 0.449,
+                "ft_pct": 0.869,
+                "three_pct": 0.355,
+                "minutes": 33.5
+            }
+        },
+        {
+            "id": 202331,
+            "name": "Paul George",
+            "stats": {
+                "games_played": 74.0,
+                "points": 22.6,
+                "rebounds": 5.2,
+                "assists": 3.5,
+                "steals": 1.5,
+                "blocks": 0.5,
+                "fg_pct": 0.471,
+                "ft_pct": 0.907,
+                "three_pct": 0.413,
+                "minutes": 33.8
+            }
+        },
+        {
+            "id": 1628991,
+            "name": "Jaren Jackson Jr.",
+            "stats": {
+                "games_played": 66.0,
+                "points": 22.5,
+                "rebounds": 5.5,
+                "assists": 2.3,
+                "steals": 1.2,
+                "blocks": 1.6,
+                "fg_pct": 0.444,
+                "ft_pct": 0.808,
+                "three_pct": 0.32,
+                "minutes": 32.2
+            }
+        },
+        {
+            "id": 1626157,
+            "name": "Karl-Anthony Towns",
+            "stats": {
+                "games_played": 62.0,
+                "points": 21.8,
+                "rebounds": 8.3,
+                "assists": 3.0,
+                "steals": 0.7,
+                "blocks": 0.7,
+                "fg_pct": 0.504,
+                "ft_pct": 0.873,
+                "three_pct": 0.416,
+                "minutes": 32.7
+            }
+        },
+        {
+            "id": 1627750,
+            "name": "Jamal Murray",
+            "stats": {
+                "games_played": 59.0,
+                "points": 21.2,
+                "rebounds": 4.1,
+                "assists": 6.5,
+                "steals": 1.0,
+                "blocks": 0.7,
+                "fg_pct": 0.481,
+                "ft_pct": 0.853,
+                "three_pct": 0.425,
+                "minutes": 31.5
+            }
+        },
+        {
+            "id": 1628970,
+            "name": "Miles Bridges",
+            "stats": {
+                "games_played": 69.0,
+                "points": 21.0,
+                "rebounds": 7.3,
+                "assists": 3.3,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.462,
+                "ft_pct": 0.825,
+                "three_pct": 0.349,
+                "minutes": 37.4
+            }
+        },
+        {
+            "id": 1627742,
+            "name": "Brandon Ingram",
+            "stats": {
+                "games_played": 64.0,
+                "points": 20.8,
+                "rebounds": 5.1,
+                "assists": 5.7,
+                "steals": 0.8,
+                "blocks": 0.6,
+                "fg_pct": 0.492,
+                "ft_pct": 0.801,
+                "three_pct": 0.355,
+                "minutes": 32.9
+            }
+        },
+        {
+            "id": 202710,
+            "name": "Jimmy Butler III",
+            "stats": {
+                "games_played": 60.0,
+                "points": 20.8,
+                "rebounds": 5.3,
+                "assists": 5.0,
+                "steals": 1.3,
+                "blocks": 0.3,
+                "fg_pct": 0.499,
+                "ft_pct": 0.858,
+                "three_pct": 0.414,
+                "minutes": 34.0
+            }
+        },
+        {
+            "id": 204001,
+            "name": "Kristaps Porzi\u0146\u0123is",
+            "stats": {
+                "games_played": 57.0,
+                "points": 20.1,
+                "rebounds": 7.2,
+                "assists": 2.0,
+                "steals": 0.7,
+                "blocks": 1.9,
+                "fg_pct": 0.516,
+                "ft_pct": 0.858,
+                "three_pct": 0.375,
+                "minutes": 29.6
+            }
+        },
+        {
+            "id": 203468,
+            "name": "CJ McCollum",
+            "stats": {
+                "games_played": 66.0,
+                "points": 20.0,
+                "rebounds": 4.3,
+                "assists": 4.6,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.459,
+                "ft_pct": 0.827,
+                "three_pct": 0.429,
+                "minutes": 32.7
+            }
+        },
+        {
+            "id": 1630567,
+            "name": "Scottie Barnes",
+            "stats": {
+                "games_played": 60.0,
+                "points": 19.9,
+                "rebounds": 8.2,
+                "assists": 6.1,
+                "steals": 1.3,
+                "blocks": 1.5,
+                "fg_pct": 0.475,
+                "ft_pct": 0.781,
+                "three_pct": 0.341,
+                "minutes": 34.9
+            }
+        },
+        {
+            "id": 1631114,
+            "name": "Jalen Williams",
+            "stats": {
+                "games_played": 71.0,
+                "points": 19.1,
+                "rebounds": 4.0,
+                "assists": 4.5,
+                "steals": 1.1,
+                "blocks": 0.6,
+                "fg_pct": 0.54,
+                "ft_pct": 0.814,
+                "three_pct": 0.427,
+                "minutes": 31.3
+            }
+        },
+        {
+            "id": 202696,
+            "name": "Nikola Vu\u010devi\u0107",
+            "stats": {
+                "games_played": 76.0,
+                "points": 18.0,
+                "rebounds": 10.5,
+                "assists": 3.3,
+                "steals": 0.7,
+                "blocks": 0.8,
+                "fg_pct": 0.484,
+                "ft_pct": 0.822,
+                "three_pct": 0.294,
+                "minutes": 34.3
+            }
+        },
+        {
+            "id": 1627832,
+            "name": "Fred VanVleet",
+            "stats": {
+                "games_played": 73.0,
+                "points": 17.4,
+                "rebounds": 3.8,
+                "assists": 8.1,
+                "steals": 1.4,
+                "blocks": 0.8,
+                "fg_pct": 0.416,
+                "ft_pct": 0.86,
+                "three_pct": 0.387,
+                "minutes": 36.8
+            }
+        },
+        {
+            "id": 1626167,
+            "name": "Myles Turner",
+            "stats": {
+                "games_played": 77.0,
+                "points": 17.1,
+                "rebounds": 6.9,
+                "assists": 1.3,
+                "steals": 0.5,
+                "blocks": 1.9,
+                "fg_pct": 0.524,
+                "ft_pct": 0.773,
+                "three_pct": 0.358,
+                "minutes": 27.0
+            }
+        },
+        {
+            "id": 1629028,
+            "name": "Deandre Ayton",
+            "stats": {
+                "games_played": 55.0,
+                "points": 16.7,
+                "rebounds": 11.1,
+                "assists": 1.6,
+                "steals": 1.0,
+                "blocks": 0.8,
+                "fg_pct": 0.57,
+                "ft_pct": 0.823,
+                "three_pct": 0.1,
+                "minutes": 32.4
+            }
+        },
+        {
+            "id": 201935,
+            "name": "James Harden",
+            "stats": {
+                "games_played": 72.0,
+                "points": 16.6,
+                "rebounds": 5.1,
+                "assists": 8.5,
+                "steals": 1.1,
+                "blocks": 0.8,
+                "fg_pct": 0.428,
+                "ft_pct": 0.878,
+                "three_pct": 0.381,
+                "minutes": 34.3
+            }
+        },
+        {
+            "id": 1628381,
+            "name": "John Collins",
+            "stats": {
+                "games_played": 68.0,
+                "points": 15.1,
+                "rebounds": 8.5,
+                "assists": 1.1,
+                "steals": 0.6,
+                "blocks": 0.9,
+                "fg_pct": 0.532,
+                "ft_pct": 0.795,
+                "three_pct": 0.371,
+                "minutes": 28.0
+            }
+        },
+        {
+            "id": 203497,
+            "name": "Rudy Gobert",
+            "stats": {
+                "games_played": 76.0,
+                "points": 14.0,
+                "rebounds": 12.9,
+                "assists": 1.3,
+                "steals": 0.7,
+                "blocks": 2.1,
+                "fg_pct": 0.661,
+                "ft_pct": 0.638,
+                "three_pct": 0.0,
+                "minutes": 34.1
+            }
+        },
+        {
+            "id": 1629651,
+            "name": "Nic Claxton",
+            "stats": {
+                "games_played": 71.0,
+                "points": 11.8,
+                "rebounds": 9.9,
+                "assists": 2.1,
+                "steals": 0.6,
+                "blocks": 2.1,
+                "fg_pct": 0.629,
+                "ft_pct": 0.551,
+                "three_pct": 0.2,
+                "minutes": 29.8
+            }
+        },
+        {
+            "id": 203991,
+            "name": "Clint Capela",
+            "stats": {
+                "games_played": 73.0,
+                "points": 11.5,
+                "rebounds": 10.6,
+                "assists": 1.2,
+                "steals": 0.6,
+                "blocks": 1.5,
+                "fg_pct": 0.571,
+                "ft_pct": 0.631,
+                "three_pct": 0.0,
+                "minutes": 25.8
+            }
+        },
+        {
+            "id": 1629655,
+            "name": "Daniel Gafford",
+            "stats": {
+                "games_played": 74.0,
+                "points": 11.0,
+                "rebounds": 7.6,
+                "assists": 1.6,
+                "steals": 0.9,
+                "blocks": 2.1,
+                "fg_pct": 0.725,
+                "ft_pct": 0.674,
+                "three_pct": 0.0,
+                "minutes": 24.5
+            }
+        },
+        {
+            "id": 203994,
+            "name": "Jusuf Nurki\u0107",
+            "stats": {
+                "games_played": 76.0,
+                "points": 10.9,
+                "rebounds": 11.0,
+                "assists": 4.0,
+                "steals": 1.1,
+                "blocks": 1.1,
+                "fg_pct": 0.51,
+                "ft_pct": 0.64,
+                "three_pct": 0.244,
+                "minutes": 27.3
+            }
+        }
+    ],
+    "$1": [
+        {
+            "id": 203944,
+            "name": "Julius Randle",
+            "stats": {
+                "games_played": 46.0,
+                "points": 24.0,
+                "rebounds": 9.2,
+                "assists": 5.0,
+                "steals": 0.5,
+                "blocks": 0.3,
+                "fg_pct": 0.472,
+                "ft_pct": 0.781,
+                "three_pct": 0.311,
+                "minutes": 35.4
+            }
+        },
+        {
+            "id": 1630217,
+            "name": "Desmond Bane",
+            "stats": {
+                "games_played": 42.0,
+                "points": 23.7,
+                "rebounds": 4.4,
+                "assists": 5.5,
+                "steals": 1.0,
+                "blocks": 0.5,
+                "fg_pct": 0.464,
+                "ft_pct": 0.87,
+                "three_pct": 0.381,
+                "minutes": 34.4
+            }
+        },
+        {
+            "id": 1628374,
+            "name": "Lauri Markkanen",
+            "stats": {
+                "games_played": 55.0,
+                "points": 23.2,
+                "rebounds": 8.2,
+                "assists": 2.0,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.48,
+                "ft_pct": 0.899,
+                "three_pct": 0.399,
+                "minutes": 33.1
+            }
+        },
+        {
+            "id": 1629014,
+            "name": "Anfernee Simons",
+            "stats": {
+                "games_played": 46.0,
+                "points": 22.6,
+                "rebounds": 3.6,
+                "assists": 5.5,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.43,
+                "ft_pct": 0.916,
+                "three_pct": 0.385,
+                "minutes": 34.4
+            }
+        },
+        {
+            "id": 1630560,
+            "name": "Cam Thomas",
+            "stats": {
+                "games_played": 66.0,
+                "points": 22.5,
+                "rebounds": 3.2,
+                "assists": 2.9,
+                "steals": 0.7,
+                "blocks": 0.2,
+                "fg_pct": 0.442,
+                "ft_pct": 0.856,
+                "three_pct": 0.364,
+                "minutes": 31.4
+            }
+        },
+        {
+            "id": 1628398,
+            "name": "Kyle Kuzma",
+            "stats": {
+                "games_played": 70.0,
+                "points": 22.2,
+                "rebounds": 6.6,
+                "assists": 4.2,
+                "steals": 0.5,
+                "blocks": 0.7,
+                "fg_pct": 0.463,
+                "ft_pct": 0.775,
+                "three_pct": 0.336,
+                "minutes": 32.6
+            }
+        },
+        {
+            "id": 203924,
+            "name": "Jerami Grant",
+            "stats": {
+                "games_played": 54.0,
+                "points": 21.0,
+                "rebounds": 3.5,
+                "assists": 2.8,
+                "steals": 0.8,
+                "blocks": 0.6,
+                "fg_pct": 0.451,
+                "ft_pct": 0.817,
+                "three_pct": 0.402,
+                "minutes": 33.9
+            }
+        },
+        {
+            "id": 1629628,
+            "name": "RJ Barrett",
+            "stats": {
+                "games_played": 58.0,
+                "points": 20.2,
+                "rebounds": 5.4,
+                "assists": 3.3,
+                "steals": 0.5,
+                "blocks": 0.4,
+                "fg_pct": 0.495,
+                "ft_pct": 0.715,
+                "three_pct": 0.36,
+                "minutes": 31.7
+            }
+        },
+        {
+            "id": 1626179,
+            "name": "Terry Rozier",
+            "stats": {
+                "games_played": 61.0,
+                "points": 19.8,
+                "rebounds": 4.0,
+                "assists": 5.6,
+                "steals": 1.0,
+                "blocks": 0.3,
+                "fg_pct": 0.443,
+                "ft_pct": 0.869,
+                "three_pct": 0.363,
+                "minutes": 33.4
+            }
+        },
+        {
+            "id": 1630532,
+            "name": "Franz Wagner",
+            "stats": {
+                "games_played": 72.0,
+                "points": 19.7,
+                "rebounds": 5.3,
+                "assists": 3.7,
+                "steals": 1.1,
+                "blocks": 0.4,
+                "fg_pct": 0.482,
+                "ft_pct": 0.85,
+                "three_pct": 0.281,
+                "minutes": 32.5
+            }
+        },
+        {
+            "id": 1628969,
+            "name": "Mikal Bridges",
+            "stats": {
+                "games_played": 82.0,
+                "points": 19.6,
+                "rebounds": 4.5,
+                "assists": 3.6,
+                "steals": 1.0,
+                "blocks": 0.4,
+                "fg_pct": 0.436,
+                "ft_pct": 0.814,
+                "three_pct": 0.372,
+                "minutes": 34.8
+            }
+        },
+        {
+            "id": 1630224,
+            "name": "Jalen Green",
+            "stats": {
+                "games_played": 82.0,
+                "points": 19.6,
+                "rebounds": 5.2,
+                "assists": 3.5,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.423,
+                "ft_pct": 0.804,
+                "three_pct": 0.332,
+                "minutes": 31.7
+            }
+        },
+        {
+            "id": 1629632,
+            "name": "Coby White",
+            "stats": {
+                "games_played": 79.0,
+                "points": 19.1,
+                "rebounds": 4.5,
+                "assists": 5.1,
+                "steals": 0.7,
+                "blocks": 0.2,
+                "fg_pct": 0.447,
+                "ft_pct": 0.838,
+                "three_pct": 0.376,
+                "minutes": 36.5
+            }
+        },
+        {
+            "id": 1629012,
+            "name": "Collin Sexton",
+            "stats": {
+                "games_played": 78.0,
+                "points": 18.7,
+                "rebounds": 2.6,
+                "assists": 4.9,
+                "steals": 0.8,
+                "blocks": 0.2,
+                "fg_pct": 0.487,
+                "ft_pct": 0.859,
+                "three_pct": 0.394,
+                "minutes": 26.6
+            }
+        },
+        {
+            "id": 203078,
+            "name": "Bradley Beal",
+            "stats": {
+                "games_played": 53.0,
+                "points": 18.2,
+                "rebounds": 4.4,
+                "assists": 5.0,
+                "steals": 1.0,
+                "blocks": 0.5,
+                "fg_pct": 0.513,
+                "ft_pct": 0.813,
+                "three_pct": 0.43,
+                "minutes": 33.3
+            }
+        },
+        {
+            "id": 1629636,
+            "name": "Darius Garland",
+            "stats": {
+                "games_played": 57.0,
+                "points": 18.0,
+                "rebounds": 2.7,
+                "assists": 6.5,
+                "steals": 1.3,
+                "blocks": 0.1,
+                "fg_pct": 0.446,
+                "ft_pct": 0.834,
+                "three_pct": 0.371,
+                "minutes": 33.3
+            }
+        },
+        {
+            "id": 1626156,
+            "name": "D'Angelo Russell",
+            "stats": {
+                "games_played": 76.0,
+                "points": 18.0,
+                "rebounds": 3.1,
+                "assists": 6.3,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.456,
+                "ft_pct": 0.828,
+                "three_pct": 0.415,
+                "minutes": 32.7
+            }
+        },
+        {
+            "id": 202691,
+            "name": "Klay Thompson",
+            "stats": {
+                "games_played": 77.0,
+                "points": 17.9,
+                "rebounds": 3.3,
+                "assists": 2.3,
+                "steals": 0.6,
+                "blocks": 0.5,
+                "fg_pct": 0.432,
+                "ft_pct": 0.927,
+                "three_pct": 0.387,
+                "minutes": 29.7
+            }
+        },
+        {
+            "id": 1629673,
+            "name": "Jordan Poole",
+            "stats": {
+                "games_played": 78.0,
+                "points": 17.4,
+                "rebounds": 2.7,
+                "assists": 4.4,
+                "steals": 1.1,
+                "blocks": 0.3,
+                "fg_pct": 0.413,
+                "ft_pct": 0.877,
+                "three_pct": 0.326,
+                "minutes": 30.1
+            }
+        },
+        {
+            "id": 1641706,
+            "name": "Brandon Miller",
+            "stats": {
+                "games_played": 74.0,
+                "points": 17.3,
+                "rebounds": 4.3,
+                "assists": 2.4,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.44,
+                "ft_pct": 0.827,
+                "three_pct": 0.373,
+                "minutes": 32.2
+            }
+        },
+        {
+            "id": 202699,
+            "name": "Tobias Harris",
+            "stats": {
+                "games_played": 70.0,
+                "points": 17.2,
+                "rebounds": 6.5,
+                "assists": 3.1,
+                "steals": 1.0,
+                "blocks": 0.7,
+                "fg_pct": 0.487,
+                "ft_pct": 0.878,
+                "three_pct": 0.353,
+                "minutes": 33.8
+            }
+        },
+        {
+            "id": 203992,
+            "name": "Bogdan Bogdanovi\u0107",
+            "stats": {
+                "games_played": 79.0,
+                "points": 16.9,
+                "rebounds": 3.4,
+                "assists": 3.1,
+                "steals": 1.2,
+                "blocks": 0.3,
+                "fg_pct": 0.428,
+                "ft_pct": 0.921,
+                "three_pct": 0.374,
+                "minutes": 30.4
+            }
+        },
+        {
+            "id": 1629008,
+            "name": "Michael Porter Jr.",
+            "stats": {
+                "games_played": 81.0,
+                "points": 16.7,
+                "rebounds": 7.0,
+                "assists": 1.5,
+                "steals": 0.5,
+                "blocks": 0.7,
+                "fg_pct": 0.484,
+                "ft_pct": 0.836,
+                "three_pct": 0.397,
+                "minutes": 31.7
+            }
+        },
+        {
+            "id": 1630228,
+            "name": "Jonathan Kuminga",
+            "stats": {
+                "games_played": 74.0,
+                "points": 16.1,
+                "rebounds": 4.8,
+                "assists": 2.2,
+                "steals": 0.7,
+                "blocks": 0.5,
+                "fg_pct": 0.529,
+                "ft_pct": 0.746,
+                "three_pct": 0.321,
+                "minutes": 26.3
+            }
+        },
+        {
+            "id": 1630552,
+            "name": "Jalen Johnson",
+            "stats": {
+                "games_played": 56.0,
+                "points": 16.0,
+                "rebounds": 8.7,
+                "assists": 3.6,
+                "steals": 1.2,
+                "blocks": 0.8,
+                "fg_pct": 0.511,
+                "ft_pct": 0.728,
+                "three_pct": 0.355,
+                "minutes": 33.7
+            }
+        },
+        {
+            "id": 1630559,
+            "name": "Austin Reaves",
+            "stats": {
+                "games_played": 82.0,
+                "points": 15.9,
+                "rebounds": 4.3,
+                "assists": 5.5,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.486,
+                "ft_pct": 0.853,
+                "three_pct": 0.367,
+                "minutes": 32.1
+            }
+        },
+        {
+            "id": 1630596,
+            "name": "Evan Mobley",
+            "stats": {
+                "games_played": 50.0,
+                "points": 15.7,
+                "rebounds": 9.4,
+                "assists": 3.2,
+                "steals": 0.9,
+                "blocks": 1.4,
+                "fg_pct": 0.58,
+                "ft_pct": 0.719,
+                "three_pct": 0.373,
+                "minutes": 30.6
+            }
+        },
+        {
+            "id": 1628978,
+            "name": "Donte DiVincenzo",
+            "stats": {
+                "games_played": 81.0,
+                "points": 15.5,
+                "rebounds": 3.7,
+                "assists": 2.7,
+                "steals": 1.3,
+                "blocks": 0.4,
+                "fg_pct": 0.443,
+                "ft_pct": 0.754,
+                "three_pct": 0.401,
+                "minutes": 29.1
+            }
+        },
+        {
+            "id": 1628370,
+            "name": "Malik Monk",
+            "stats": {
+                "games_played": 72.0,
+                "points": 15.4,
+                "rebounds": 2.9,
+                "assists": 5.1,
+                "steals": 0.6,
+                "blocks": 0.5,
+                "fg_pct": 0.443,
+                "ft_pct": 0.829,
+                "three_pct": 0.35,
+                "minutes": 26.0
+            }
+        },
+        {
+            "id": 1626162,
+            "name": "Kelly Oubre Jr.",
+            "stats": {
+                "games_played": 68.0,
+                "points": 15.4,
+                "rebounds": 5.0,
+                "assists": 1.5,
+                "steals": 1.1,
+                "blocks": 0.7,
+                "fg_pct": 0.441,
+                "ft_pct": 0.75,
+                "three_pct": 0.311,
+                "minutes": 30.2
+            }
+        },
+        {
+            "id": 1628401,
+            "name": "Derrick White",
+            "stats": {
+                "games_played": 73.0,
+                "points": 15.2,
+                "rebounds": 4.2,
+                "assists": 5.2,
+                "steals": 1.0,
+                "blocks": 1.2,
+                "fg_pct": 0.461,
+                "ft_pct": 0.901,
+                "three_pct": 0.396,
+                "minutes": 32.6
+            }
+        },
+        {
+            "id": 1631099,
+            "name": "Keegan Murray",
+            "stats": {
+                "games_played": 77.0,
+                "points": 15.2,
+                "rebounds": 5.5,
+                "assists": 1.7,
+                "steals": 1.0,
+                "blocks": 0.8,
+                "fg_pct": 0.454,
+                "ft_pct": 0.831,
+                "three_pct": 0.358,
+                "minutes": 33.6
+            }
+        },
+        {
+            "id": 1630166,
+            "name": "Deni Avdija",
+            "stats": {
+                "games_played": 75.0,
+                "points": 14.7,
+                "rebounds": 7.2,
+                "assists": 3.8,
+                "steals": 0.8,
+                "blocks": 0.5,
+                "fg_pct": 0.506,
+                "ft_pct": 0.74,
+                "three_pct": 0.374,
+                "minutes": 30.1
+            }
+        },
+        {
+            "id": 1627747,
+            "name": "Caris LeVert",
+            "stats": {
+                "games_played": 68.0,
+                "points": 14.0,
+                "rebounds": 4.1,
+                "assists": 5.1,
+                "steals": 1.1,
+                "blocks": 0.5,
+                "fg_pct": 0.421,
+                "ft_pct": 0.766,
+                "three_pct": 0.325,
+                "minutes": 28.8
+            }
+        },
+        {
+            "id": 1631105,
+            "name": "Jalen Duren",
+            "stats": {
+                "games_played": 61.0,
+                "points": 13.8,
+                "rebounds": 11.6,
+                "assists": 2.4,
+                "steals": 0.5,
+                "blocks": 0.8,
+                "fg_pct": 0.619,
+                "ft_pct": 0.79,
+                "three_pct": 0.0,
+                "minutes": 29.1
+            }
+        },
+        {
+            "id": 1626171,
+            "name": "Bobby Portis",
+            "stats": {
+                "games_played": 82.0,
+                "points": 13.8,
+                "rebounds": 7.4,
+                "assists": 1.3,
+                "steals": 0.8,
+                "blocks": 0.4,
+                "fg_pct": 0.508,
+                "ft_pct": 0.79,
+                "three_pct": 0.407,
+                "minutes": 24.5
+            }
+        },
+        {
+            "id": 1631095,
+            "name": "Jabari Smith Jr.",
+            "stats": {
+                "games_played": 76.0,
+                "points": 13.7,
+                "rebounds": 8.1,
+                "assists": 1.6,
+                "steals": 0.7,
+                "blocks": 0.8,
+                "fg_pct": 0.454,
+                "ft_pct": 0.811,
+                "three_pct": 0.363,
+                "minutes": 31.9
+            }
+        },
+        {
+            "id": 201572,
+            "name": "Brook Lopez",
+            "stats": {
+                "games_played": 79.0,
+                "points": 12.5,
+                "rebounds": 5.2,
+                "assists": 1.6,
+                "steals": 0.5,
+                "blocks": 2.4,
+                "fg_pct": 0.485,
+                "ft_pct": 0.821,
+                "three_pct": 0.366,
+                "minutes": 30.5
+            }
+        },
+        {
+            "id": 202685,
+            "name": "Jonas Valan\u010di\u016bnas",
+            "stats": {
+                "games_played": 82.0,
+                "points": 12.2,
+                "rebounds": 8.8,
+                "assists": 2.1,
+                "steals": 0.4,
+                "blocks": 0.8,
+                "fg_pct": 0.559,
+                "ft_pct": 0.785,
+                "three_pct": 0.308,
+                "minutes": 23.5
+            }
+        },
+        {
+            "id": 1627826,
+            "name": "Ivica Zubac",
+            "stats": {
+                "games_played": 68.0,
+                "points": 11.7,
+                "rebounds": 9.2,
+                "assists": 1.4,
+                "steals": 0.3,
+                "blocks": 1.2,
+                "fg_pct": 0.649,
+                "ft_pct": 0.723,
+                "three_pct": 0.0,
+                "minutes": 26.4
+            }
+        },
+        {
+            "id": 1630200,
+            "name": "Tre Jones",
+            "stats": {
+                "games_played": 77.0,
+                "points": 10.0,
+                "rebounds": 3.8,
+                "assists": 6.2,
+                "steals": 1.0,
+                "blocks": 0.1,
+                "fg_pct": 0.505,
+                "ft_pct": 0.856,
+                "three_pct": 0.335,
+                "minutes": 27.8
+            }
+        },
+        {
+            "id": 1630208,
+            "name": "Nick Richards",
+            "stats": {
+                "games_played": 67.0,
+                "points": 9.7,
+                "rebounds": 8.0,
+                "assists": 0.8,
+                "steals": 0.4,
+                "blocks": 1.1,
+                "fg_pct": 0.691,
+                "ft_pct": 0.737,
+                "three_pct": 0.0,
+                "minutes": 26.2
+            }
+        },
+        {
+            "id": 203083,
+            "name": "Andre Drummond",
+            "stats": {
+                "games_played": 79.0,
+                "points": 8.4,
+                "rebounds": 9.0,
+                "assists": 0.5,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.556,
+                "ft_pct": 0.592,
+                "three_pct": 0.0,
+                "minutes": 17.1
+            }
+        },
+        {
+            "id": 1631117,
+            "name": "Walker Kessler",
+            "stats": {
+                "games_played": 64.0,
+                "points": 8.1,
+                "rebounds": 7.5,
+                "assists": 0.9,
+                "steals": 0.5,
+                "blocks": 2.4,
+                "fg_pct": 0.654,
+                "ft_pct": 0.602,
+                "three_pct": 0.211,
+                "minutes": 23.3
+            }
+        },
+        {
+            "id": 1628392,
+            "name": "Isaiah Hartenstein",
+            "stats": {
+                "games_played": 75.0,
+                "points": 7.8,
+                "rebounds": 8.3,
+                "assists": 2.5,
+                "steals": 1.2,
+                "blocks": 1.1,
+                "fg_pct": 0.644,
+                "ft_pct": 0.707,
+                "three_pct": 0.333,
+                "minutes": 25.3
+            }
+        }
+    ],
+    "$0": [
+        {
+            "id": 1629630,
+            "name": "Ja Morant",
+            "stats": {
+                "games_played": 9.0,
+                "points": 25.1,
+                "rebounds": 5.6,
+                "assists": 8.1,
+                "steals": 0.8,
+                "blocks": 0.6,
+                "fg_pct": 0.471,
+                "ft_pct": 0.813,
+                "three_pct": 0.275,
+                "minutes": 35.3
+            }
+        },
+        {
+            "id": 1630163,
+            "name": "LaMelo Ball",
+            "stats": {
+                "games_played": 22.0,
+                "points": 23.9,
+                "rebounds": 5.1,
+                "assists": 8.0,
+                "steals": 1.8,
+                "blocks": 0.2,
+                "fg_pct": 0.433,
+                "ft_pct": 0.865,
+                "three_pct": 0.355,
+                "minutes": 32.3
+            }
+        },
+        {
+            "id": 1629639,
+            "name": "Tyler Herro",
+            "stats": {
+                "games_played": 42.0,
+                "points": 20.8,
+                "rebounds": 5.3,
+                "assists": 4.5,
+                "steals": 0.7,
+                "blocks": 0.1,
+                "fg_pct": 0.441,
+                "ft_pct": 0.856,
+                "three_pct": 0.396,
+                "minutes": 33.5
+            }
+        },
+        {
+            "id": 1630170,
+            "name": "Devin Vassell",
+            "stats": {
+                "games_played": 68.0,
+                "points": 19.5,
+                "rebounds": 3.8,
+                "assists": 4.1,
+                "steals": 1.1,
+                "blocks": 0.3,
+                "fg_pct": 0.472,
+                "ft_pct": 0.801,
+                "three_pct": 0.372,
+                "minutes": 33.1
+            }
+        },
+        {
+            "id": 203897,
+            "name": "Zach LaVine",
+            "stats": {
+                "games_played": 25.0,
+                "points": 19.5,
+                "rebounds": 5.2,
+                "assists": 3.9,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.452,
+                "ft_pct": 0.854,
+                "three_pct": 0.349,
+                "minutes": 34.9
+            }
+        },
+        {
+            "id": 203903,
+            "name": "Jordan Clarkson",
+            "stats": {
+                "games_played": 55.0,
+                "points": 17.1,
+                "rebounds": 3.4,
+                "assists": 5.0,
+                "steals": 0.6,
+                "blocks": 0.1,
+                "fg_pct": 0.413,
+                "ft_pct": 0.881,
+                "three_pct": 0.294,
+                "minutes": 30.6
+            }
+        },
+        {
+            "id": 1630193,
+            "name": "Immanuel Quickley",
+            "stats": {
+                "games_played": 68.0,
+                "points": 17.0,
+                "rebounds": 3.8,
+                "assists": 4.9,
+                "steals": 0.7,
+                "blocks": 0.1,
+                "fg_pct": 0.434,
+                "ft_pct": 0.853,
+                "three_pct": 0.395,
+                "minutes": 29.2
+            }
+        },
+        {
+            "id": 1631101,
+            "name": "Shaedon Sharpe",
+            "stats": {
+                "games_played": 32.0,
+                "points": 15.9,
+                "rebounds": 5.0,
+                "assists": 2.9,
+                "steals": 0.9,
+                "blocks": 0.4,
+                "fg_pct": 0.406,
+                "ft_pct": 0.824,
+                "three_pct": 0.333,
+                "minutes": 33.1
+            }
+        },
+        {
+            "id": 1627763,
+            "name": "Malcolm Brogdon",
+            "stats": {
+                "games_played": 39.0,
+                "points": 15.7,
+                "rebounds": 3.8,
+                "assists": 5.5,
+                "steals": 0.7,
+                "blocks": 0.2,
+                "fg_pct": 0.44,
+                "ft_pct": 0.819,
+                "three_pct": 0.412,
+                "minutes": 28.7
+            }
+        },
+        {
+            "id": 1629640,
+            "name": "Keldon Johnson",
+            "stats": {
+                "games_played": 69.0,
+                "points": 15.7,
+                "rebounds": 5.5,
+                "assists": 2.8,
+                "steals": 0.7,
+                "blocks": 0.3,
+                "fg_pct": 0.454,
+                "ft_pct": 0.792,
+                "three_pct": 0.346,
+                "minutes": 29.5
+            }
+        },
+        {
+            "id": 1629631,
+            "name": "De'Andre Hunter",
+            "stats": {
+                "games_played": 57.0,
+                "points": 15.6,
+                "rebounds": 3.9,
+                "assists": 1.5,
+                "steals": 0.7,
+                "blocks": 0.3,
+                "fg_pct": 0.459,
+                "ft_pct": 0.847,
+                "three_pct": 0.385,
+                "minutes": 29.5
+            }
+        },
+        {
+            "id": 1631093,
+            "name": "Jaden Ivey",
+            "stats": {
+                "games_played": 77.0,
+                "points": 15.4,
+                "rebounds": 3.4,
+                "assists": 3.8,
+                "steals": 0.7,
+                "blocks": 0.5,
+                "fg_pct": 0.429,
+                "ft_pct": 0.749,
+                "three_pct": 0.336,
+                "minutes": 28.8
+            }
+        },
+        {
+            "id": 202711,
+            "name": "Bojan Bogdanovi\u0107",
+            "stats": {
+                "games_played": 57.0,
+                "points": 15.2,
+                "rebounds": 2.7,
+                "assists": 1.7,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.454,
+                "ft_pct": 0.785,
+                "three_pct": 0.398,
+                "minutes": 25.9
+            }
+        },
+        {
+            "id": 203114,
+            "name": "Khris Middleton",
+            "stats": {
+                "games_played": 55.0,
+                "points": 15.1,
+                "rebounds": 4.7,
+                "assists": 5.3,
+                "steals": 0.9,
+                "blocks": 0.3,
+                "fg_pct": 0.493,
+                "ft_pct": 0.833,
+                "three_pct": 0.381,
+                "minutes": 27.0
+            }
+        },
+        {
+            "id": 1630530,
+            "name": "Trey Murphy III",
+            "stats": {
+                "games_played": 57.0,
+                "points": 14.8,
+                "rebounds": 4.9,
+                "assists": 2.2,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.443,
+                "ft_pct": 0.815,
+                "three_pct": 0.38,
+                "minutes": 29.7
+            }
+        },
+        {
+            "id": 1628384,
+            "name": "OG Anunoby",
+            "stats": {
+                "games_played": 50.0,
+                "points": 14.7,
+                "rebounds": 4.2,
+                "assists": 2.1,
+                "steals": 1.4,
+                "blocks": 0.7,
+                "fg_pct": 0.489,
+                "ft_pct": 0.753,
+                "three_pct": 0.382,
+                "minutes": 34.0
+            }
+        },
+        {
+            "id": 1641713,
+            "name": "GG Jackson",
+            "stats": {
+                "games_played": 48.0,
+                "points": 14.6,
+                "rebounds": 4.1,
+                "assists": 1.2,
+                "steals": 0.6,
+                "blocks": 0.5,
+                "fg_pct": 0.428,
+                "ft_pct": 0.752,
+                "three_pct": 0.357,
+                "minutes": 25.7
+            }
+        },
+        {
+            "id": 203935,
+            "name": "Marcus Smart",
+            "stats": {
+                "games_played": 20.0,
+                "points": 14.5,
+                "rebounds": 2.7,
+                "assists": 4.3,
+                "steals": 2.1,
+                "blocks": 0.3,
+                "fg_pct": 0.43,
+                "ft_pct": 0.768,
+                "three_pct": 0.313,
+                "minutes": 30.2
+            }
+        },
+        {
+            "id": 1631097,
+            "name": "Bennedict Mathurin",
+            "stats": {
+                "games_played": 59.0,
+                "points": 14.5,
+                "rebounds": 4.0,
+                "assists": 2.0,
+                "steals": 0.6,
+                "blocks": 0.2,
+                "fg_pct": 0.446,
+                "ft_pct": 0.821,
+                "three_pct": 0.374,
+                "minutes": 26.1
+            }
+        },
+        {
+            "id": 203501,
+            "name": "Tim Hardaway Jr.",
+            "stats": {
+                "games_played": 79.0,
+                "points": 14.4,
+                "rebounds": 3.2,
+                "assists": 1.8,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.402,
+                "ft_pct": 0.852,
+                "three_pct": 0.353,
+                "minutes": 26.8
+            }
+        },
+        {
+            "id": 203471,
+            "name": "Dennis Schr\u00f6der",
+            "stats": {
+                "games_played": 80.0,
+                "points": 14.0,
+                "rebounds": 3.0,
+                "assists": 6.1,
+                "steals": 0.8,
+                "blocks": 0.2,
+                "fg_pct": 0.435,
+                "ft_pct": 0.836,
+                "three_pct": 0.375,
+                "minutes": 31.1
+            }
+        },
+        {
+            "id": 1630703,
+            "name": "Scoot Henderson",
+            "stats": {
+                "games_played": 62.0,
+                "points": 14.0,
+                "rebounds": 3.1,
+                "assists": 5.4,
+                "steals": 0.8,
+                "blocks": 0.2,
+                "fg_pct": 0.385,
+                "ft_pct": 0.819,
+                "three_pct": 0.325,
+                "minutes": 28.5
+            }
+        },
+        {
+            "id": 203932,
+            "name": "Aaron Gordon",
+            "stats": {
+                "games_played": 73.0,
+                "points": 13.9,
+                "rebounds": 6.5,
+                "assists": 3.5,
+                "steals": 0.8,
+                "blocks": 0.6,
+                "fg_pct": 0.556,
+                "ft_pct": 0.658,
+                "three_pct": 0.29,
+                "minutes": 31.5
+            }
+        },
+        {
+            "id": 1626181,
+            "name": "Norman Powell",
+            "stats": {
+                "games_played": 76.0,
+                "points": 13.9,
+                "rebounds": 2.6,
+                "assists": 1.1,
+                "steals": 0.6,
+                "blocks": 0.3,
+                "fg_pct": 0.486,
+                "ft_pct": 0.831,
+                "three_pct": 0.435,
+                "minutes": 26.2
+            }
+        },
+        {
+            "id": 1629018,
+            "name": "Gary Trent Jr.",
+            "stats": {
+                "games_played": 71.0,
+                "points": 13.7,
+                "rebounds": 2.6,
+                "assists": 1.7,
+                "steals": 1.1,
+                "blocks": 0.1,
+                "fg_pct": 0.426,
+                "ft_pct": 0.771,
+                "three_pct": 0.393,
+                "minutes": 28.1
+            }
+        },
+        {
+            "id": 1630180,
+            "name": "Saddiq Bey",
+            "stats": {
+                "games_played": 63.0,
+                "points": 13.7,
+                "rebounds": 6.5,
+                "assists": 1.5,
+                "steals": 0.8,
+                "blocks": 0.2,
+                "fg_pct": 0.416,
+                "ft_pct": 0.837,
+                "three_pct": 0.316,
+                "minutes": 32.7
+            }
+        },
+        {
+            "id": 1629060,
+            "name": "Rui Hachimura",
+            "stats": {
+                "games_played": 68.0,
+                "points": 13.6,
+                "rebounds": 4.3,
+                "assists": 1.2,
+                "steals": 0.6,
+                "blocks": 0.4,
+                "fg_pct": 0.537,
+                "ft_pct": 0.739,
+                "three_pct": 0.422,
+                "minutes": 26.8
+            }
+        },
+        {
+            "id": 1628960,
+            "name": "Grayson Allen",
+            "stats": {
+                "games_played": 75.0,
+                "points": 13.5,
+                "rebounds": 3.9,
+                "assists": 3.0,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.499,
+                "ft_pct": 0.878,
+                "three_pct": 0.461,
+                "minutes": 33.5
+            }
+        },
+        {
+            "id": 1629675,
+            "name": "Naz Reid",
+            "stats": {
+                "games_played": 81.0,
+                "points": 13.5,
+                "rebounds": 5.2,
+                "assists": 1.3,
+                "steals": 0.8,
+                "blocks": 0.9,
+                "fg_pct": 0.477,
+                "ft_pct": 0.736,
+                "three_pct": 0.414,
+                "minutes": 24.2
+            }
+        },
+        {
+            "id": 1629661,
+            "name": "Cameron Johnson",
+            "stats": {
+                "games_played": 58.0,
+                "points": 13.4,
+                "rebounds": 4.3,
+                "assists": 2.4,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.446,
+                "ft_pct": 0.789,
+                "three_pct": 0.391,
+                "minutes": 27.6
+            }
+        },
+        {
+            "id": 1630557,
+            "name": "Corey Kispert",
+            "stats": {
+                "games_played": 80.0,
+                "points": 13.4,
+                "rebounds": 2.8,
+                "assists": 2.0,
+                "steals": 0.5,
+                "blocks": 0.2,
+                "fg_pct": 0.486,
+                "ft_pct": 0.726,
+                "three_pct": 0.383,
+                "minutes": 25.8
+            }
+        },
+        {
+            "id": 203952,
+            "name": "Andrew Wiggins",
+            "stats": {
+                "games_played": 71.0,
+                "points": 13.2,
+                "rebounds": 4.5,
+                "assists": 1.7,
+                "steals": 0.6,
+                "blocks": 0.6,
+                "fg_pct": 0.453,
+                "ft_pct": 0.751,
+                "three_pct": 0.358,
+                "minutes": 27.0
+            }
+        },
+        {
+            "id": 1641718,
+            "name": "Keyonte George",
+            "stats": {
+                "games_played": 75.0,
+                "points": 13.0,
+                "rebounds": 2.8,
+                "assists": 4.4,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.391,
+                "ft_pct": 0.848,
+                "three_pct": 0.334,
+                "minutes": 27.0
+            }
+        },
+        {
+            "id": 1630590,
+            "name": "Scotty Pippen Jr.",
+            "stats": {
+                "games_played": 21.0,
+                "points": 12.9,
+                "rebounds": 3.2,
+                "assists": 4.7,
+                "steals": 1.7,
+                "blocks": 0.5,
+                "fg_pct": 0.493,
+                "ft_pct": 0.745,
+                "three_pct": 0.417,
+                "minutes": 25.1
+            }
+        },
+        {
+            "id": 1629130,
+            "name": "Duncan Robinson",
+            "stats": {
+                "games_played": 68.0,
+                "points": 12.9,
+                "rebounds": 2.5,
+                "assists": 2.8,
+                "steals": 0.7,
+                "blocks": 0.2,
+                "fg_pct": 0.45,
+                "ft_pct": 0.889,
+                "three_pct": 0.395,
+                "minutes": 28.0
+            }
+        },
+        {
+            "id": 1629023,
+            "name": "P.J. Washington",
+            "stats": {
+                "games_played": 73.0,
+                "points": 12.9,
+                "rebounds": 5.6,
+                "assists": 1.9,
+                "steals": 1.0,
+                "blocks": 0.8,
+                "fg_pct": 0.436,
+                "ft_pct": 0.683,
+                "three_pct": 0.32,
+                "minutes": 30.4
+            }
+        },
+        {
+            "id": 1628415,
+            "name": "Dillon Brooks",
+            "stats": {
+                "games_played": 72.0,
+                "points": 12.7,
+                "rebounds": 3.4,
+                "assists": 1.7,
+                "steals": 0.9,
+                "blocks": 0.1,
+                "fg_pct": 0.428,
+                "ft_pct": 0.844,
+                "three_pct": 0.359,
+                "minutes": 30.9
+            }
+        },
+        {
+            "id": 1631109,
+            "name": "Mark Williams",
+            "stats": {
+                "games_played": 19.0,
+                "points": 12.7,
+                "rebounds": 9.7,
+                "assists": 1.2,
+                "steals": 0.8,
+                "blocks": 1.1,
+                "fg_pct": 0.649,
+                "ft_pct": 0.719,
+                "three_pct": 0.0,
+                "minutes": 26.8
+            }
+        },
+        {
+            "id": 1630591,
+            "name": "Jalen Suggs",
+            "stats": {
+                "games_played": 75.0,
+                "points": 12.6,
+                "rebounds": 3.1,
+                "assists": 2.7,
+                "steals": 1.4,
+                "blocks": 0.6,
+                "fg_pct": 0.471,
+                "ft_pct": 0.756,
+                "three_pct": 0.397,
+                "minutes": 27.0
+            }
+        },
+        {
+            "id": 201950,
+            "name": "Jrue Holiday",
+            "stats": {
+                "games_played": 69.0,
+                "points": 12.5,
+                "rebounds": 5.4,
+                "assists": 4.8,
+                "steals": 0.9,
+                "blocks": 0.8,
+                "fg_pct": 0.48,
+                "ft_pct": 0.833,
+                "three_pct": 0.429,
+                "minutes": 32.8
+            }
+        },
+        {
+            "id": 1630581,
+            "name": "Josh Giddey",
+            "stats": {
+                "games_played": 80.0,
+                "points": 12.3,
+                "rebounds": 6.4,
+                "assists": 4.8,
+                "steals": 0.7,
+                "blocks": 0.6,
+                "fg_pct": 0.475,
+                "ft_pct": 0.806,
+                "three_pct": 0.337,
+                "minutes": 25.1
+            }
+        },
+        {
+            "id": 1641715,
+            "name": "Cam Whitmore",
+            "stats": {
+                "games_played": 47.0,
+                "points": 12.3,
+                "rebounds": 3.8,
+                "assists": 0.7,
+                "steals": 0.6,
+                "blocks": 0.4,
+                "fg_pct": 0.454,
+                "ft_pct": 0.679,
+                "three_pct": 0.359,
+                "minutes": 18.7
+            }
+        },
+        {
+            "id": 1629622,
+            "name": "Max Strus",
+            "stats": {
+                "games_played": 70.0,
+                "points": 12.2,
+                "rebounds": 4.8,
+                "assists": 4.0,
+                "steals": 0.9,
+                "blocks": 0.4,
+                "fg_pct": 0.418,
+                "ft_pct": 0.794,
+                "three_pct": 0.351,
+                "minutes": 32.0
+            }
+        },
+        {
+            "id": 1630245,
+            "name": "Ayo Dosunmu",
+            "stats": {
+                "games_played": 76.0,
+                "points": 12.2,
+                "rebounds": 2.8,
+                "assists": 3.2,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.501,
+                "ft_pct": 0.81,
+                "three_pct": 0.403,
+                "minutes": 29.1
+            }
+        },
+        {
+            "id": 1630174,
+            "name": "Aaron Nesmith",
+            "stats": {
+                "games_played": 72.0,
+                "points": 12.2,
+                "rebounds": 3.8,
+                "assists": 1.5,
+                "steals": 0.9,
+                "blocks": 0.7,
+                "fg_pct": 0.496,
+                "ft_pct": 0.781,
+                "three_pct": 0.419,
+                "minutes": 27.7
+            }
+        },
+        {
+            "id": 203084,
+            "name": "Harrison Barnes",
+            "stats": {
+                "games_played": 82.0,
+                "points": 12.2,
+                "rebounds": 3.0,
+                "assists": 1.2,
+                "steals": 0.7,
+                "blocks": 0.1,
+                "fg_pct": 0.474,
+                "ft_pct": 0.801,
+                "three_pct": 0.387,
+                "minutes": 29.0
+            }
+        },
+        {
+            "id": 1629750,
+            "name": "Javonte Green",
+            "stats": {
+                "games_played": 9.0,
+                "points": 12.2,
+                "rebounds": 7.4,
+                "assists": 0.6,
+                "steals": 1.1,
+                "blocks": 0.9,
+                "fg_pct": 0.6,
+                "ft_pct": 0.769,
+                "three_pct": 0.37,
+                "minutes": 25.6
+            }
+        },
+        {
+            "id": 1627741,
+            "name": "Buddy Hield",
+            "stats": {
+                "games_played": 84.0,
+                "points": 12.1,
+                "rebounds": 3.2,
+                "assists": 2.8,
+                "steals": 0.8,
+                "blocks": 0.5,
+                "fg_pct": 0.436,
+                "ft_pct": 0.881,
+                "three_pct": 0.386,
+                "minutes": 25.7
+            }
+        },
+        {
+            "id": 1626145,
+            "name": "Tyus Jones",
+            "stats": {
+                "games_played": 66.0,
+                "points": 12.0,
+                "rebounds": 2.7,
+                "assists": 7.3,
+                "steals": 1.1,
+                "blocks": 0.3,
+                "fg_pct": 0.489,
+                "ft_pct": 0.8,
+                "three_pct": 0.414,
+                "minutes": 29.3
+            }
+        },
+        {
+            "id": 1631170,
+            "name": "Jaime Jaquez Jr.",
+            "stats": {
+                "games_played": 75.0,
+                "points": 11.9,
+                "rebounds": 3.8,
+                "assists": 2.6,
+                "steals": 1.0,
+                "blocks": 0.3,
+                "fg_pct": 0.489,
+                "ft_pct": 0.811,
+                "three_pct": 0.322,
+                "minutes": 28.2
+            }
+        },
+        {
+            "id": 1628963,
+            "name": "Marvin Bagley III",
+            "stats": {
+                "games_played": 50.0,
+                "points": 11.7,
+                "rebounds": 6.2,
+                "assists": 1.1,
+                "steals": 0.4,
+                "blocks": 0.7,
+                "fg_pct": 0.586,
+                "ft_pct": 0.762,
+                "three_pct": 0.391,
+                "minutes": 21.1
+            }
+        },
+        {
+            "id": 1631110,
+            "name": "Jeremy Sochan",
+            "stats": {
+                "games_played": 74.0,
+                "points": 11.6,
+                "rebounds": 6.4,
+                "assists": 3.4,
+                "steals": 0.8,
+                "blocks": 0.5,
+                "fg_pct": 0.438,
+                "ft_pct": 0.771,
+                "three_pct": 0.308,
+                "minutes": 29.6
+            }
+        },
+        {
+            "id": 1630175,
+            "name": "Cole Anthony",
+            "stats": {
+                "games_played": 81.0,
+                "points": 11.6,
+                "rebounds": 3.8,
+                "assists": 2.9,
+                "steals": 0.8,
+                "blocks": 0.5,
+                "fg_pct": 0.435,
+                "ft_pct": 0.826,
+                "three_pct": 0.338,
+                "minutes": 22.4
+            }
+        },
+        {
+            "id": 201144,
+            "name": "Mike Conley",
+            "stats": {
+                "games_played": 76.0,
+                "points": 11.4,
+                "rebounds": 2.9,
+                "assists": 5.9,
+                "steals": 1.2,
+                "blocks": 0.2,
+                "fg_pct": 0.457,
+                "ft_pct": 0.911,
+                "three_pct": 0.442,
+                "minutes": 28.9
+            }
+        },
+        {
+            "id": 1629634,
+            "name": "Brandon Clarke",
+            "stats": {
+                "games_played": 6.0,
+                "points": 11.3,
+                "rebounds": 5.3,
+                "assists": 1.5,
+                "steals": 0.8,
+                "blocks": 1.0,
+                "fg_pct": 0.559,
+                "ft_pct": 0.143,
+                "three_pct": 0.167,
+                "minutes": 22.4
+            }
+        },
+        {
+            "id": 1627736,
+            "name": "Malik Beasley",
+            "stats": {
+                "games_played": 79.0,
+                "points": 11.3,
+                "rebounds": 3.7,
+                "assists": 1.4,
+                "steals": 0.7,
+                "blocks": 0.1,
+                "fg_pct": 0.443,
+                "ft_pct": 0.714,
+                "three_pct": 0.413,
+                "minutes": 29.6
+            }
+        },
+        {
+            "id": 1628380,
+            "name": "Zach Collins",
+            "stats": {
+                "games_played": 69.0,
+                "points": 11.2,
+                "rebounds": 5.4,
+                "assists": 2.8,
+                "steals": 0.5,
+                "blocks": 0.8,
+                "fg_pct": 0.484,
+                "ft_pct": 0.753,
+                "three_pct": 0.32,
+                "minutes": 22.1
+            }
+        },
+        {
+            "id": 201566,
+            "name": "Russell Westbrook",
+            "stats": {
+                "games_played": 68.0,
+                "points": 11.1,
+                "rebounds": 5.0,
+                "assists": 4.5,
+                "steals": 1.1,
+                "blocks": 0.3,
+                "fg_pct": 0.454,
+                "ft_pct": 0.688,
+                "three_pct": 0.273,
+                "minutes": 22.5
+            }
+        },
+        {
+            "id": 1629001,
+            "name": "De'Anthony Melton",
+            "stats": {
+                "games_played": 38.0,
+                "points": 11.1,
+                "rebounds": 3.7,
+                "assists": 3.0,
+                "steals": 1.6,
+                "blocks": 0.4,
+                "fg_pct": 0.386,
+                "ft_pct": 0.835,
+                "three_pct": 0.36,
+                "minutes": 26.9
+            }
+        },
+        {
+            "id": 1627751,
+            "name": "Jakob Poeltl",
+            "stats": {
+                "games_played": 50.0,
+                "points": 11.1,
+                "rebounds": 8.6,
+                "assists": 2.5,
+                "steals": 0.7,
+                "blocks": 1.5,
+                "fg_pct": 0.656,
+                "ft_pct": 0.551,
+                "three_pct": 0.0,
+                "minutes": 26.4
+            }
+        },
+        {
+            "id": 1628379,
+            "name": "Luke Kennard",
+            "stats": {
+                "games_played": 39.0,
+                "points": 11.0,
+                "rebounds": 2.9,
+                "assists": 3.5,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.448,
+                "ft_pct": 0.889,
+                "three_pct": 0.45,
+                "minutes": 25.6
+            }
+        },
+        {
+            "id": 1630529,
+            "name": "Herbert Jones",
+            "stats": {
+                "games_played": 76.0,
+                "points": 11.0,
+                "rebounds": 3.6,
+                "assists": 2.6,
+                "steals": 1.4,
+                "blocks": 0.8,
+                "fg_pct": 0.498,
+                "ft_pct": 0.867,
+                "three_pct": 0.418,
+                "minutes": 30.5
+            }
+        },
+        {
+            "id": 201569,
+            "name": "Eric Gordon",
+            "stats": {
+                "games_played": 68.0,
+                "points": 11.0,
+                "rebounds": 1.8,
+                "assists": 2.0,
+                "steals": 1.0,
+                "blocks": 0.4,
+                "fg_pct": 0.443,
+                "ft_pct": 0.797,
+                "three_pct": 0.378,
+                "minutes": 27.8
+            }
+        },
+        {
+            "id": 1628976,
+            "name": "Wendell Carter Jr.",
+            "stats": {
+                "games_played": 55.0,
+                "points": 11.0,
+                "rebounds": 6.9,
+                "assists": 1.7,
+                "steals": 0.6,
+                "blocks": 0.5,
+                "fg_pct": 0.525,
+                "ft_pct": 0.694,
+                "three_pct": 0.374,
+                "minutes": 25.6
+            }
+        },
+        {
+            "id": 1630191,
+            "name": "Isaiah Stewart",
+            "stats": {
+                "games_played": 46.0,
+                "points": 10.9,
+                "rebounds": 6.6,
+                "assists": 1.6,
+                "steals": 0.4,
+                "blocks": 0.8,
+                "fg_pct": 0.487,
+                "ft_pct": 0.753,
+                "three_pct": 0.383,
+                "minutes": 30.9
+            }
+        },
+        {
+            "id": 1629652,
+            "name": "Luguentz Dort",
+            "stats": {
+                "games_played": 79.0,
+                "points": 10.9,
+                "rebounds": 3.6,
+                "assists": 1.4,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.438,
+                "ft_pct": 0.826,
+                "three_pct": 0.394,
+                "minutes": 28.4
+            }
+        },
+        {
+            "id": 1629021,
+            "name": "Moritz Wagner",
+            "stats": {
+                "games_played": 80.0,
+                "points": 10.9,
+                "rebounds": 4.3,
+                "assists": 1.2,
+                "steals": 0.5,
+                "blocks": 0.3,
+                "fg_pct": 0.601,
+                "ft_pct": 0.814,
+                "three_pct": 0.33,
+                "minutes": 17.7
+            }
+        },
+        {
+            "id": 1628971,
+            "name": "Bruce Brown",
+            "stats": {
+                "games_played": 67.0,
+                "points": 10.8,
+                "rebounds": 4.2,
+                "assists": 2.9,
+                "steals": 0.9,
+                "blocks": 0.3,
+                "fg_pct": 0.478,
+                "ft_pct": 0.824,
+                "three_pct": 0.323,
+                "minutes": 27.8
+            }
+        },
+        {
+            "id": 1631222,
+            "name": "Jake LaRavia",
+            "stats": {
+                "games_played": 35.0,
+                "points": 10.8,
+                "rebounds": 3.7,
+                "assists": 1.7,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.389,
+                "ft_pct": 0.826,
+                "three_pct": 0.34,
+                "minutes": 23.0
+            }
+        },
+        {
+            "id": 1630583,
+            "name": "Santi Aldama",
+            "stats": {
+                "games_played": 61.0,
+                "points": 10.7,
+                "rebounds": 5.8,
+                "assists": 2.3,
+                "steals": 0.7,
+                "blocks": 0.9,
+                "fg_pct": 0.435,
+                "ft_pct": 0.621,
+                "three_pct": 0.349,
+                "minutes": 26.5
+            }
+        },
+        {
+            "id": 203915,
+            "name": "Spencer Dinwiddie",
+            "stats": {
+                "games_played": 76.0,
+                "points": 10.5,
+                "rebounds": 2.7,
+                "assists": 4.7,
+                "steals": 0.7,
+                "blocks": 0.3,
+                "fg_pct": 0.392,
+                "ft_pct": 0.805,
+                "three_pct": 0.337,
+                "minutes": 28.3
+            }
+        },
+        {
+            "id": 1631323,
+            "name": "Simone Fontecchio",
+            "stats": {
+                "games_played": 66.0,
+                "points": 10.5,
+                "rebounds": 3.7,
+                "assists": 1.5,
+                "steals": 0.7,
+                "blocks": 0.3,
+                "fg_pct": 0.46,
+                "ft_pct": 0.818,
+                "three_pct": 0.401,
+                "minutes": 24.9
+            }
+        },
+        {
+            "id": 1630183,
+            "name": "Jaden McDaniels",
+            "stats": {
+                "games_played": 72.0,
+                "points": 10.5,
+                "rebounds": 3.1,
+                "assists": 1.4,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.489,
+                "ft_pct": 0.722,
+                "three_pct": 0.337,
+                "minutes": 29.2
+            }
+        },
+        {
+            "id": 202692,
+            "name": "Alec Burks",
+            "stats": {
+                "games_played": 66.0,
+                "points": 10.4,
+                "rebounds": 2.3,
+                "assists": 1.3,
+                "steals": 0.4,
+                "blocks": 0.2,
+                "fg_pct": 0.369,
+                "ft_pct": 0.868,
+                "three_pct": 0.376,
+                "minutes": 18.4
+            }
+        },
+        {
+            "id": 1630625,
+            "name": "Dalano Banton",
+            "stats": {
+                "games_played": 54.0,
+                "points": 10.3,
+                "rebounds": 3.3,
+                "assists": 2.4,
+                "steals": 0.6,
+                "blocks": 0.4,
+                "fg_pct": 0.404,
+                "ft_pct": 0.783,
+                "three_pct": 0.296,
+                "minutes": 19.4
+            }
+        },
+        {
+            "id": 1629684,
+            "name": "Grant Williams",
+            "stats": {
+                "games_played": 76.0,
+                "points": 10.3,
+                "rebounds": 4.2,
+                "assists": 2.3,
+                "steals": 0.6,
+                "blocks": 0.5,
+                "fg_pct": 0.456,
+                "ft_pct": 0.757,
+                "three_pct": 0.375,
+                "minutes": 28.0
+            }
+        },
+        {
+            "id": 1630167,
+            "name": "Obi Toppin",
+            "stats": {
+                "games_played": 82.0,
+                "points": 10.3,
+                "rebounds": 3.9,
+                "assists": 1.6,
+                "steals": 0.6,
+                "blocks": 0.5,
+                "fg_pct": 0.573,
+                "ft_pct": 0.77,
+                "three_pct": 0.403,
+                "minutes": 21.1
+            }
+        },
+        {
+            "id": 204456,
+            "name": "T.J. McConnell",
+            "stats": {
+                "games_played": 71.0,
+                "points": 10.2,
+                "rebounds": 2.7,
+                "assists": 5.5,
+                "steals": 1.0,
+                "blocks": 0.1,
+                "fg_pct": 0.556,
+                "ft_pct": 0.79,
+                "three_pct": 0.409,
+                "minutes": 18.2
+            }
+        },
+        {
+            "id": 202704,
+            "name": "Reggie Jackson",
+            "stats": {
+                "games_played": 82.0,
+                "points": 10.2,
+                "rebounds": 1.9,
+                "assists": 3.8,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.431,
+                "ft_pct": 0.806,
+                "three_pct": 0.359,
+                "minutes": 22.2
+            }
+        },
+        {
+            "id": 1628989,
+            "name": "Kevin Huerter",
+            "stats": {
+                "games_played": 64.0,
+                "points": 10.2,
+                "rebounds": 3.5,
+                "assists": 2.6,
+                "steals": 0.7,
+                "blocks": 0.4,
+                "fg_pct": 0.443,
+                "ft_pct": 0.766,
+                "three_pct": 0.361,
+                "minutes": 24.4
+            }
+        },
+        {
+            "id": 1630168,
+            "name": "Onyeka Okongwu",
+            "stats": {
+                "games_played": 55.0,
+                "points": 10.2,
+                "rebounds": 6.8,
+                "assists": 1.3,
+                "steals": 0.5,
+                "blocks": 1.1,
+                "fg_pct": 0.611,
+                "ft_pct": 0.793,
+                "three_pct": 0.333,
+                "minutes": 25.5
+            }
+        },
+        {
+            "id": 1627936,
+            "name": "Alex Caruso",
+            "stats": {
+                "games_played": 71.0,
+                "points": 10.1,
+                "rebounds": 3.8,
+                "assists": 3.5,
+                "steals": 1.7,
+                "blocks": 1.0,
+                "fg_pct": 0.468,
+                "ft_pct": 0.76,
+                "three_pct": 0.408,
+                "minutes": 28.7
+            }
+        },
+        {
+            "id": 1629659,
+            "name": "Talen Horton-Tucker",
+            "stats": {
+                "games_played": 51.0,
+                "points": 10.1,
+                "rebounds": 2.4,
+                "assists": 3.5,
+                "steals": 0.9,
+                "blocks": 0.4,
+                "fg_pct": 0.396,
+                "ft_pct": 0.807,
+                "three_pct": 0.33,
+                "minutes": 19.8
+            }
+        },
+        {
+            "id": 203484,
+            "name": "Kentavious Caldwell-Pope",
+            "stats": {
+                "games_played": 76.0,
+                "points": 10.1,
+                "rebounds": 2.4,
+                "assists": 2.4,
+                "steals": 1.3,
+                "blocks": 0.6,
+                "fg_pct": 0.46,
+                "ft_pct": 0.894,
+                "three_pct": 0.406,
+                "minutes": 31.6
+            }
+        },
+        {
+            "id": 1631246,
+            "name": "Vince Williams Jr.",
+            "stats": {
+                "games_played": 52.0,
+                "points": 10.0,
+                "rebounds": 5.6,
+                "assists": 3.4,
+                "steals": 0.9,
+                "blocks": 0.7,
+                "fg_pct": 0.446,
+                "ft_pct": 0.8,
+                "three_pct": 0.378,
+                "minutes": 27.6
+            }
+        },
+        {
+            "id": 1628997,
+            "name": "Caleb Martin",
+            "stats": {
+                "games_played": 64.0,
+                "points": 10.0,
+                "rebounds": 4.4,
+                "assists": 2.2,
+                "steals": 0.7,
+                "blocks": 0.5,
+                "fg_pct": 0.431,
+                "ft_pct": 0.778,
+                "three_pct": 0.349,
+                "minutes": 27.4
+            }
+        },
+        {
+            "id": 1630172,
+            "name": "Patrick Williams",
+            "stats": {
+                "games_played": 43.0,
+                "points": 10.0,
+                "rebounds": 3.9,
+                "assists": 1.5,
+                "steals": 0.9,
+                "blocks": 0.8,
+                "fg_pct": 0.443,
+                "ft_pct": 0.788,
+                "three_pct": 0.399,
+                "minutes": 27.3
+            }
+        },
+        {
+            "id": 1626196,
+            "name": "Josh Richardson",
+            "stats": {
+                "games_played": 43.0,
+                "points": 9.9,
+                "rebounds": 2.8,
+                "assists": 2.4,
+                "steals": 0.6,
+                "blocks": 0.3,
+                "fg_pct": 0.444,
+                "ft_pct": 0.944,
+                "three_pct": 0.347,
+                "minutes": 25.6
+            }
+        },
+        {
+            "id": 1630188,
+            "name": "Jalen Smith",
+            "stats": {
+                "games_played": 61.0,
+                "points": 9.9,
+                "rebounds": 5.5,
+                "assists": 1.0,
+                "steals": 0.3,
+                "blocks": 0.6,
+                "fg_pct": 0.592,
+                "ft_pct": 0.692,
+                "three_pct": 0.424,
+                "minutes": 17.2
+            }
+        },
+        {
+            "id": 203482,
+            "name": "Kelly Olynyk",
+            "stats": {
+                "games_played": 78.0,
+                "points": 9.8,
+                "rebounds": 5.3,
+                "assists": 4.4,
+                "steals": 0.9,
+                "blocks": 0.4,
+                "fg_pct": 0.555,
+                "ft_pct": 0.833,
+                "three_pct": 0.387,
+                "minutes": 22.5
+            }
+        },
+        {
+            "id": 202330,
+            "name": "Gordon Hayward",
+            "stats": {
+                "games_played": 51.0,
+                "points": 9.8,
+                "rebounds": 3.5,
+                "assists": 3.1,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.464,
+                "ft_pct": 0.742,
+                "three_pct": 0.411,
+                "minutes": 24.4
+            }
+        },
+        {
+            "id": 1631106,
+            "name": "Tari Eason",
+            "stats": {
+                "games_played": 22.0,
+                "points": 9.8,
+                "rebounds": 7.0,
+                "assists": 1.2,
+                "steals": 1.4,
+                "blocks": 0.9,
+                "fg_pct": 0.466,
+                "ft_pct": 0.636,
+                "three_pct": 0.36,
+                "minutes": 21.8
+            }
+        },
+        {
+            "id": 1629022,
+            "name": "Lonnie Walker IV",
+            "stats": {
+                "games_played": 58.0,
+                "points": 9.7,
+                "rebounds": 2.2,
+                "assists": 1.3,
+                "steals": 0.6,
+                "blocks": 0.3,
+                "fg_pct": 0.423,
+                "ft_pct": 0.763,
+                "three_pct": 0.384,
+                "minutes": 17.4
+            }
+        },
+        {
+            "id": 1630202,
+            "name": "Payton Pritchard",
+            "stats": {
+                "games_played": 82.0,
+                "points": 9.6,
+                "rebounds": 3.2,
+                "assists": 3.4,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.468,
+                "ft_pct": 0.821,
+                "three_pct": 0.385,
+                "minutes": 22.3
+            }
+        },
+        {
+            "id": 1641708,
+            "name": "Amen Thompson",
+            "stats": {
+                "games_played": 62.0,
+                "points": 9.5,
+                "rebounds": 6.6,
+                "assists": 2.6,
+                "steals": 1.3,
+                "blocks": 0.6,
+                "fg_pct": 0.536,
+                "ft_pct": 0.684,
+                "three_pct": 0.138,
+                "minutes": 22.4
+            }
+        },
+        {
+            "id": 1628404,
+            "name": "Josh Hart",
+            "stats": {
+                "games_played": 81.0,
+                "points": 9.4,
+                "rebounds": 8.3,
+                "assists": 4.1,
+                "steals": 0.9,
+                "blocks": 0.3,
+                "fg_pct": 0.434,
+                "ft_pct": 0.791,
+                "three_pct": 0.31,
+                "minutes": 33.4
+            }
+        },
+        {
+            "id": 1630171,
+            "name": "Isaac Okoro",
+            "stats": {
+                "games_played": 69.0,
+                "points": 9.4,
+                "rebounds": 3.0,
+                "assists": 1.9,
+                "steals": 0.8,
+                "blocks": 0.5,
+                "fg_pct": 0.49,
+                "ft_pct": 0.679,
+                "three_pct": 0.391,
+                "minutes": 27.3
+            }
+        },
+        {
+            "id": 1627777,
+            "name": "Georges Niang",
+            "stats": {
+                "games_played": 82.0,
+                "points": 9.4,
+                "rebounds": 3.4,
+                "assists": 1.2,
+                "steals": 0.4,
+                "blocks": 0.2,
+                "fg_pct": 0.449,
+                "ft_pct": 0.85,
+                "three_pct": 0.376,
+                "minutes": 22.3
+            }
+        },
+        {
+            "id": 1630544,
+            "name": "Tre Mann",
+            "stats": {
+                "games_played": 41.0,
+                "points": 9.3,
+                "rebounds": 3.6,
+                "assists": 4.0,
+                "steals": 1.2,
+                "blocks": 0.1,
+                "fg_pct": 0.459,
+                "ft_pct": 0.763,
+                "three_pct": 0.373,
+                "minutes": 24.1
+            }
+        },
+        {
+            "id": 101108,
+            "name": "Chris Paul",
+            "stats": {
+                "games_played": 58.0,
+                "points": 9.2,
+                "rebounds": 3.9,
+                "assists": 6.8,
+                "steals": 1.2,
+                "blocks": 0.1,
+                "fg_pct": 0.441,
+                "ft_pct": 0.827,
+                "three_pct": 0.371,
+                "minutes": 26.4
+            }
+        },
+        {
+            "id": 1629614,
+            "name": "Andrew Nembhard",
+            "stats": {
+                "games_played": 68.0,
+                "points": 9.2,
+                "rebounds": 2.1,
+                "assists": 4.1,
+                "steals": 0.9,
+                "blocks": 0.1,
+                "fg_pct": 0.498,
+                "ft_pct": 0.804,
+                "three_pct": 0.357,
+                "minutes": 25.0
+            }
+        },
+        {
+            "id": 1641764,
+            "name": "Brandin Podziemski",
+            "stats": {
+                "games_played": 74.0,
+                "points": 9.2,
+                "rebounds": 5.8,
+                "assists": 3.7,
+                "steals": 0.8,
+                "blocks": 0.2,
+                "fg_pct": 0.454,
+                "ft_pct": 0.633,
+                "three_pct": 0.385,
+                "minutes": 26.6
+            }
+        },
+        {
+            "id": 1631103,
+            "name": "Malaki Branham",
+            "stats": {
+                "games_played": 75.0,
+                "points": 9.2,
+                "rebounds": 2.0,
+                "assists": 2.1,
+                "steals": 0.4,
+                "blocks": 0.1,
+                "fg_pct": 0.432,
+                "ft_pct": 0.873,
+                "three_pct": 0.347,
+                "minutes": 21.3
+            }
+        },
+        {
+            "id": 1641871,
+            "name": "Duop Reath",
+            "stats": {
+                "games_played": 68.0,
+                "points": 9.1,
+                "rebounds": 3.7,
+                "assists": 1.0,
+                "steals": 0.5,
+                "blocks": 0.6,
+                "fg_pct": 0.461,
+                "ft_pct": 0.742,
+                "three_pct": 0.359,
+                "minutes": 17.9
+            }
+        },
+        {
+            "id": 1630573,
+            "name": "Sam Hauser",
+            "stats": {
+                "games_played": 79.0,
+                "points": 9.0,
+                "rebounds": 3.5,
+                "assists": 1.0,
+                "steals": 0.5,
+                "blocks": 0.3,
+                "fg_pct": 0.446,
+                "ft_pct": 0.895,
+                "three_pct": 0.424,
+                "minutes": 22.0
+            }
+        },
+        {
+            "id": 1627752,
+            "name": "Taurean Prince",
+            "stats": {
+                "games_played": 78.0,
+                "points": 8.9,
+                "rebounds": 2.9,
+                "assists": 1.5,
+                "steals": 0.7,
+                "blocks": 0.4,
+                "fg_pct": 0.442,
+                "ft_pct": 0.735,
+                "three_pct": 0.396,
+                "minutes": 27.0
+            }
+        },
+        {
+            "id": 1631133,
+            "name": "Jabari Walker",
+            "stats": {
+                "games_played": 72.0,
+                "points": 8.9,
+                "rebounds": 7.1,
+                "assists": 1.0,
+                "steals": 0.6,
+                "blocks": 0.3,
+                "fg_pct": 0.46,
+                "ft_pct": 0.754,
+                "three_pct": 0.295,
+                "minutes": 23.6
+            }
+        },
+        {
+            "id": 201567,
+            "name": "Kevin Love",
+            "stats": {
+                "games_played": 55.0,
+                "points": 8.8,
+                "rebounds": 6.1,
+                "assists": 2.1,
+                "steals": 0.3,
+                "blocks": 0.2,
+                "fg_pct": 0.44,
+                "ft_pct": 0.787,
+                "three_pct": 0.344,
+                "minutes": 16.8
+            }
+        },
+        {
+            "id": 1641709,
+            "name": "Ausar Thompson",
+            "stats": {
+                "games_played": 63.0,
+                "points": 8.8,
+                "rebounds": 6.4,
+                "assists": 1.9,
+                "steals": 1.1,
+                "blocks": 0.9,
+                "fg_pct": 0.483,
+                "ft_pct": 0.597,
+                "three_pct": 0.186,
+                "minutes": 25.1
+            }
+        },
+        {
+            "id": 1629611,
+            "name": "Terance Mann",
+            "stats": {
+                "games_played": 75.0,
+                "points": 8.8,
+                "rebounds": 3.4,
+                "assists": 1.6,
+                "steals": 0.6,
+                "blocks": 0.2,
+                "fg_pct": 0.515,
+                "ft_pct": 0.832,
+                "three_pct": 0.348,
+                "minutes": 25.0
+            }
+        },
+        {
+            "id": 1641726,
+            "name": "Dereck Lively II",
+            "stats": {
+                "games_played": 55.0,
+                "points": 8.8,
+                "rebounds": 6.9,
+                "assists": 1.1,
+                "steals": 0.7,
+                "blocks": 1.4,
+                "fg_pct": 0.747,
+                "ft_pct": 0.506,
+                "three_pct": 0.0,
+                "minutes": 23.5
+            }
+        },
+        {
+            "id": 203110,
+            "name": "Draymond Green",
+            "stats": {
+                "games_played": 55.0,
+                "points": 8.6,
+                "rebounds": 7.2,
+                "assists": 6.0,
+                "steals": 1.0,
+                "blocks": 0.9,
+                "fg_pct": 0.497,
+                "ft_pct": 0.73,
+                "three_pct": 0.395,
+                "minutes": 27.1
+            }
+        },
+        {
+            "id": 201143,
+            "name": "Al Horford",
+            "stats": {
+                "games_played": 65.0,
+                "points": 8.6,
+                "rebounds": 6.4,
+                "assists": 2.6,
+                "steals": 0.6,
+                "blocks": 1.0,
+                "fg_pct": 0.511,
+                "ft_pct": 0.867,
+                "three_pct": 0.419,
+                "minutes": 26.8
+            }
+        },
+        {
+            "id": 1627884,
+            "name": "Derrick Jones Jr.",
+            "stats": {
+                "games_played": 76.0,
+                "points": 8.6,
+                "rebounds": 3.3,
+                "assists": 1.0,
+                "steals": 0.7,
+                "blocks": 0.7,
+                "fg_pct": 0.483,
+                "ft_pct": 0.713,
+                "three_pct": 0.343,
+                "minutes": 23.5
+            }
+        },
+        {
+            "id": 1627827,
+            "name": "Dorian Finney-Smith",
+            "stats": {
+                "games_played": 68.0,
+                "points": 8.5,
+                "rebounds": 4.7,
+                "assists": 1.6,
+                "steals": 0.8,
+                "blocks": 0.6,
+                "fg_pct": 0.421,
+                "ft_pct": 0.717,
+                "three_pct": 0.348,
+                "minutes": 28.4
+            }
+        },
+        {
+            "id": 1641774,
+            "name": "Tristan Vukcevic",
+            "stats": {
+                "games_played": 10.0,
+                "points": 8.5,
+                "rebounds": 3.6,
+                "assists": 1.3,
+                "steals": 0.5,
+                "blocks": 0.7,
+                "fg_pct": 0.433,
+                "ft_pct": 0.773,
+                "three_pct": 0.278,
+                "minutes": 15.3
+            }
+        },
+        {
+            "id": 1641711,
+            "name": "Gradey Dick",
+            "stats": {
+                "games_played": 60.0,
+                "points": 8.5,
+                "rebounds": 2.2,
+                "assists": 1.1,
+                "steals": 0.6,
+                "blocks": 0.0,
+                "fg_pct": 0.425,
+                "ft_pct": 0.863,
+                "three_pct": 0.365,
+                "minutes": 21.1
+            }
+        },
+        {
+            "id": 1641731,
+            "name": "Bilal Coulibaly",
+            "stats": {
+                "games_played": 63.0,
+                "points": 8.4,
+                "rebounds": 4.1,
+                "assists": 1.7,
+                "steals": 0.9,
+                "blocks": 0.8,
+                "fg_pct": 0.435,
+                "ft_pct": 0.702,
+                "three_pct": 0.346,
+                "minutes": 27.2
+            }
+        },
+        {
+            "id": 1631204,
+            "name": "Marcus Sasser",
+            "stats": {
+                "games_played": 71.0,
+                "points": 8.3,
+                "rebounds": 1.8,
+                "assists": 3.3,
+                "steals": 0.6,
+                "blocks": 0.2,
+                "fg_pct": 0.428,
+                "ft_pct": 0.879,
+                "three_pct": 0.375,
+                "minutes": 19.0
+            }
+        },
+        {
+            "id": 1630540,
+            "name": "Miles McBride",
+            "stats": {
+                "games_played": 68.0,
+                "points": 8.3,
+                "rebounds": 1.5,
+                "assists": 1.7,
+                "steals": 0.7,
+                "blocks": 0.1,
+                "fg_pct": 0.452,
+                "ft_pct": 0.86,
+                "three_pct": 0.41,
+                "minutes": 19.5
+            }
+        },
+        {
+            "id": 1630182,
+            "name": "Josh Green",
+            "stats": {
+                "games_played": 57.0,
+                "points": 8.2,
+                "rebounds": 3.2,
+                "assists": 2.3,
+                "steals": 0.8,
+                "blocks": 0.2,
+                "fg_pct": 0.479,
+                "ft_pct": 0.684,
+                "three_pct": 0.385,
+                "minutes": 26.4
+            }
+        },
+        {
+            "id": 1630533,
+            "name": "Ziaire Williams",
+            "stats": {
+                "games_played": 51.0,
+                "points": 8.2,
+                "rebounds": 3.5,
+                "assists": 1.5,
+                "steals": 0.7,
+                "blocks": 0.2,
+                "fg_pct": 0.397,
+                "ft_pct": 0.827,
+                "three_pct": 0.307,
+                "minutes": 20.3
+            }
+        },
+        {
+            "id": 1630198,
+            "name": "Isaiah Joe",
+            "stats": {
+                "games_played": 78.0,
+                "points": 8.2,
+                "rebounds": 2.3,
+                "assists": 1.3,
+                "steals": 0.6,
+                "blocks": 0.3,
+                "fg_pct": 0.458,
+                "ft_pct": 0.865,
+                "three_pct": 0.416,
+                "minutes": 18.5
+            }
+        },
+        {
+            "id": 200768,
+            "name": "Kyle Lowry",
+            "stats": {
+                "games_played": 60.0,
+                "points": 8.1,
+                "rebounds": 3.2,
+                "assists": 4.2,
+                "steals": 1.0,
+                "blocks": 0.4,
+                "fg_pct": 0.432,
+                "ft_pct": 0.84,
+                "three_pct": 0.392,
+                "minutes": 28.2
+            }
+        },
+        {
+            "id": 1630541,
+            "name": "Moses Moody",
+            "stats": {
+                "games_played": 66.0,
+                "points": 8.1,
+                "rebounds": 3.0,
+                "assists": 0.9,
+                "steals": 0.6,
+                "blocks": 0.4,
+                "fg_pct": 0.462,
+                "ft_pct": 0.785,
+                "three_pct": 0.36,
+                "minutes": 17.5
+            }
+        },
+        {
+            "id": 201565,
+            "name": "Derrick Rose",
+            "stats": {
+                "games_played": 24.0,
+                "points": 8.0,
+                "rebounds": 1.9,
+                "assists": 3.3,
+                "steals": 0.3,
+                "blocks": 0.1,
+                "fg_pct": 0.461,
+                "ft_pct": 0.889,
+                "three_pct": 0.366,
+                "minutes": 16.6
+            }
+        },
+        {
+            "id": 1629638,
+            "name": "Nickeil Alexander-Walker",
+            "stats": {
+                "games_played": 82.0,
+                "points": 8.0,
+                "rebounds": 2.0,
+                "assists": 2.5,
+                "steals": 0.8,
+                "blocks": 0.5,
+                "fg_pct": 0.439,
+                "ft_pct": 0.8,
+                "three_pct": 0.391,
+                "minutes": 23.4
+            }
+        },
+        {
+            "id": 203967,
+            "name": "Dario \u0160ari\u0107",
+            "stats": {
+                "games_played": 64.0,
+                "points": 8.0,
+                "rebounds": 4.4,
+                "assists": 2.3,
+                "steals": 0.5,
+                "blocks": 0.2,
+                "fg_pct": 0.466,
+                "ft_pct": 0.849,
+                "three_pct": 0.376,
+                "minutes": 17.2
+            }
+        },
+        {
+            "id": 1630241,
+            "name": "Sam Merrill",
+            "stats": {
+                "games_played": 61.0,
+                "points": 8.0,
+                "rebounds": 2.0,
+                "assists": 1.8,
+                "steals": 0.3,
+                "blocks": 0.1,
+                "fg_pct": 0.402,
+                "ft_pct": 0.929,
+                "three_pct": 0.404,
+                "minutes": 17.5
+            }
+        },
+        {
+            "id": 1631218,
+            "name": "Trayce Jackson-Davis",
+            "stats": {
+                "games_played": 68.0,
+                "points": 7.9,
+                "rebounds": 5.0,
+                "assists": 1.2,
+                "steals": 0.4,
+                "blocks": 1.1,
+                "fg_pct": 0.702,
+                "ft_pct": 0.561,
+                "three_pct": 0.0,
+                "minutes": 16.6
+            }
+        },
+        {
+            "id": 203957,
+            "name": "Dant\u00e9 Exum",
+            "stats": {
+                "games_played": 55.0,
+                "points": 7.8,
+                "rebounds": 2.7,
+                "assists": 2.9,
+                "steals": 0.4,
+                "blocks": 0.1,
+                "fg_pct": 0.533,
+                "ft_pct": 0.779,
+                "three_pct": 0.491,
+                "minutes": 19.8
+            }
+        },
+        {
+            "id": 1628365,
+            "name": "Markelle Fultz",
+            "stats": {
+                "games_played": 43.0,
+                "points": 7.8,
+                "rebounds": 3.2,
+                "assists": 2.8,
+                "steals": 1.0,
+                "blocks": 0.3,
+                "fg_pct": 0.472,
+                "ft_pct": 0.697,
+                "three_pct": 0.222,
+                "minutes": 21.2
+            }
+        },
+        {
+            "id": 1641722,
+            "name": "Jordan Hawkins",
+            "stats": {
+                "games_played": 67.0,
+                "points": 7.8,
+                "rebounds": 2.2,
+                "assists": 1.0,
+                "steals": 0.3,
+                "blocks": 0.1,
+                "fg_pct": 0.382,
+                "ft_pct": 0.838,
+                "three_pct": 0.366,
+                "minutes": 17.3
+            }
+        },
+        {
+            "id": 1626220,
+            "name": "Royce O'Neale",
+            "stats": {
+                "games_played": 79.0,
+                "points": 7.7,
+                "rebounds": 4.8,
+                "assists": 2.8,
+                "steals": 0.7,
+                "blocks": 0.6,
+                "fg_pct": 0.397,
+                "ft_pct": 0.686,
+                "three_pct": 0.37,
+                "minutes": 24.7
+            }
+        },
+        {
+            "id": 1630564,
+            "name": "RaiQuan Gray",
+            "stats": {
+                "games_played": 3.0,
+                "points": 7.7,
+                "rebounds": 2.3,
+                "assists": 2.0,
+                "steals": 0.3,
+                "blocks": 0.3,
+                "fg_pct": 0.588,
+                "ft_pct": 0.0,
+                "three_pct": 0.429,
+                "minutes": 13.0
+            }
+        },
+        {
+            "id": 1631107,
+            "name": "Nikola Jovi\u0107",
+            "stats": {
+                "games_played": 46.0,
+                "points": 7.7,
+                "rebounds": 4.2,
+                "assists": 2.0,
+                "steals": 0.5,
+                "blocks": 0.3,
+                "fg_pct": 0.452,
+                "ft_pct": 0.702,
+                "three_pct": 0.399,
+                "minutes": 19.5
+            }
+        },
+        {
+            "id": 1630173,
+            "name": "Precious Achiuwa",
+            "stats": {
+                "games_played": 74.0,
+                "points": 7.6,
+                "rebounds": 6.6,
+                "assists": 1.3,
+                "steals": 0.6,
+                "blocks": 0.9,
+                "fg_pct": 0.501,
+                "ft_pct": 0.616,
+                "three_pct": 0.268,
+                "minutes": 21.9
+            }
+        },
+        {
+            "id": 1628998,
+            "name": "Cody Martin",
+            "stats": {
+                "games_played": 28.0,
+                "points": 7.5,
+                "rebounds": 3.9,
+                "assists": 3.7,
+                "steals": 1.1,
+                "blocks": 0.6,
+                "fg_pct": 0.381,
+                "ft_pct": 0.606,
+                "three_pct": 0.314,
+                "minutes": 26.9
+            }
+        },
+        {
+            "id": 1641729,
+            "name": "Brice Sensabaugh",
+            "stats": {
+                "games_played": 32.0,
+                "points": 7.5,
+                "rebounds": 3.2,
+                "assists": 1.7,
+                "steals": 0.4,
+                "blocks": 0.2,
+                "fg_pct": 0.39,
+                "ft_pct": 0.902,
+                "three_pct": 0.296,
+                "minutes": 18.3
+            }
+        },
+        {
+            "id": 1641739,
+            "name": "Toumani Camara",
+            "stats": {
+                "games_played": 70.0,
+                "points": 7.5,
+                "rebounds": 4.9,
+                "assists": 1.2,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.45,
+                "ft_pct": 0.758,
+                "three_pct": 0.337,
+                "minutes": 24.8
+            }
+        },
+        {
+            "id": 1626166,
+            "name": "Cameron Payne",
+            "stats": {
+                "games_played": 78.0,
+                "points": 7.4,
+                "rebounds": 1.5,
+                "assists": 2.6,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.432,
+                "ft_pct": 0.866,
+                "three_pct": 0.39,
+                "minutes": 16.7
+            }
+        },
+        {
+            "id": 1631128,
+            "name": "Christian Braun",
+            "stats": {
+                "games_played": 82.0,
+                "points": 7.3,
+                "rebounds": 3.7,
+                "assists": 1.6,
+                "steals": 0.5,
+                "blocks": 0.4,
+                "fg_pct": 0.46,
+                "ft_pct": 0.694,
+                "three_pct": 0.384,
+                "minutes": 20.2
+            }
+        },
+        {
+            "id": 1630702,
+            "name": "Jaden Hardy",
+            "stats": {
+                "games_played": 73.0,
+                "points": 7.3,
+                "rebounds": 1.8,
+                "assists": 1.5,
+                "steals": 0.3,
+                "blocks": 0.1,
+                "fg_pct": 0.407,
+                "ft_pct": 0.776,
+                "three_pct": 0.362,
+                "minutes": 13.6
+            }
+        },
+        {
+            "id": 1630194,
+            "name": "Paul Reed",
+            "stats": {
+                "games_played": 82.0,
+                "points": 7.3,
+                "rebounds": 6.0,
+                "assists": 1.3,
+                "steals": 0.8,
+                "blocks": 1.0,
+                "fg_pct": 0.54,
+                "ft_pct": 0.718,
+                "three_pct": 0.368,
+                "minutes": 19.4
+            }
+        },
+        {
+            "id": 1641707,
+            "name": "Taylor Hendricks",
+            "stats": {
+                "games_played": 40.0,
+                "points": 7.3,
+                "rebounds": 4.6,
+                "assists": 0.8,
+                "steals": 0.7,
+                "blocks": 0.8,
+                "fg_pct": 0.45,
+                "ft_pct": 0.793,
+                "three_pct": 0.379,
+                "minutes": 21.4
+            }
+        },
+        {
+            "id": 1630548,
+            "name": "Johnny Juzang",
+            "stats": {
+                "games_played": 20.0,
+                "points": 7.2,
+                "rebounds": 1.8,
+                "assists": 1.2,
+                "steals": 0.2,
+                "blocks": 0.1,
+                "fg_pct": 0.464,
+                "ft_pct": 0.714,
+                "three_pct": 0.416,
+                "minutes": 18.6
+            }
+        },
+        {
+            "id": 1626168,
+            "name": "Trey Lyles",
+            "stats": {
+                "games_played": 58.0,
+                "points": 7.2,
+                "rebounds": 4.4,
+                "assists": 1.2,
+                "steals": 0.3,
+                "blocks": 0.3,
+                "fg_pct": 0.445,
+                "ft_pct": 0.7,
+                "three_pct": 0.384,
+                "minutes": 20.0
+            }
+        },
+        {
+            "id": 1628995,
+            "name": "Kevin Knox II",
+            "stats": {
+                "games_played": 31.0,
+                "points": 7.2,
+                "rebounds": 2.4,
+                "assists": 0.7,
+                "steals": 0.4,
+                "blocks": 0.2,
+                "fg_pct": 0.462,
+                "ft_pct": 0.909,
+                "three_pct": 0.33,
+                "minutes": 18.1
+            }
+        },
+        {
+            "id": 1630205,
+            "name": "Lamar Stevens",
+            "stats": {
+                "games_played": 38.0,
+                "points": 7.2,
+                "rebounds": 3.3,
+                "assists": 0.7,
+                "steals": 0.6,
+                "blocks": 0.6,
+                "fg_pct": 0.45,
+                "ft_pct": 0.778,
+                "three_pct": 0.304,
+                "minutes": 14.7
+            }
+        },
+        {
+            "id": 1630631,
+            "name": "Jose Alvarado",
+            "stats": {
+                "games_played": 56.0,
+                "points": 7.1,
+                "rebounds": 2.3,
+                "assists": 2.1,
+                "steals": 1.1,
+                "blocks": 0.3,
+                "fg_pct": 0.412,
+                "ft_pct": 0.673,
+                "three_pct": 0.377,
+                "minutes": 18.4
+            }
+        },
+        {
+            "id": 1630230,
+            "name": "Naji Marshall",
+            "stats": {
+                "games_played": 66.0,
+                "points": 7.1,
+                "rebounds": 3.6,
+                "assists": 1.9,
+                "steals": 0.7,
+                "blocks": 0.2,
+                "fg_pct": 0.463,
+                "ft_pct": 0.791,
+                "three_pct": 0.387,
+                "minutes": 19.0
+            }
+        },
+        {
+            "id": 1629013,
+            "name": "Landry Shamet",
+            "stats": {
+                "games_played": 46.0,
+                "points": 7.1,
+                "rebounds": 1.3,
+                "assists": 1.2,
+                "steals": 0.5,
+                "blocks": 0.2,
+                "fg_pct": 0.431,
+                "ft_pct": 0.826,
+                "three_pct": 0.338,
+                "minutes": 15.8
+            }
+        },
+        {
+            "id": 1630164,
+            "name": "James Wiseman",
+            "stats": {
+                "games_played": 63.0,
+                "points": 7.1,
+                "rebounds": 5.3,
+                "assists": 0.9,
+                "steals": 0.2,
+                "blocks": 0.6,
+                "fg_pct": 0.613,
+                "ft_pct": 0.706,
+                "three_pct": 0.0,
+                "minutes": 17.3
+            }
+        },
+        {
+            "id": 203995,
+            "name": "Vasilije Mici\u0107",
+            "stats": {
+                "games_played": 60.0,
+                "points": 7.0,
+                "rebounds": 1.5,
+                "assists": 4.4,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.43,
+                "ft_pct": 0.813,
+                "three_pct": 0.279,
+                "minutes": 19.6
+            }
+        },
+        {
+            "id": 1631241,
+            "name": "Javon Freeman-Liberty",
+            "stats": {
+                "games_played": 22.0,
+                "points": 7.0,
+                "rebounds": 3.2,
+                "assists": 1.8,
+                "steals": 0.5,
+                "blocks": 0.2,
+                "fg_pct": 0.444,
+                "ft_pct": 0.917,
+                "three_pct": 0.238,
+                "minutes": 18.3
+            }
+        },
+        {
+            "id": 1629656,
+            "name": "Quentin Grimes",
+            "stats": {
+                "games_played": 51.0,
+                "points": 7.0,
+                "rebounds": 2.0,
+                "assists": 1.3,
+                "steals": 0.7,
+                "blocks": 0.1,
+                "fg_pct": 0.372,
+                "ft_pct": 0.756,
+                "three_pct": 0.338,
+                "minutes": 20.1
+            }
+        },
+        {
+            "id": 1629670,
+            "name": "Jordan Nwora",
+            "stats": {
+                "games_played": 52.0,
+                "points": 7.0,
+                "rebounds": 2.9,
+                "assists": 1.2,
+                "steals": 0.5,
+                "blocks": 0.3,
+                "fg_pct": 0.462,
+                "ft_pct": 0.83,
+                "three_pct": 0.336,
+                "minutes": 13.7
+            }
+        },
+        {
+            "id": 1630165,
+            "name": "Killian Hayes",
+            "stats": {
+                "games_played": 42.0,
+                "points": 6.9,
+                "rebounds": 2.8,
+                "assists": 4.9,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.413,
+                "ft_pct": 0.66,
+                "three_pct": 0.297,
+                "minutes": 24.0
+            }
+        },
+        {
+            "id": 1630538,
+            "name": "Bones Hyland",
+            "stats": {
+                "games_played": 37.0,
+                "points": 6.9,
+                "rebounds": 1.5,
+                "assists": 2.5,
+                "steals": 0.7,
+                "blocks": 0.1,
+                "fg_pct": 0.386,
+                "ft_pct": 0.783,
+                "three_pct": 0.326,
+                "minutes": 14.6
+            }
+        },
+        {
+            "id": 203914,
+            "name": "Gary Harris",
+            "stats": {
+                "games_played": 54.0,
+                "points": 6.9,
+                "rebounds": 1.7,
+                "assists": 1.6,
+                "steals": 0.9,
+                "blocks": 0.3,
+                "fg_pct": 0.441,
+                "ft_pct": 0.756,
+                "three_pct": 0.371,
+                "minutes": 24.0
+            }
+        },
+        {
+            "id": 203095,
+            "name": "Evan Fournier",
+            "stats": {
+                "games_played": 32.0,
+                "points": 6.9,
+                "rebounds": 1.8,
+                "assists": 1.5,
+                "steals": 0.9,
+                "blocks": 0.2,
+                "fg_pct": 0.357,
+                "ft_pct": 0.806,
+                "three_pct": 0.254,
+                "minutes": 18.1
+            }
+        },
+        {
+            "id": 1630570,
+            "name": "Trendon Watford",
+            "stats": {
+                "games_played": 63.0,
+                "points": 6.9,
+                "rebounds": 3.1,
+                "assists": 1.3,
+                "steals": 0.4,
+                "blocks": 0.3,
+                "fg_pct": 0.527,
+                "ft_pct": 0.794,
+                "three_pct": 0.397,
+                "minutes": 13.6
+            }
+        },
+        {
+            "id": 1630598,
+            "name": "Aaron Wiggins",
+            "stats": {
+                "games_played": 78.0,
+                "points": 6.9,
+                "rebounds": 2.4,
+                "assists": 1.1,
+                "steals": 0.7,
+                "blocks": 0.2,
+                "fg_pct": 0.562,
+                "ft_pct": 0.789,
+                "three_pct": 0.492,
+                "minutes": 15.7
+            }
+        },
+        {
+            "id": 1626174,
+            "name": "Christian Wood",
+            "stats": {
+                "games_played": 50.0,
+                "points": 6.9,
+                "rebounds": 5.1,
+                "assists": 1.0,
+                "steals": 0.3,
+                "blocks": 0.7,
+                "fg_pct": 0.466,
+                "ft_pct": 0.702,
+                "three_pct": 0.307,
+                "minutes": 17.4
+            }
+        },
+        {
+            "id": 1641970,
+            "name": "Maozinha Pereira",
+            "stats": {
+                "games_played": 7.0,
+                "points": 6.9,
+                "rebounds": 5.3,
+                "assists": 0.3,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.514,
+                "ft_pct": 0.7,
+                "three_pct": 0.385,
+                "minutes": 17.4
+            }
+        },
+        {
+            "id": 1626224,
+            "name": "Cedi Osman",
+            "stats": {
+                "games_played": 72.0,
+                "points": 6.8,
+                "rebounds": 2.5,
+                "assists": 1.7,
+                "steals": 0.5,
+                "blocks": 0.2,
+                "fg_pct": 0.479,
+                "ft_pct": 0.673,
+                "three_pct": 0.389,
+                "minutes": 17.6
+            }
+        },
+        {
+            "id": 1641717,
+            "name": "Cason Wallace",
+            "stats": {
+                "games_played": 82.0,
+                "points": 6.8,
+                "rebounds": 2.3,
+                "assists": 1.5,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.491,
+                "ft_pct": 0.784,
+                "three_pct": 0.419,
+                "minutes": 20.6
+            }
+        },
+        {
+            "id": 1630549,
+            "name": "Day'Ron Sharpe",
+            "stats": {
+                "games_played": 61.0,
+                "points": 6.8,
+                "rebounds": 6.4,
+                "assists": 1.4,
+                "steals": 0.4,
+                "blocks": 0.7,
+                "fg_pct": 0.571,
+                "ft_pct": 0.61,
+                "three_pct": 0.267,
+                "minutes": 15.1
+            }
+        },
+        {
+            "id": 1630577,
+            "name": "Julian Champagnie",
+            "stats": {
+                "games_played": 74.0,
+                "points": 6.8,
+                "rebounds": 2.8,
+                "assists": 1.4,
+                "steals": 0.6,
+                "blocks": 0.6,
+                "fg_pct": 0.408,
+                "ft_pct": 0.815,
+                "three_pct": 0.365,
+                "minutes": 19.8
+            }
+        },
+        {
+            "id": 1641998,
+            "name": "Trey Jemison III",
+            "stats": {
+                "games_played": 25.0,
+                "points": 6.8,
+                "rebounds": 5.4,
+                "assists": 1.1,
+                "steals": 0.5,
+                "blocks": 1.1,
+                "fg_pct": 0.551,
+                "ft_pct": 0.84,
+                "three_pct": 0.0,
+                "minutes": 23.0
+            }
+        },
+        {
+            "id": 1629057,
+            "name": "Robert Williams III",
+            "stats": {
+                "games_played": 6.0,
+                "points": 6.8,
+                "rebounds": 6.3,
+                "assists": 0.8,
+                "steals": 1.2,
+                "blocks": 1.2,
+                "fg_pct": 0.654,
+                "ft_pct": 0.778,
+                "three_pct": 0.0,
+                "minutes": 19.8
+            }
+        },
+        {
+            "id": 1628371,
+            "name": "Jonathan Isaac",
+            "stats": {
+                "games_played": 58.0,
+                "points": 6.8,
+                "rebounds": 4.5,
+                "assists": 0.5,
+                "steals": 0.7,
+                "blocks": 1.2,
+                "fg_pct": 0.51,
+                "ft_pct": 0.72,
+                "three_pct": 0.375,
+                "minutes": 15.8
+            }
+        },
+        {
+            "id": 1630186,
+            "name": "Jahmi'us Ramsey",
+            "stats": {
+                "games_played": 7.0,
+                "points": 6.7,
+                "rebounds": 3.1,
+                "assists": 1.1,
+                "steals": 1.0,
+                "blocks": 0.0,
+                "fg_pct": 0.439,
+                "ft_pct": 0.833,
+                "three_pct": 0.273,
+                "minutes": 17.3
+            }
+        },
+        {
+            "id": 1631212,
+            "name": "Peyton Watson",
+            "stats": {
+                "games_played": 80.0,
+                "points": 6.7,
+                "rebounds": 3.2,
+                "assists": 1.1,
+                "steals": 0.5,
+                "blocks": 1.1,
+                "fg_pct": 0.465,
+                "ft_pct": 0.67,
+                "three_pct": 0.296,
+                "minutes": 18.6
+            }
+        },
+        {
+            "id": 202722,
+            "name": "D\u0101vis Bert\u0101ns",
+            "stats": {
+                "games_played": 43.0,
+                "points": 6.7,
+                "rebounds": 1.4,
+                "assists": 0.8,
+                "steals": 0.6,
+                "blocks": 0.3,
+                "fg_pct": 0.393,
+                "ft_pct": 0.909,
+                "three_pct": 0.38,
+                "minutes": 15.7
+            }
+        },
+        {
+            "id": 1628372,
+            "name": "Dennis Smith Jr.",
+            "stats": {
+                "games_played": 56.0,
+                "points": 6.6,
+                "rebounds": 2.9,
+                "assists": 3.6,
+                "steals": 1.2,
+                "blocks": 0.2,
+                "fg_pct": 0.435,
+                "ft_pct": 0.741,
+                "three_pct": 0.294,
+                "minutes": 18.9
+            }
+        },
+        {
+            "id": 1628988,
+            "name": "Aaron Holiday",
+            "stats": {
+                "games_played": 78.0,
+                "points": 6.6,
+                "rebounds": 1.6,
+                "assists": 1.8,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.446,
+                "ft_pct": 0.921,
+                "three_pct": 0.387,
+                "minutes": 16.3
+            }
+        },
+        {
+            "id": 1629599,
+            "name": "Amir Coffey",
+            "stats": {
+                "games_played": 70.0,
+                "points": 6.6,
+                "rebounds": 2.1,
+                "assists": 1.1,
+                "steals": 0.6,
+                "blocks": 0.2,
+                "fg_pct": 0.472,
+                "ft_pct": 0.859,
+                "three_pct": 0.38,
+                "minutes": 20.9
+            }
+        },
+        {
+            "id": 1630692,
+            "name": "Jordan Goodwin",
+            "stats": {
+                "games_played": 57.0,
+                "points": 6.5,
+                "rebounds": 4.4,
+                "assists": 2.7,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.369,
+                "ft_pct": 0.746,
+                "three_pct": 0.298,
+                "minutes": 18.5
+            }
+        },
+        {
+            "id": 1630561,
+            "name": "David Duke Jr.",
+            "stats": {
+                "games_played": 4.0,
+                "points": 6.5,
+                "rebounds": 2.5,
+                "assists": 1.3,
+                "steals": 0.5,
+                "blocks": 0.0,
+                "fg_pct": 0.556,
+                "ft_pct": 1.0,
+                "three_pct": 0.5,
+                "minutes": 12.8
+            }
+        },
+        {
+            "id": 1631223,
+            "name": "David Roddy",
+            "stats": {
+                "games_played": 65.0,
+                "points": 6.5,
+                "rebounds": 3.2,
+                "assists": 1.2,
+                "steals": 0.4,
+                "blocks": 0.2,
+                "fg_pct": 0.403,
+                "ft_pct": 0.691,
+                "three_pct": 0.293,
+                "minutes": 18.1
+            }
+        },
+        {
+            "id": 201145,
+            "name": "Jeff Green",
+            "stats": {
+                "games_played": 78.0,
+                "points": 6.5,
+                "rebounds": 2.3,
+                "assists": 0.9,
+                "steals": 0.2,
+                "blocks": 0.4,
+                "fg_pct": 0.456,
+                "ft_pct": 0.819,
+                "three_pct": 0.331,
+                "minutes": 16.8
+            }
+        },
+        {
+            "id": 1629002,
+            "name": "Chimezie Metu",
+            "stats": {
+                "games_played": 51.0,
+                "points": 6.5,
+                "rebounds": 3.8,
+                "assists": 0.9,
+                "steals": 0.8,
+                "blocks": 0.3,
+                "fg_pct": 0.504,
+                "ft_pct": 0.906,
+                "three_pct": 0.298,
+                "minutes": 16.8
+            }
+        },
+        {
+            "id": 203937,
+            "name": "Kyle Anderson",
+            "stats": {
+                "games_played": 79.0,
+                "points": 6.4,
+                "rebounds": 3.5,
+                "assists": 4.2,
+                "steals": 0.9,
+                "blocks": 0.6,
+                "fg_pct": 0.46,
+                "ft_pct": 0.708,
+                "three_pct": 0.229,
+                "minutes": 22.6
+            }
+        },
+        {
+            "id": 1630543,
+            "name": "Isaiah Jackson",
+            "stats": {
+                "games_played": 60.0,
+                "points": 6.4,
+                "rebounds": 4.0,
+                "assists": 0.8,
+                "steals": 0.6,
+                "blocks": 1.0,
+                "fg_pct": 0.665,
+                "ft_pct": 0.716,
+                "three_pct": 0.0,
+                "minutes": 12.8
+            }
+        },
+        {
+            "id": 202694,
+            "name": "Marcus Morris Sr.",
+            "stats": {
+                "games_played": 49.0,
+                "points": 6.4,
+                "rebounds": 2.7,
+                "assists": 0.7,
+                "steals": 0.3,
+                "blocks": 0.3,
+                "fg_pct": 0.439,
+                "ft_pct": 0.818,
+                "three_pct": 0.403,
+                "minutes": 16.7
+            }
+        },
+        {
+            "id": 1628449,
+            "name": "Chris Boucher",
+            "stats": {
+                "games_played": 50.0,
+                "points": 6.4,
+                "rebounds": 4.1,
+                "assists": 0.5,
+                "steals": 0.3,
+                "blocks": 0.5,
+                "fg_pct": 0.507,
+                "ft_pct": 0.772,
+                "three_pct": 0.33,
+                "minutes": 14.1
+            }
+        },
+        {
+            "id": 1630215,
+            "name": "Jared Butler",
+            "stats": {
+                "games_played": 40.0,
+                "points": 6.3,
+                "rebounds": 1.5,
+                "assists": 3.2,
+                "steals": 0.7,
+                "blocks": 0.2,
+                "fg_pct": 0.488,
+                "ft_pct": 0.861,
+                "three_pct": 0.308,
+                "minutes": 14.1
+            }
+        },
+        {
+            "id": 1628981,
+            "name": "Bruno Fernando",
+            "stats": {
+                "games_played": 45.0,
+                "points": 6.3,
+                "rebounds": 4.3,
+                "assists": 1.0,
+                "steals": 0.6,
+                "blocks": 0.6,
+                "fg_pct": 0.583,
+                "ft_pct": 0.667,
+                "three_pct": 0.0,
+                "minutes": 15.2
+            }
+        },
+        {
+            "id": 1628464,
+            "name": "Daniel Theis",
+            "stats": {
+                "games_played": 60.0,
+                "points": 6.3,
+                "rebounds": 4.1,
+                "assists": 1.0,
+                "steals": 0.4,
+                "blocks": 0.9,
+                "fg_pct": 0.532,
+                "ft_pct": 0.76,
+                "three_pct": 0.366,
+                "minutes": 16.9
+            }
+        },
+        {
+            "id": 201976,
+            "name": "Patrick Beverley",
+            "stats": {
+                "games_played": 73.0,
+                "points": 6.2,
+                "rebounds": 3.3,
+                "assists": 2.9,
+                "steals": 0.6,
+                "blocks": 0.4,
+                "fg_pct": 0.417,
+                "ft_pct": 0.822,
+                "three_pct": 0.337,
+                "minutes": 20.0
+            }
+        },
+        {
+            "id": 1629669,
+            "name": "Jaylen Nowell",
+            "stats": {
+                "games_played": 13.0,
+                "points": 6.2,
+                "rebounds": 1.8,
+                "assists": 1.5,
+                "steals": 0.3,
+                "blocks": 0.2,
+                "fg_pct": 0.436,
+                "ft_pct": 0.778,
+                "three_pct": 0.207,
+                "minutes": 16.4
+            }
+        },
+        {
+            "id": 203109,
+            "name": "Jae Crowder",
+            "stats": {
+                "games_played": 50.0,
+                "points": 6.2,
+                "rebounds": 3.2,
+                "assists": 1.3,
+                "steals": 0.8,
+                "blocks": 0.2,
+                "fg_pct": 0.422,
+                "ft_pct": 0.722,
+                "three_pct": 0.349,
+                "minutes": 23.1
+            }
+        },
+        {
+            "id": 1630553,
+            "name": "Keon Johnson",
+            "stats": {
+                "games_played": 5.0,
+                "points": 6.2,
+                "rebounds": 1.4,
+                "assists": 0.6,
+                "steals": 0.6,
+                "blocks": 0.2,
+                "fg_pct": 0.381,
+                "ft_pct": 0.917,
+                "three_pct": 0.4,
+                "minutes": 12.3
+            }
+        },
+        {
+            "id": 1627732,
+            "name": "Ben Simmons",
+            "stats": {
+                "games_played": 15.0,
+                "points": 6.1,
+                "rebounds": 7.9,
+                "assists": 5.7,
+                "steals": 0.8,
+                "blocks": 0.6,
+                "fg_pct": 0.581,
+                "ft_pct": 0.4,
+                "three_pct": 0.0,
+                "minutes": 23.9
+            }
+        },
+        {
+            "id": 1630249,
+            "name": "V\u00edt Krej\u010d\u00ed",
+            "stats": {
+                "games_played": 22.0,
+                "points": 6.1,
+                "rebounds": 2.4,
+                "assists": 2.3,
+                "steals": 0.6,
+                "blocks": 0.3,
+                "fg_pct": 0.49,
+                "ft_pct": 0.833,
+                "three_pct": 0.412,
+                "minutes": 24.6
+            }
+        },
+        {
+            "id": 1631200,
+            "name": "Kris Murray",
+            "stats": {
+                "games_played": 62.0,
+                "points": 6.1,
+                "rebounds": 3.6,
+                "assists": 1.3,
+                "steals": 0.9,
+                "blocks": 0.3,
+                "fg_pct": 0.396,
+                "ft_pct": 0.661,
+                "three_pct": 0.268,
+                "minutes": 21.7
+            }
+        },
+        {
+            "id": 1629312,
+            "name": "Haywood Highsmith",
+            "stats": {
+                "games_played": 66.0,
+                "points": 6.1,
+                "rebounds": 3.2,
+                "assists": 1.1,
+                "steals": 0.8,
+                "blocks": 0.5,
+                "fg_pct": 0.465,
+                "ft_pct": 0.639,
+                "three_pct": 0.396,
+                "minutes": 20.7
+            }
+        },
+        {
+            "id": 1630285,
+            "name": "Zavier Simpson",
+            "stats": {
+                "games_played": 7.0,
+                "points": 6.0,
+                "rebounds": 2.9,
+                "assists": 3.6,
+                "steals": 1.0,
+                "blocks": 0.4,
+                "fg_pct": 0.315,
+                "ft_pct": 0.75,
+                "three_pct": 0.294,
+                "minutes": 23.1
+            }
+        },
+        {
+            "id": 1630551,
+            "name": "Justin Champagnie",
+            "stats": {
+                "games_played": 15.0,
+                "points": 5.9,
+                "rebounds": 3.5,
+                "assists": 1.3,
+                "steals": 0.7,
+                "blocks": 0.6,
+                "fg_pct": 0.41,
+                "ft_pct": 0.8,
+                "three_pct": 0.289,
+                "minutes": 15.7
+            }
+        },
+        {
+            "id": 1641733,
+            "name": "Nick Smith Jr.",
+            "stats": {
+                "games_played": 51.0,
+                "points": 5.9,
+                "rebounds": 1.4,
+                "assists": 1.2,
+                "steals": 0.2,
+                "blocks": 0.1,
+                "fg_pct": 0.391,
+                "ft_pct": 0.867,
+                "three_pct": 0.432,
+                "minutes": 14.3
+            }
+        },
+        {
+            "id": 1641787,
+            "name": "Tosan Evbuomwan",
+            "stats": {
+                "games_played": 17.0,
+                "points": 5.9,
+                "rebounds": 3.5,
+                "assists": 0.9,
+                "steals": 0.4,
+                "blocks": 0.3,
+                "fg_pct": 0.507,
+                "ft_pct": 0.68,
+                "three_pct": 0.375,
+                "minutes": 21.6
+            }
+        },
+        {
+            "id": 1630700,
+            "name": "Dyson Daniels",
+            "stats": {
+                "games_played": 61.0,
+                "points": 5.8,
+                "rebounds": 3.9,
+                "assists": 2.7,
+                "steals": 1.4,
+                "blocks": 0.4,
+                "fg_pct": 0.447,
+                "ft_pct": 0.642,
+                "three_pct": 0.311,
+                "minutes": 22.3
+            }
+        },
+        {
+            "id": 1630534,
+            "name": "Ochai Agbaji",
+            "stats": {
+                "games_played": 78.0,
+                "points": 5.8,
+                "rebounds": 2.8,
+                "assists": 1.1,
+                "steals": 0.6,
+                "blocks": 0.6,
+                "fg_pct": 0.411,
+                "ft_pct": 0.661,
+                "three_pct": 0.294,
+                "minutes": 21.0
+            }
+        },
+        {
+            "id": 1641730,
+            "name": "Noah Clowney",
+            "stats": {
+                "games_played": 23.0,
+                "points": 5.8,
+                "rebounds": 3.5,
+                "assists": 0.8,
+                "steals": 0.3,
+                "blocks": 0.7,
+                "fg_pct": 0.538,
+                "ft_pct": 0.7,
+                "three_pct": 0.364,
+                "minutes": 16.1
+            }
+        },
+        {
+            "id": 1626204,
+            "name": "Larry Nance Jr.",
+            "stats": {
+                "games_played": 61.0,
+                "points": 5.7,
+                "rebounds": 5.0,
+                "assists": 1.9,
+                "steals": 1.0,
+                "blocks": 0.3,
+                "fg_pct": 0.573,
+                "ft_pct": 0.77,
+                "three_pct": 0.415,
+                "minutes": 19.9
+            }
+        },
+        {
+            "id": 1628470,
+            "name": "Torrey Craig",
+            "stats": {
+                "games_played": 53.0,
+                "points": 5.7,
+                "rebounds": 4.1,
+                "assists": 1.1,
+                "steals": 0.6,
+                "blocks": 0.4,
+                "fg_pct": 0.43,
+                "ft_pct": 0.75,
+                "three_pct": 0.392,
+                "minutes": 19.8
+            }
+        },
+        {
+            "id": 201568,
+            "name": "Danilo Gallinari",
+            "stats": {
+                "games_played": 49.0,
+                "points": 5.7,
+                "rebounds": 2.2,
+                "assists": 1.1,
+                "steals": 0.3,
+                "blocks": 0.1,
+                "fg_pct": 0.437,
+                "ft_pct": 0.857,
+                "three_pct": 0.323,
+                "minutes": 12.8
+            }
+        },
+        {
+            "id": 1628418,
+            "name": "Thomas Bryant",
+            "stats": {
+                "games_played": 38.0,
+                "points": 5.7,
+                "rebounds": 3.7,
+                "assists": 0.6,
+                "steals": 0.3,
+                "blocks": 0.4,
+                "fg_pct": 0.577,
+                "ft_pct": 0.872,
+                "three_pct": 0.182,
+                "minutes": 11.6
+            }
+        },
+        {
+            "id": 1641854,
+            "name": "Craig Porter Jr.",
+            "stats": {
+                "games_played": 51.0,
+                "points": 5.6,
+                "rebounds": 2.1,
+                "assists": 2.3,
+                "steals": 0.4,
+                "blocks": 0.3,
+                "fg_pct": 0.509,
+                "ft_pct": 0.732,
+                "three_pct": 0.353,
+                "minutes": 12.7
+            }
+        },
+        {
+            "id": 1626192,
+            "name": "Pat Connaughton",
+            "stats": {
+                "games_played": 76.0,
+                "points": 5.6,
+                "rebounds": 3.1,
+                "assists": 2.1,
+                "steals": 0.5,
+                "blocks": 0.3,
+                "fg_pct": 0.435,
+                "ft_pct": 0.759,
+                "three_pct": 0.345,
+                "minutes": 22.1
+            }
+        },
+        {
+            "id": 1629011,
+            "name": "Mitchell Robinson",
+            "stats": {
+                "games_played": 31.0,
+                "points": 5.6,
+                "rebounds": 8.5,
+                "assists": 0.6,
+                "steals": 1.2,
+                "blocks": 1.1,
+                "fg_pct": 0.575,
+                "ft_pct": 0.409,
+                "three_pct": 0.0,
+                "minutes": 24.8
+            }
+        },
+        {
+            "id": 1630201,
+            "name": "Malachi Flynn",
+            "stats": {
+                "games_played": 69.0,
+                "points": 5.5,
+                "rebounds": 1.7,
+                "assists": 1.9,
+                "steals": 0.6,
+                "blocks": 0.1,
+                "fg_pct": 0.418,
+                "ft_pct": 0.732,
+                "three_pct": 0.331,
+                "minutes": 12.7
+            }
+        },
+        {
+            "id": 203926,
+            "name": "Doug McDermott",
+            "stats": {
+                "games_played": 64.0,
+                "points": 5.5,
+                "rebounds": 0.9,
+                "assists": 1.1,
+                "steals": 0.3,
+                "blocks": 0.0,
+                "fg_pct": 0.433,
+                "ft_pct": 0.579,
+                "three_pct": 0.41,
+                "minutes": 14.1
+            }
+        },
+        {
+            "id": 1627780,
+            "name": "Gary Payton II",
+            "stats": {
+                "games_played": 44.0,
+                "points": 5.5,
+                "rebounds": 2.6,
+                "assists": 1.1,
+                "steals": 0.9,
+                "blocks": 0.4,
+                "fg_pct": 0.563,
+                "ft_pct": 0.609,
+                "three_pct": 0.364,
+                "minutes": 15.5
+            }
+        },
+        {
+            "id": 1641926,
+            "name": "Dexter Dennis",
+            "stats": {
+                "games_played": 4.0,
+                "points": 5.5,
+                "rebounds": 2.3,
+                "assists": 1.0,
+                "steals": 0.0,
+                "blocks": 0.3,
+                "fg_pct": 0.526,
+                "ft_pct": 0.333,
+                "three_pct": 0.125,
+                "minutes": 7.5
+            }
+        },
+        {
+            "id": 1629674,
+            "name": "Neemias Queta",
+            "stats": {
+                "games_played": 28.0,
+                "points": 5.5,
+                "rebounds": 4.4,
+                "assists": 0.7,
+                "steals": 0.5,
+                "blocks": 0.8,
+                "fg_pct": 0.644,
+                "ft_pct": 0.714,
+                "three_pct": 0.0,
+                "minutes": 11.9
+            }
+        },
+        {
+            "id": 1627739,
+            "name": "Kris Dunn",
+            "stats": {
+                "games_played": 66.0,
+                "points": 5.4,
+                "rebounds": 2.9,
+                "assists": 3.8,
+                "steals": 1.0,
+                "blocks": 0.4,
+                "fg_pct": 0.47,
+                "ft_pct": 0.688,
+                "three_pct": 0.369,
+                "minutes": 18.9
+            }
+        },
+        {
+            "id": 1631165,
+            "name": "Keon Ellis",
+            "stats": {
+                "games_played": 57.0,
+                "points": 5.4,
+                "rebounds": 2.2,
+                "assists": 1.5,
+                "steals": 0.9,
+                "blocks": 0.5,
+                "fg_pct": 0.461,
+                "ft_pct": 0.743,
+                "three_pct": 0.417,
+                "minutes": 17.2
+            }
+        },
+        {
+            "id": 1629680,
+            "name": "Matisse Thybulle",
+            "stats": {
+                "games_played": 65.0,
+                "points": 5.4,
+                "rebounds": 2.1,
+                "assists": 1.4,
+                "steals": 1.7,
+                "blocks": 0.8,
+                "fg_pct": 0.397,
+                "ft_pct": 0.759,
+                "three_pct": 0.346,
+                "minutes": 22.9
+            }
+        },
+        {
+            "id": 1629629,
+            "name": "Cam Reddish",
+            "stats": {
+                "games_played": 48.0,
+                "points": 5.4,
+                "rebounds": 2.1,
+                "assists": 1.0,
+                "steals": 1.0,
+                "blocks": 0.3,
+                "fg_pct": 0.389,
+                "ft_pct": 0.759,
+                "three_pct": 0.336,
+                "minutes": 20.5
+            }
+        },
+        {
+            "id": 1629731,
+            "name": "Dean Wade",
+            "stats": {
+                "games_played": 54.0,
+                "points": 5.4,
+                "rebounds": 4.0,
+                "assists": 0.8,
+                "steals": 0.7,
+                "blocks": 0.5,
+                "fg_pct": 0.414,
+                "ft_pct": 0.769,
+                "three_pct": 0.391,
+                "minutes": 20.5
+            }
+        },
+        {
+            "id": 1630346,
+            "name": "Matt Ryan",
+            "stats": {
+                "games_played": 28.0,
+                "points": 5.4,
+                "rebounds": 1.4,
+                "assists": 0.6,
+                "steals": 0.2,
+                "blocks": 0.0,
+                "fg_pct": 0.434,
+                "ft_pct": 0.929,
+                "three_pct": 0.451,
+                "minutes": 13.9
+            }
+        },
+        {
+            "id": 1628426,
+            "name": "Sasha Vezenkov",
+            "stats": {
+                "games_played": 42.0,
+                "points": 5.4,
+                "rebounds": 2.3,
+                "assists": 0.5,
+                "steals": 0.5,
+                "blocks": 0.2,
+                "fg_pct": 0.44,
+                "ft_pct": 0.8,
+                "three_pct": 0.375,
+                "minutes": 12.2
+            }
+        },
+        {
+            "id": 1641741,
+            "name": "Ricky Council IV",
+            "stats": {
+                "games_played": 32.0,
+                "points": 5.4,
+                "rebounds": 1.4,
+                "assists": 0.5,
+                "steals": 0.3,
+                "blocks": 0.0,
+                "fg_pct": 0.482,
+                "ft_pct": 0.746,
+                "three_pct": 0.375,
+                "minutes": 9.0
+            }
+        },
+        {
+            "id": 201587,
+            "name": "Nicolas Batum",
+            "stats": {
+                "games_played": 60.0,
+                "points": 5.3,
+                "rebounds": 4.1,
+                "assists": 2.1,
+                "steals": 0.8,
+                "blocks": 0.6,
+                "fg_pct": 0.453,
+                "ft_pct": 0.714,
+                "three_pct": 0.395,
+                "minutes": 25.5
+            }
+        },
+        {
+            "id": 1630558,
+            "name": "Davion Mitchell",
+            "stats": {
+                "games_played": 72.0,
+                "points": 5.3,
+                "rebounds": 1.3,
+                "assists": 1.9,
+                "steals": 0.2,
+                "blocks": 0.0,
+                "fg_pct": 0.452,
+                "ft_pct": 0.714,
+                "three_pct": 0.361,
+                "minutes": 15.3
+            }
+        },
+        {
+            "id": 1630214,
+            "name": "Xavier Tillman",
+            "stats": {
+                "games_played": 54.0,
+                "points": 5.3,
+                "rebounds": 3.9,
+                "assists": 1.4,
+                "steals": 0.9,
+                "blocks": 0.8,
+                "fg_pct": 0.434,
+                "ft_pct": 0.44,
+                "three_pct": 0.247,
+                "minutes": 18.0
+            }
+        },
+        {
+            "id": 203486,
+            "name": "Mason Plumlee",
+            "stats": {
+                "games_played": 46.0,
+                "points": 5.3,
+                "rebounds": 5.1,
+                "assists": 1.2,
+                "steals": 0.3,
+                "blocks": 0.4,
+                "fg_pct": 0.569,
+                "ft_pct": 0.707,
+                "three_pct": 0.0,
+                "minutes": 14.7
+            }
+        },
+        {
+            "id": 1628436,
+            "name": "Luke Kornet",
+            "stats": {
+                "games_played": 63.0,
+                "points": 5.3,
+                "rebounds": 4.1,
+                "assists": 1.1,
+                "steals": 0.4,
+                "blocks": 1.0,
+                "fg_pct": 0.7,
+                "ft_pct": 0.907,
+                "three_pct": 1.0,
+                "minutes": 15.6
+            }
+        },
+        {
+            "id": 1629647,
+            "name": "Darius Bazley",
+            "stats": {
+                "games_played": 9.0,
+                "points": 5.3,
+                "rebounds": 3.1,
+                "assists": 0.8,
+                "steals": 0.7,
+                "blocks": 0.8,
+                "fg_pct": 0.6,
+                "ft_pct": 0.833,
+                "three_pct": 0.25,
+                "minutes": 16.9
+            }
+        },
+        {
+            "id": 1630649,
+            "name": "Stanley Umude",
+            "stats": {
+                "games_played": 24.0,
+                "points": 5.3,
+                "rebounds": 2.1,
+                "assists": 0.5,
+                "steals": 0.3,
+                "blocks": 0.3,
+                "fg_pct": 0.44,
+                "ft_pct": 0.906,
+                "three_pct": 0.453,
+                "minutes": 12.8
+            }
+        },
+        {
+            "id": 1630197,
+            "name": "Aleksej Pokusevski",
+            "stats": {
+                "games_played": 28.0,
+                "points": 5.2,
+                "rebounds": 3.2,
+                "assists": 1.3,
+                "steals": 0.5,
+                "blocks": 0.5,
+                "fg_pct": 0.405,
+                "ft_pct": 0.732,
+                "three_pct": 0.327,
+                "minutes": 14.5
+            }
+        },
+        {
+            "id": 1629020,
+            "name": "Jarred Vanderbilt",
+            "stats": {
+                "games_played": 29.0,
+                "points": 5.2,
+                "rebounds": 4.8,
+                "assists": 1.2,
+                "steals": 1.2,
+                "blocks": 0.2,
+                "fg_pct": 0.518,
+                "ft_pct": 0.667,
+                "three_pct": 0.296,
+                "minutes": 20.0
+            }
+        },
+        {
+            "id": 1629626,
+            "name": "Bol Bol",
+            "stats": {
+                "games_played": 43.0,
+                "points": 5.2,
+                "rebounds": 3.2,
+                "assists": 0.4,
+                "steals": 0.2,
+                "blocks": 0.6,
+                "fg_pct": 0.616,
+                "ft_pct": 0.789,
+                "three_pct": 0.423,
+                "minutes": 10.9
+            }
+        },
+        {
+            "id": 1630527,
+            "name": "Brandon Boston",
+            "stats": {
+                "games_played": 32.0,
+                "points": 5.2,
+                "rebounds": 1.6,
+                "assists": 0.4,
+                "steals": 0.3,
+                "blocks": 0.3,
+                "fg_pct": 0.404,
+                "ft_pct": 0.697,
+                "three_pct": 0.269,
+                "minutes": 10.8
+            }
+        },
+        {
+            "id": 203552,
+            "name": "Seth Curry",
+            "stats": {
+                "games_played": 44.0,
+                "points": 5.1,
+                "rebounds": 1.5,
+                "assists": 1.0,
+                "steals": 0.5,
+                "blocks": 0.1,
+                "fg_pct": 0.392,
+                "ft_pct": 0.903,
+                "three_pct": 0.352,
+                "minutes": 14.0
+            }
+        },
+        {
+            "id": 1631121,
+            "name": "Bryce McGowens",
+            "stats": {
+                "games_played": 59.0,
+                "points": 5.1,
+                "rebounds": 1.7,
+                "assists": 0.9,
+                "steals": 0.4,
+                "blocks": 0.2,
+                "fg_pct": 0.439,
+                "ft_pct": 0.776,
+                "three_pct": 0.333,
+                "minutes": 14.9
+            }
+        },
+        {
+            "id": 1629234,
+            "name": "Drew Eubanks",
+            "stats": {
+                "games_played": 75.0,
+                "points": 5.1,
+                "rebounds": 4.3,
+                "assists": 0.8,
+                "steals": 0.4,
+                "blocks": 0.8,
+                "fg_pct": 0.601,
+                "ft_pct": 0.774,
+                "three_pct": 1.0,
+                "minutes": 15.6
+            }
+        },
+        {
+            "id": 1628424,
+            "name": "Kobi Simmons",
+            "stats": {
+                "games_played": 4.0,
+                "points": 5.0,
+                "rebounds": 1.8,
+                "assists": 3.0,
+                "steals": 1.5,
+                "blocks": 0.5,
+                "fg_pct": 0.429,
+                "ft_pct": 0.0,
+                "three_pct": 0.25,
+                "minutes": 16.9
+            }
+        },
+        {
+            "id": 1628420,
+            "name": "Mont\u00e9 Morris",
+            "stats": {
+                "games_played": 33.0,
+                "points": 5.0,
+                "rebounds": 1.7,
+                "assists": 2.1,
+                "steals": 0.6,
+                "blocks": 0.3,
+                "fg_pct": 0.405,
+                "ft_pct": 0.684,
+                "three_pct": 0.386,
+                "minutes": 14.4
+            }
+        },
+        {
+            "id": 1628984,
+            "name": "Devonte' Graham",
+            "stats": {
+                "games_played": 23.0,
+                "points": 5.0,
+                "rebounds": 1.6,
+                "assists": 2.1,
+                "steals": 0.4,
+                "blocks": 0.1,
+                "fg_pct": 0.352,
+                "ft_pct": 0.813,
+                "three_pct": 0.301,
+                "minutes": 13.6
+            }
+        },
+        {
+            "id": 1628975,
+            "name": "Jevon Carter",
+            "stats": {
+                "games_played": 72.0,
+                "points": 5.0,
+                "rebounds": 0.8,
+                "assists": 1.3,
+                "steals": 0.5,
+                "blocks": 0.2,
+                "fg_pct": 0.378,
+                "ft_pct": 0.571,
+                "three_pct": 0.329,
+                "minutes": 13.9
+            }
+        },
+        {
+            "id": 1629048,
+            "name": "Goga Bitadze",
+            "stats": {
+                "games_played": 62.0,
+                "points": 5.0,
+                "rebounds": 4.6,
+                "assists": 1.3,
+                "steals": 0.5,
+                "blocks": 1.2,
+                "fg_pct": 0.603,
+                "ft_pct": 0.655,
+                "three_pct": 0.143,
+                "minutes": 15.4
+            }
+        },
+        {
+            "id": 1630587,
+            "name": "Isaiah Livers",
+            "stats": {
+                "games_played": 23.0,
+                "points": 5.0,
+                "rebounds": 2.1,
+                "assists": 1.1,
+                "steals": 0.6,
+                "blocks": 0.2,
+                "fg_pct": 0.345,
+                "ft_pct": 0.667,
+                "three_pct": 0.286,
+                "minutes": 20.4
+            }
+        },
+        {
+            "id": 1630592,
+            "name": "Jalen Wilson",
+            "stats": {
+                "games_played": 43.0,
+                "points": 5.0,
+                "rebounds": 3.0,
+                "assists": 1.0,
+                "steals": 0.3,
+                "blocks": 0.1,
+                "fg_pct": 0.425,
+                "ft_pct": 0.826,
+                "three_pct": 0.324,
+                "minutes": 15.5
+            }
+        },
+        {
+            "id": 1628391,
+            "name": "D.J. Wilson",
+            "stats": {
+                "games_played": 2.0,
+                "points": 5.0,
+                "rebounds": 1.0,
+                "assists": 1.0,
+                "steals": 0.0,
+                "blocks": 1.0,
+                "fg_pct": 0.667,
+                "ft_pct": 0.0,
+                "three_pct": 1.0,
+                "minutes": 7.7
+            }
+        },
+        {
+            "id": 1626158,
+            "name": "Richaun Holmes",
+            "stats": {
+                "games_played": 40.0,
+                "points": 5.0,
+                "rebounds": 4.6,
+                "assists": 0.6,
+                "steals": 0.3,
+                "blocks": 0.5,
+                "fg_pct": 0.558,
+                "ft_pct": 0.723,
+                "three_pct": 0.333,
+                "minutes": 13.9
+            }
+        },
+        {
+            "id": 1629726,
+            "name": "Garrison Mathews",
+            "stats": {
+                "games_played": 66.0,
+                "points": 4.9,
+                "rebounds": 1.4,
+                "assists": 0.6,
+                "steals": 0.3,
+                "blocks": 0.1,
+                "fg_pct": 0.456,
+                "ft_pct": 0.81,
+                "three_pct": 0.44,
+                "minutes": 15.0
+            }
+        }
+    ]
+}

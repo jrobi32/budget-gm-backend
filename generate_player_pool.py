@@ -1,10 +1,11 @@
 import json
 import requests
 import pandas as pd
+import random
 from typing import Dict, List
 
 def fetch_nba_players():
-    """Fetch top 175 players by points per game from NBA API"""
+    """Fetch top 350 players by points per game from NBA API"""
     url = "https://stats.nba.com/stats/leaguedashplayerstats"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -63,8 +64,8 @@ def fetch_nba_players():
     df = df[['PLAYER_ID', 'PLAYER_NAME', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FG_PCT', 'FT_PCT', 'FG3_PCT', 'GP', 'MIN']]
     df.columns = ['id', 'name', 'points', 'rebounds', 'assists', 'steals', 'blocks', 'fg_pct', 'ft_pct', 'three_pct', 'games_played', 'minutes']
     
-    # Sort by points and take top 175
-    df = df.sort_values('points', ascending=False).head(175)
+    # Sort by points and take top 350
+    df = df.sort_values('points', ascending=False).head(350)
     
     return df
 
@@ -137,6 +138,30 @@ def calculate_player_cost(stats: pd.Series) -> int:
     else:
         return 0
 
+def select_random_players(categorized_players: Dict) -> Dict:
+    """Randomly select 5 players from each category"""
+    selected_players = {
+        '$3': [],
+        '$2': [],
+        '$1': [],
+        '$0': []
+    }
+    
+    for category in selected_players:
+        # Get all players in this category
+        available_players = categorized_players[category]
+        
+        # If we have more than 5 players, randomly select 5
+        if len(available_players) > 5:
+            selected = random.sample(available_players, 5)
+        else:
+            # If we have 5 or fewer, take all of them
+            selected = available_players
+        
+        selected_players[category] = selected
+    
+    return selected_players
+
 def main():
     # Fetch player data
     print("Fetching NBA player data...")
@@ -171,12 +196,32 @@ def main():
         }
         categorized_players[f'${cost}'].append(player_data)
     
-    # Save to file
-    with open('player_pool.json', 'w') as f:
-        json.dump(categorized_players, f, indent=4)
+    # Sort players in each category by points and assists
+    for category in categorized_players:
+        categorized_players[category].sort(
+            key=lambda x: (x['stats']['points'], x['stats']['assists']),
+            reverse=True
+        )
     
-    print("\nGenerated player pool with:")
+    # Print total players in each category before selection
+    print("\nTotal players in each category:")
     for category, players in categorized_players.items():
+        print(f"{category}: {len(players)} players")
+    
+    # Save full player pool to a separate file for reference
+    with open('full_player_pool.json', 'w') as f:
+        json.dump(categorized_players, f, indent=4)
+    print("\nFull player pool saved to full_player_pool.json")
+    
+    # Select random players from each category for the game
+    selected_players = select_random_players(categorized_players)
+    
+    # Save selected players to the main player pool file
+    with open('player_pool.json', 'w') as f:
+        json.dump(selected_players, f, indent=4)
+    
+    print("\nGenerated game player pool with:")
+    for category, players in selected_players.items():
         print(f"{category}: {len(players)} players")
 
 if __name__ == '__main__':
