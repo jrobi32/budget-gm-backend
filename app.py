@@ -64,11 +64,13 @@ def logout():
 @app.route('/api/player_pool')
 def get_player_pool():
     try:
-        # Get 5 random players from each category
-        random_players = simulator.get_random_players(count=5)
-        if not random_players:
-            return jsonify({'error': 'Failed to get random players'}), 500
-        return jsonify(random_players)
+        # Load the player pool directly from the file
+        with open('player_pool.json', 'r') as f:
+            player_pool = json.load(f)
+            
+        if not player_pool:
+            return jsonify({'error': 'Failed to load player pool'}), 500
+        return jsonify(player_pool)
     except Exception as e:
         logger.error(f"Error getting player pool: {str(e)}")
         return jsonify({'error': str(e)}), 500
@@ -254,25 +256,6 @@ def get_challenge_by_date(date):
         'date': challenge.date,
         'player_pool': challenge.player_pool
     })
-
-def load_player_pool():
-    try:
-        with open('player_pool.json', 'r') as f:
-            full_pool = json.load(f)
-            
-        # Select 5 random players from each category
-        limited_pool = {}
-        for category in ['$3', '$2', '$1', '$0']:
-            players = full_pool.get(category, [])
-            if len(players) > 5:
-                limited_pool[category] = random.sample(players, 5)
-            else:
-                limited_pool[category] = players
-                
-        return limited_pool
-    except Exception as e:
-        print(f"Error loading player pool: {e}")
-        return {"$3": [], "$2": [], "$1": [], "$0": []}
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
