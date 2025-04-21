@@ -73,20 +73,20 @@ def calculate_player_cost(stats: pd.Series) -> int:
     """Calculate player cost based on performance metrics"""
     # Basic stats weights
     weights = {
-        'points': 0.45,      # Points (increased weight)
-        'assists': 0.20,     # Assists (playmaking)
-        'rebounds': 0.15,    # Rebounds
-        'steals': 0.10,      # Steals
-        'blocks': 0.10,      # Blocks
+        'points': 0.40,      # Points (major factor)
+        'assists': 0.25,     # Assists (playmaking)
+        'rebounds': 0.20,    # Rebounds
+        'steals': 0.05,      # Steals
+        'blocks': 0.05,      # Blocks
         'fg_pct': 0.05,      # Field Goal Percentage
-        'ft_pct': 0.05       # Free Throw Percentage
+        'ts_pct': 0.05       # True Shooting Percentage
     }
     
     # Calculate weighted score
     score = 0
     for stat, weight in weights.items():
         if stat in stats:
-            if stat in ['fg_pct', 'ft_pct', 'three_pct']:
+            if stat in ['fg_pct', 'ts_pct']:
                 # Convert percentages to 0-1 scale
                 score += (stats[stat] / 100) * weight * 10
             else:
@@ -94,57 +94,73 @@ def calculate_player_cost(stats: pd.Series) -> int:
                 score += stats[stat] * weight
     
     # Add bonuses for exceptional performance
-    if stats['points'] >= 25:  # Elite scoring
+    if stats['points'] >= 30:  # MVP-level scoring
+        score += 20
+    elif stats['points'] >= 25:  # All-Star level scoring
         score += 15
-    elif stats['points'] >= 20:  # Very good scoring
+    elif stats['points'] >= 20:  # High-end starter scoring
         score += 10
-    elif stats['points'] >= 15:  # Good scoring
+    elif stats['points'] >= 15:  # Solid starter scoring
         score += 5
         
-    if stats['assists'] >= 7:   # Elite playmaking
-        score += 8
-    elif stats['assists'] >= 5:  # Very good playmaking
-        score += 4
+    if stats['assists'] >= 10:   # Elite playmaking
+        score += 15
+    elif stats['assists'] >= 7:  # All-Star playmaking
+        score += 10
+    elif stats['assists'] >= 5:  # Good playmaking
+        score += 5
         
-    if stats['rebounds'] >= 10:  # Elite rebounding
-        score += 8
-    elif stats['rebounds'] >= 7:  # Very good rebounding
-        score += 4
+    if stats['rebounds'] >= 12:  # Elite rebounding
+        score += 15
+    elif stats['rebounds'] >= 10:  # All-Star rebounding
+        score += 10
+    elif stats['rebounds'] >= 7:  # Good rebounding
+        score += 5
         
-    if stats['steals'] + stats['blocks'] >= 2.5:  # Elite defense
-        score += 8
-    elif stats['steals'] + stats['blocks'] >= 1.5:  # Very good defense
-        score += 4
+    if stats['steals'] + stats['blocks'] >= 3.0:  # Elite defense
+        score += 10
+    elif stats['steals'] + stats['blocks'] >= 2.0:  # Very good defense
+        score += 5
         
-    if stats['fg_pct'] >= 0.50:  # Elite efficiency
-        score += 4
+    if stats['ts_pct'] >= 0.65:  # Elite efficiency
+        score += 10
+    elif stats['ts_pct'] >= 0.60:  # Very good efficiency
+        score += 5
         
     # Apply games played adjustment
-    games_played_percentage = min(stats['games_played'] / 82, 1.0)  # Cap at 100%
+    games_played_percentage = min(stats['games_played'] / 246, 1.0)  # Cap at 100%
     
-    # Apply a minimum threshold - players with less than 50% of games get penalized more
     if games_played_percentage < 0.5:
-        score *= (games_played_percentage * 0.7)  # 70% of their games played percentage
+        score *= (games_played_percentage * 0.7)
     else:
-        score *= (0.5 + (games_played_percentage - 0.5) * 0.8)  # Scale from 50% to 90%
+        score *= (0.5 + (games_played_percentage - 0.5) * 0.8)
     
-    # Normalize score to 0-3 range
-    if score > 25:
+    # Normalize score to 1-5 range with new thresholds:
+    # $5: Superstars (score > 50)
+    # $4: All-Stars (score > 40)
+    # $3: Quality starters (score > 30)
+    # $2: Solid role players (score > 20)
+    # $1: Role players (score <= 20)
+    
+    if score > 50:
+        return 5
+    elif score > 40:
+        return 4
+    elif score > 30:
         return 3
-    elif score > 18:
+    elif score > 20:
         return 2
-    elif score > 12:
-        return 1
     else:
-        return 0
+        return 1
 
 def select_random_players(categorized_players: Dict) -> Dict:
     """Randomly select 5 players from each category"""
     selected_players = {
+        '$5': [],
+        '$4': [],
         '$3': [],
         '$2': [],
-        '$1': [],
-        '$0': []
+        '$1': []
     }
     
     for category in selected_players:
@@ -169,10 +185,11 @@ def main():
     
     # Initialize categorized players
     categorized_players = {
-        '$3': [],  # Elite players
-        '$2': [],  # Very good players
-        '$1': [],  # Solid players
-        '$0': []   # Role players
+        '$5': [],  # Superstars
+        '$4': [],  # All-Stars
+        '$3': [],  # Quality starters
+        '$2': [],  # Solid role players
+        '$1': []   # Role players
     }
     
     # Process each player
