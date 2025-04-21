@@ -201,20 +201,20 @@ class PlayerPool:
         else:
             score *= (0.5 + (games_played_percentage - 0.5) * 0.8)
         
-        # Normalize score to 1-5 range with adjusted thresholds:
-        # $5: Superstars (score > 40)
-        # $4: All-Stars (score > 30)
-        # $3: Quality starters (score > 20)
-        # $2: Solid role players (score > 10)
-        # $1: Role players (score <= 10)
+        # Normalize score to 1-5 range with new thresholds:
+        # $5: Superstars (score > 50)
+        # $4: All-Stars (score > 40)
+        # $3: Quality starters (score > 30)
+        # $2: Solid role players (score > 20)
+        # $1: Role players (score <= 20)
         
-        if score > 40:
+        if score > 50:
             return 5
-        elif score > 30:
+        elif score > 40:
             return 4
-        elif score > 20:
+        elif score > 30:
             return 3
-        elif score > 10:
+        elif score > 20:
             return 2
         else:
             return 1
