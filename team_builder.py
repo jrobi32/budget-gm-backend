@@ -45,7 +45,7 @@ def display_player_options(player_pool, show_stats=False):
     print("\nPlayer Options:")
     print("==============")
     
-    for cost in ["$3", "$2", "$1", "$0"]:
+    for cost in ["$5", "$4", "$3", "$2", "$1"]:
         print(f"\n{cost} Players:")
         players = get_random_players(player_pool, cost)
         for player in players:

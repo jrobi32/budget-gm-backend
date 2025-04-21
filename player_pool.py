@@ -45,10 +45,11 @@ class PlayerPool:
         
         # Initialize categorized players
         categorized_players = {
-            '3': [],  # MVP candidates
-            '2': [],  # All-Stars
-            '1': [],  # Quality starters
-            '0': []   # Role players
+            '5': [],  # Superstars
+            '4': [],  # All-Stars
+            '3': [],  # Quality starters
+            '2': [],  # Solid role players
+            '1': []   # Role players
         }
         
         # Process each player
@@ -105,10 +106,10 @@ class PlayerPool:
     def _calculate_player_cost(self, stats):
         """
         Calculate player cost based on performance metrics averaged over 3 seasons
-        Returns cost from 0-3 dollars
+        Returns cost from 1-5 dollars
         """
         if stats is None:
-            return 0
+            return 1
             
         # Basic stats weights - adjusted to better reflect impact
         weights = {
@@ -159,33 +160,31 @@ class PlayerPool:
             score += 4
             
         # Apply games played adjustment
-        # Ideal is 246 games (82 games * 3 seasons)
-        # Scale down score based on games played percentage
         games_played = stats.get('GP', 0)
         games_played_percentage = min(games_played / 246, 1.0)  # Cap at 100%
         
-        # Apply a minimum threshold - players with less than 50% of games get penalized more
         if games_played_percentage < 0.5:
-            # More severe penalty for very low games played
-            score *= (games_played_percentage * 0.7)  # 70% of their games played percentage
+            score *= (games_played_percentage * 0.7)
         else:
-            # Less severe penalty for moderate to high games played
-            score *= (0.5 + (games_played_percentage - 0.5) * 0.8)  # Scale from 50% to 90%
+            score *= (0.5 + (games_played_percentage - 0.5) * 0.8)
         
-        # Normalize score to 0-3 range with adjusted thresholds:
-        # $3: Elite players (score > 25) - Only MVP candidates
-        # $2: Very good players (score > 18) - All-Stars and high-end starters
-        # $1: Solid players (score > 12) - Quality starters and good role players
-        # $0: Role players and below (score <= 12) - Bench players and deep bench
+        # Normalize score to 1-5 range:
+        # $5: Superstars (score > 30)
+        # $4: All-Stars (score > 25)
+        # $3: Quality starters (score > 20)
+        # $2: Solid role players (score > 15)
+        # $1: Role players (score <= 15)
         
-        if score > 25:
+        if score > 30:
+            return 5
+        elif score > 25:
+            return 4
+        elif score > 20:
             return 3
-        elif score > 18:
+        elif score > 15:
             return 2
-        elif score > 12:
-            return 1
         else:
-            return 0
+            return 1
         
     def build_player_pool(self, min_games=20, min_minutes=15):
         """
