@@ -16,7 +16,7 @@ class PlayerPool:
         
     def _load_player_pool(self):
         """
-        Load the pre-built player pool from JSON file.
+        Load the player pool from JSON file.
         If the file doesn't exist or is older than 24 hours, rebuild it.
         """
         try:
@@ -130,13 +130,13 @@ class PlayerPool:
         
     def _calculate_player_cost(self, stats):
         """
-        Calculate player cost based on performance metrics averaged over 3 seasons
+        Calculate player cost based on performance metrics
         Returns cost from 1-5 dollars
         """
         if stats is None:
             return 1
             
-        # Basic stats weights - adjusted to better reflect impact
+        # Basic stats weights
         weights = {
             'PTS': 0.40,      # Points (major factor)
             'AST': 0.25,      # Assists (playmaking)
@@ -218,130 +218,6 @@ class PlayerPool:
             return 2
         else:
             return 1
-        
-    def build_player_pool(self, min_games=20, min_minutes=15):
-        """
-        Build a pool of players based on their performance over the last 3 seasons.
-        Players must meet minimum games and minutes played criteria.
-        
-        Args:
-            min_games (int): Minimum number of games played across all seasons
-            min_minutes (float): Minimum average minutes per game
-        """
-        # Get all active players
-        active_players = self.data_fetcher.get_active_players()
-        
-        # Fetch stats for each player
-        for player_name in active_players:
-            stats = self.data_fetcher.get_player_stats(player_name)
-            
-            if stats is not None:
-                # Check if player meets minimum criteria
-                if stats['GP'] >= min_games and stats['MIN'] >= min_minutes:
-                    # Calculate player value
-                    value = self._calculate_player_value(stats)
-                    
-                    # Convert value to cost
-                    cost = self._value_to_cost(value)
-                    
-                    # Add player to pool
-                    self.players[player_name] = {'cost': cost}
-                    self.player_stats[player_name] = stats
-                
-    def _calculate_player_value(self, stats: pd.Series) -> float:
-        """
-        Calculate a player's value based on their statistics
-        """
-        # Base stats weights
-        weights = {
-            'PTS': 2.0,     # Points (major factor)
-            'AST': 1.5,     # Assists (playmaking)
-            'REB': 1.2,     # Rebounds
-            'STOCKS': 1.5,  # Combined steals and blocks
-            'TS_PCT': 25.0, # True shooting percentage (heavily weighted)
-            'AST_TO': 5.0,  # Assist to turnover ratio
-            'USG_PCT': 1.0, # Usage rate
-            'MIN': 0.2,     # Minutes played
-        }
-        
-        value = 0
-        for stat, weight in weights.items():
-            if stat in stats:
-                value += stats[stat] * weight
-        
-        # Bonus points for exceptional performance
-        
-        # Scoring bonuses
-        if stats['PTS'] >= 30:  # MVP-level scoring
-            value += 25
-        elif stats['PTS'] >= 27:  # All-Star level scoring
-            value += 20
-        elif stats['PTS'] >= 23:  # High-end starter scoring
-            value += 15
-        
-        # Playmaking bonus
-        if stats['AST'] >= 8:  # Elite playmaking
-            value += 15
-        elif stats['AST'] >= 6:  # Very good playmaking
-            value += 10
-        
-        # Rebounding bonus
-        if stats['REB'] >= 10:  # Elite rebounding
-            value += 15
-        elif stats['REB'] >= 8:  # Very good rebounding
-            value += 10
-        
-        # Two-way player bonus
-        if stats['STOCKS'] >= 2.5:  # Elite defender
-            value += 15
-        elif stats['STOCKS'] >= 1.8:  # Good defender
-            value += 10
-        
-        # Efficiency bonus
-        if stats['TS_PCT'] >= 0.62:  # Elite efficiency
-            value += 15
-        elif stats['TS_PCT'] >= 0.58:  # Good efficiency
-            value += 10
-        
-        # Usage rate bonus
-        if stats['USG_PCT'] >= 30:  # Primary option
-            value += 10
-        
-        # Minutes played bonus (reliability)
-        if stats['MIN'] >= 35:
-            value += 10
-        elif stats['MIN'] >= 30:
-            value += 5
-        
-        return value
-        
-    def _value_to_cost(self, value: float) -> float:
-        """
-        Convert a player's value to a cost between $1 and $5 (whole numbers only)
-        """
-        # Adjusted value ranges for better star recognition
-        min_value = 30   # Minimum value
-        max_value = 150  # Maximum value
-        
-        normalized = (value - min_value) / (max_value - min_value)
-        cost = 1 + (normalized * 4)  # Scale to 1-5 range
-        
-        # Adjusted ranges to properly value stars:
-        # $1: 1.0 - 2.0 (role players)
-        # $2: 2.0 - 2.8 (solid role players)
-        # $3: 2.8 - 3.5 (good starters)
-        # $4: 3.5 - 4.0 (all-stars)
-        # $5: 4.0+ (superstars)
-        if cost < 2.0:
-            return 1
-        elif cost < 2.8:
-            return 2
-        elif cost < 3.5:
-            return 3
-        elif cost < 4.0:
-            return 4
-        else:
-            return 5
         
     def get_available_players(self) -> List[Tuple[str, float]]:
         """

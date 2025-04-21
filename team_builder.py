@@ -10,15 +10,15 @@ def load_player_pool():
     try:
         with open('player_pool.json', 'r') as f:
             player_pool = json.load(f)
-            print(f"Loaded player pool with {sum(len(players) for players in player_pool.values())} players")
+            print(f"Loaded player pool with {sum(len(players) for players in player_pool['players'].values())} players")
             print(f"Number of players in each category:")
-            for cost, players in player_pool.items():
-                print(f"{cost}: {len(players)} players")
+            for cost, players in player_pool['players'].items():
+                print(f"${cost}: {len(players)} players")
                 if players:
-                    print(f"First player in {cost}: {players[0]['name']}")
-            return player_pool
+                    print(f"First player in ${cost}: {players[0]['name']}")
+            return player_pool['players']
     except FileNotFoundError:
-        print("Error: player_pool.json not found. Please run player_pool_data.py first.")
+        print("Error: player_pool.json not found. Please run player_pool.py first.")
         sys.exit(1)
     except Exception as e:
         print(f"Error loading player pool: {e}")
@@ -27,15 +27,15 @@ def load_player_pool():
 def get_random_players(player_pool, category, count=5):
     """Get random players from a specific cost category"""
     if category not in player_pool:
-        print(f"Warning: Category {category} not found in player pool")
+        print(f"Warning: Category ${category} not found in player pool")
         return []
     players = player_pool[category]
     if len(players) < count:
-        print(f"Warning: Not enough players in {category} category (have {len(players)}, need {count})")
+        print(f"Warning: Not enough players in ${category} category (have {len(players)}, need {count})")
         return players
     
     selected_players = random.sample(players, count)
-    print(f"Selected {len(selected_players)} players from {category} category:")
+    print(f"Selected {len(selected_players)} players from ${category} category:")
     for player in selected_players:
         print(f"  - {player['name']}")
     return selected_players
@@ -45,17 +45,17 @@ def display_player_options(player_pool, show_stats=False):
     print("\nPlayer Options:")
     print("==============")
     
-    for cost in ["$5", "$4", "$3", "$2", "$1"]:
-        print(f"\n{cost} Players:")
+    for cost in ["5", "4", "3", "2", "1"]:
+        print(f"\n${cost} Players:")
         players = get_random_players(player_pool, cost)
         for player in players:
             if show_stats:
                 stats = player['stats']
                 print(f"{player['name']}")
-                print(f"   Points: {stats['points']:.1f} | Rebounds: {stats['rebounds']:.1f} | Assists: {stats['assists']:.1f}")
-                print(f"   Steals: {stats['steals']:.1f} | Blocks: {stats['blocks']:.1f}")
-                print(f"   FG%: {stats['fg_pct']:.3f} | 3P%: {stats['three_pct']:.3f} | FT%: {stats['ft_pct']:.3f}")
-                print(f"   Minutes: {stats['minutes']:.1f} | Games: {stats['games_played']:.1f}")
+                print(f"   Points: {stats['PTS']:.1f} | Rebounds: {stats['REB']:.1f} | Assists: {stats['AST']:.1f}")
+                print(f"   Steals: {stats['STL']:.1f} | Blocks: {stats['BLK']:.1f}")
+                print(f"   FG%: {stats['FG_PCT']:.3f} | TS%: {stats['TS_PCT']:.3f}")
+                print(f"   Minutes: {stats['MIN']:.1f} | Games: {stats['GP']:.1f}")
                 print()
             else:
                 print(f"{player['name']}")
@@ -66,16 +66,16 @@ def build_team():
     player_pool = load_player_pool()
     
     # Initialize team simulator
-    simulator = TeamSimulator(budget=15)  # Updated budget to 15
+    simulator = TeamSimulator(budget=15)  # $15 budget
     selected_players = []
-    remaining_budget = 15  # Updated budget to 15
+    remaining_budget = 15  # $15 budget
     
     print("\nSelect your team (5 players total, budget of $15):")
     print("===============================================")
     
     # Get initial set of random players for each category
     displayed_players = {}
-    for cost in ["$5", "$4", "$3", "$2", "$1"]:
+    for cost in ["5", "4", "3", "2", "1"]:
         displayed_players[cost] = get_random_players(player_pool, cost)
     
     while len(selected_players) < 5:
@@ -89,8 +89,8 @@ def build_team():
             print("\nCurrent team:")
             total_cost = 0
             for player, cost in selected_players:
-                total_cost += int(cost[1])  # Convert "$5" to 5, etc.
-                print(f"- {player['name']} ({cost})")
+                total_cost += int(cost)
+                print(f"- {player['name']} (${cost})")
             print(f"Total spent: ${total_cost}")
         print("="*50)
         
@@ -101,18 +101,18 @@ def build_team():
         # Create a name-to-player mapping
         name_to_player = {}
         
-        for cost in ["$5", "$4", "$3", "$2", "$1"]:
+        for cost in ["5", "4", "3", "2", "1"]:
             # Only show players we can afford
-            if int(cost[1]) <= remaining_budget:
-                print(f"\n{cost} Players:")
+            if int(cost) <= remaining_budget:
+                print(f"\n${cost} Players:")
                 players = displayed_players[cost]
                 for player in players:
                     name = player['name']
                     # Add both full name and individual parts to the mapping
                     name_parts = name.split()
                     for part in name_parts:
-                        name_to_player[part.lower()] = (player, cost)
-                    name_to_player[name.lower()] = (player, cost)
+                        name_to_player[part.lower()] = (player, int(cost))
+                    name_to_player[name.lower()] = (player, int(cost))
                     
                     print(f"{name}")
         
@@ -124,22 +124,21 @@ def build_team():
                 break
             elif choice == 'r':
                 # Refresh the displayed players
-                for cost in ["$5", "$4", "$3", "$2", "$1"]:
+                for cost in ["5", "4", "3", "2", "1"]:
                     displayed_players[cost] = get_random_players(player_pool, cost)
                 continue
                 
             if choice in name_to_player:
                 selected_player, cost = name_to_player[choice]
-                player_cost = int(cost[1])  # Convert "$5" to 5, etc.
                 
-                if player_cost <= remaining_budget:
+                if cost <= remaining_budget:
                     selected_players.append((selected_player, cost))
-                    remaining_budget -= player_cost
-                    print(f"\nAdded {selected_player['name']} ({cost}) to your team!")
+                    remaining_budget -= cost
+                    print(f"\nAdded {selected_player['name']} (${cost}) to your team!")
                     # Remove the selected player from displayed options
-                    displayed_players[cost].remove(selected_player)
+                    displayed_players[str(cost)].remove(selected_player)
                 else:
-                    print(f"Not enough budget for {selected_player['name']} (costs {cost})")
+                    print(f"Not enough budget for {selected_player['name']} (costs ${cost})")
             else:
                 print("Player not found. Please try again.")
                 
@@ -154,8 +153,8 @@ def build_team():
         print("\nYour final team:")
         total_cost = 0
         for player, cost in selected_players:
-            total_cost += int(cost[1])  # Convert "$5" to 5, etc.
-            print(f"- {player['name']} ({cost})")
+            total_cost += cost
+            print(f"- {player['name']} (${cost})")
         print(f"\nTotal spent: ${total_cost}")
         print("="*50)
         return [player for player, _ in selected_players]

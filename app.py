@@ -1,15 +1,19 @@
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 import json
-from team_simulator import TeamSimulator
+from team_simulator import TeamSimulator, Player
 from models import DailyChallenge
 import os
 from flask_cors import CORS
 from datetime import datetime
 import random
 import logging
+from player_pool import PlayerPool
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
@@ -27,6 +31,9 @@ app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')  # Use env
 
 # Ensure data directory exists
 os.makedirs('data/challenges', exist_ok=True)
+
+# Initialize player pool
+player_pool = PlayerPool()
 
 # Initialize team simulator
 simulator = TeamSimulator()
@@ -61,117 +68,97 @@ def logout():
     session.pop('player_name', None)
     return redirect(url_for('index'))
 
-@app.route('/api/player_pool')
+@app.route('/api/player-pool', methods=['GET'])
 def get_player_pool():
+    """Get the current player pool"""
     try:
-        # Load the player pool directly from the file
-        with open('player_pool.json', 'r') as f:
-            player_pool = json.load(f)
+        # Get players by category
+        players_by_category = {
+            '5': [],  # Superstars
+            '4': [],  # All-Stars
+            '3': [],  # Quality starters
+            '2': [],  # Solid role players
+            '1': []   # Role players
+        }
+        
+        for player_name, data in player_pool.players.items():
+            cost = data['cost']
+            stats = player_pool.get_player_stats(player_name)
+            players_by_category[str(cost)].append({
+                'name': player_name,
+                'stats': stats.to_dict()
+            })
             
-        if not player_pool:
-            return jsonify({'error': 'Failed to load player pool'}), 500
-        return jsonify(player_pool)
+        return jsonify({
+            'timestamp': datetime.now().isoformat(),
+            'players': players_by_category
+        })
+        
     except Exception as e:
         logger.error(f"Error getting player pool: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/simulate', methods=['POST'])
+@app.route('/api/simulate-team', methods=['POST'])
 def simulate_team():
+    """Simulate a team's season"""
     try:
         data = request.get_json()
-        if not data:
-            return jsonify({'error': 'No data provided'}), 400
-
-        players = data.get('players', [])
-        player_name = data.get('player_name', '')
-
-        if len(players) != 5:
-            return jsonify({'error': 'Team must have exactly 5 players'}), 400
-
-        if not player_name:
-            return jsonify({'error': 'Player name is required'}), 400
-
-        logger.info(f"Simulating team for {player_name} with players: {players}")
+        if not data or 'players' not in data:
+            return jsonify({'error': 'No players provided'}), 400
+            
+        # Create team simulator
+        simulator = TeamSimulator(budget=15)  # $15 budget
         
-        result = simulator.simulate_team(players)
+        # Add players to team
+        for player_data in data['players']:
+            player = Player(
+                name=player_data['name'],
+                stats=player_data['stats']
+            )
+            simulator.add_player(player)
+            
+        # Simulate season
+        wins, losses = simulator.simulate_season()
         
-        if not result or 'win_probability' not in result:
-            logger.error(f"Invalid simulation result: {result}")
-            return jsonify({'error': 'Invalid simulation result'}), 500
-
-        # Calculate projected record based on win probability
-        win_probability = result['win_probability']
-        projected_wins = round(82 * win_probability)
-        projected_losses = 82 - projected_wins
-
-        response = {
-            'wins': projected_wins,
-            'losses': projected_losses,
-            'win_probability': win_probability
-        }
+        return jsonify({
+            'wins': wins,
+            'losses': losses,
+            'win_probability': simulator.win_probability,
+            'team_stats': simulator.get_team_stats()
+        })
         
-        logger.info(f"Simulation result: {response}")
-        return jsonify(response)
-
     except Exception as e:
         logger.error(f"Error simulating team: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/submit_team', methods=['POST'])
-def submit_team():
+@app.route('/api/validate-team', methods=['POST'])
+def validate_team():
+    """Validate if a team is within budget and has 5 players"""
     try:
         data = request.get_json()
-        if not data:
-            return jsonify({'error': 'No data provided'}), 400
-
-        players = data.get('players', [])
-        player_name = data.get('player_name', '')
-        record = data.get('record', {})
-
-        if len(players) != 5:
-            return jsonify({'error': 'Team must have exactly 5 players'}), 400
-
-        if not player_name:
-            return jsonify({'error': 'Player name is required'}), 400
-
-        if not record or 'wins' not in record or 'losses' not in record:
-            return jsonify({'error': 'Invalid record data'}), 400
-
-        # Create data directory if it doesn't exist
-        if not os.path.exists('data'):
-            os.makedirs('data')
-
-        # Load existing submissions
-        submissions_file = 'data/submissions.json'
-        submissions = []
-        if os.path.exists(submissions_file):
-            try:
-                with open(submissions_file, 'r') as f:
-                    submissions = json.load(f)
-            except Exception as e:
-                logger.error(f"Error loading submissions: {str(e)}")
-
-        # Add new submission
-        submission = {
-            'player_name': player_name,
-            'players': players,
-            'record': record,
-            'timestamp': datetime.now().isoformat()
-        }
-        submissions.append(submission)
-
-        # Save updated submissions
-        try:
-            with open(submissions_file, 'w') as f:
-                json.dump(submissions, f, indent=2)
-        except Exception as e:
-            logger.error(f"Error saving submission: {str(e)}")
-            return jsonify({'error': 'Failed to save submission'}), 500
-
-        return jsonify({'message': 'Team submitted successfully'})
-
+        if not data or 'players' not in data:
+            return jsonify({'error': 'No players provided'}), 400
+            
+        # Create team simulator
+        simulator = TeamSimulator(budget=15)  # $15 budget
+        
+        # Add players to team
+        for player_data in data['players']:
+            player = Player(
+                name=player_data['name'],
+                stats=player_data['stats']
+            )
+            simulator.add_player(player)
+            
+        return jsonify({
+            'is_valid': simulator.is_team_valid(),
+            'total_cost': simulator.get_team_cost(),
+            'remaining_budget': simulator.get_remaining_budget(),
+            'is_complete': simulator.is_team_complete()
+        })
+        
     except Exception as e:
-        logger.error(f"Error submitting team: {str(e)}")
+        logger.error(f"Error validating team: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/leaderboard')
