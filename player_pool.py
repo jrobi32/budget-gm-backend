@@ -4,6 +4,8 @@ import numpy as np
 from typing import Dict, List, Tuple
 import json
 import random
+import os
+from datetime import datetime, timedelta
 
 class PlayerPool:
     def __init__(self):
@@ -14,28 +16,42 @@ class PlayerPool:
         
     def _load_player_pool(self):
         """
-        Load the pre-built player pool from JSON file
+        Load the pre-built player pool from JSON file.
+        If the file doesn't exist or is older than 24 hours, rebuild it.
         """
         try:
-            with open('player_pool.json', 'r') as f:
-                categorized_players = json.load(f)
+            # Check if file exists and is from today
+            if os.path.exists('player_pool.json'):
+                file_timestamp = datetime.fromtimestamp(os.path.getmtime('player_pool.json'))
+                today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
                 
-            # Convert JSON data to internal format
-            for cost, player_list in categorized_players.items():
-                for player_data in player_list:
-                    player_name = player_data['name']
-                    self.players[player_name] = {'cost': int(cost)}
-                    self.player_stats[player_name] = pd.Series(player_data['stats'])
-                    
-            print(f"Loaded {len(self.players)} players from pre-built pool")
+                if file_timestamp >= today:
+                    print("Using today's cached player pool...")
+                    with open('player_pool.json', 'r') as f:
+                        data = json.load(f)
+                        categorized_players = data['players']
+                        
+                    # Convert JSON data to internal format
+                    for cost, player_list in categorized_players.items():
+                        for player_data in player_list:
+                            player_name = player_data['name']
+                            self.players[player_name] = {'cost': int(cost)}
+                            self.player_stats[player_name] = pd.Series(player_data['stats'])
+                            
+                    print(f"Loaded {len(self.players)} players from today's pool")
+                    return
+                
+            print("Player pool not found or outdated. Building new pool...")
+            self._build_player_pool()
             
-        except FileNotFoundError:
-            print("Player pool not found. Building it first...")
+        except Exception as e:
+            print(f"Error loading player pool: {str(e)}")
+            print("Building new pool...")
             self._build_player_pool()
             
     def _build_player_pool(self):
         """
-        Build the complete NBA player pool and save it to a JSON file
+        Build the complete NBA player pool and save it to a JSON file with timestamp
         """
         print("Building complete NBA player pool...")
         
@@ -69,17 +85,26 @@ class PlayerPool:
                 print(f"Error processing {player}: {str(e)}")
                 continue
         
-        # Save to JSON file
+        # Save to JSON file with timestamp
+        data = {
+            'timestamp': datetime.now().isoformat(),
+            'players': categorized_players
+        }
+        
         with open('player_pool.json', 'w') as f:
-            json.dump(categorized_players, f, indent=2)
+            json.dump(data, f, indent=2)
         
         print("\nPlayer pool saved to player_pool.json")
         print("Category counts:")
         for cost, players in categorized_players.items():
             print(f"${cost}: {len(players)} players")
             
-        # Load the saved data
-        self._load_player_pool()
+        # Load the saved data into memory
+        for cost, player_list in categorized_players.items():
+            for player_data in player_list:
+                player_name = player_data['name']
+                self.players[player_name] = {'cost': int(cost)}
+                self.player_stats[player_name] = pd.Series(player_data['stats'])
         
     def get_random_players(self, cost, count=5):
         """
