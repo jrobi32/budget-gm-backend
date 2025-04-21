@@ -1,0 +1,5 @@
+[33m501b194[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Fix API URL configuration: - Remove fallback URL from TeamBuilder.js - Ensure consistent API URL across all environment files
+[33m01c39fc[m Fix frontend-backend communication issues: - Remove duplicate /api prefix from endpoints - Update API URLs to use Render backend - Update Netlify configuration - Ensure consistent API URLs across environments
+[33mf93db08[m Fix player pool loading to use pre-generated pool
+[33m4d5f616[m Update player pool with real NBA data and improved categorization
+[33m8b6b52f[m Add player pool generation script and initial player pool
