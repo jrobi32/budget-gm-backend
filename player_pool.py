@@ -138,11 +138,11 @@ class PlayerPool:
             
         # Basic stats weights - adjusted to better reflect impact
         weights = {
-            'PTS': 0.45,      # Points (increased weight)
-            'AST': 0.20,      # Assists (playmaking)
-            'REB': 0.15,      # Rebounds
-            'STL': 0.10,      # Steals
-            'BLK': 0.10,      # Blocks
+            'PTS': 0.40,      # Points (major factor)
+            'AST': 0.25,      # Assists (playmaking)
+            'REB': 0.20,      # Rebounds
+            'STL': 0.05,      # Steals
+            'BLK': 0.05,      # Blocks
             'FG_PCT': 0.05,   # Field Goal Percentage
             'TS_PCT': 0.05    # True Shooting Percentage
         }
@@ -159,30 +159,38 @@ class PlayerPool:
                     score += stats[stat] * weight
         
         # Add bonuses for exceptional performance
-        if stats['PTS'] >= 25:  # Elite scoring
+        if stats['PTS'] >= 30:  # MVP-level scoring
+            score += 20
+        elif stats['PTS'] >= 25:  # All-Star level scoring
             score += 15
-        elif stats['PTS'] >= 20:  # Very good scoring
+        elif stats['PTS'] >= 20:  # High-end starter scoring
             score += 10
-        elif stats['PTS'] >= 15:  # Good scoring
+        elif stats['PTS'] >= 15:  # Solid starter scoring
             score += 5
             
-        if stats['AST'] >= 7:   # Elite playmaking
-            score += 8
-        elif stats['AST'] >= 5:  # Very good playmaking
-            score += 4
+        if stats['AST'] >= 10:   # Elite playmaking
+            score += 15
+        elif stats['AST'] >= 7:  # All-Star playmaking
+            score += 10
+        elif stats['AST'] >= 5:  # Good playmaking
+            score += 5
             
-        if stats['REB'] >= 10:  # Elite rebounding
-            score += 8
-        elif stats['REB'] >= 7:  # Very good rebounding
-            score += 4
+        if stats['REB'] >= 12:  # Elite rebounding
+            score += 15
+        elif stats['REB'] >= 10:  # All-Star rebounding
+            score += 10
+        elif stats['REB'] >= 7:  # Good rebounding
+            score += 5
             
-        if stats['STL'] + stats['BLK'] >= 2.5:  # Elite defense
-            score += 8
-        elif stats['STL'] + stats['BLK'] >= 1.5:  # Very good defense
-            score += 4
+        if stats['STL'] + stats['BLK'] >= 3.0:  # Elite defense
+            score += 10
+        elif stats['STL'] + stats['BLK'] >= 2.0:  # Very good defense
+            score += 5
             
-        if stats['TS_PCT'] >= 0.60:  # Elite efficiency
-            score += 4
+        if stats['TS_PCT'] >= 0.65:  # Elite efficiency
+            score += 10
+        elif stats['TS_PCT'] >= 0.60:  # Very good efficiency
+            score += 5
             
         # Apply games played adjustment
         games_played = stats.get('GP', 0)
@@ -193,20 +201,20 @@ class PlayerPool:
         else:
             score *= (0.5 + (games_played_percentage - 0.5) * 0.8)
         
-        # Normalize score to 1-5 range:
-        # $5: Superstars (score > 30)
-        # $4: All-Stars (score > 25)
+        # Normalize score to 1-5 range with adjusted thresholds:
+        # $5: Superstars (score > 40)
+        # $4: All-Stars (score > 30)
         # $3: Quality starters (score > 20)
-        # $2: Solid role players (score > 15)
-        # $1: Role players (score <= 15)
+        # $2: Solid role players (score > 10)
+        # $1: Role players (score <= 10)
         
-        if score > 30:
+        if score > 40:
             return 5
-        elif score > 25:
+        elif score > 30:
             return 4
         elif score > 20:
             return 3
-        elif score > 15:
+        elif score > 10:
             return 2
         else:
             return 1
