@@ -1,4 +1,4 @@
-from nba_api.stats.endpoints import leaguedashplayerstats, commonallplayers
+from nba_api.stats.endpoints import playercareerstats, commonallplayers
 import pandas as pd
 import numpy as np
 import logging
@@ -98,38 +98,51 @@ class NBADataFetcher:
             # Get active players first
             active_players = self.get_active_players()
             
-            # Get player stats
-            stats = self._make_api_call(
-                leaguedashplayerstats.LeagueDashPlayerStats,
-                per_mode_detailed='PerGame',
-                season=season,
-                season_type_all_star='Regular Season',
-                measure_type_detailed_defense='Base',
-                plus_minus='N',
-                pace_adjust='N',
-                rank='N',
-                timeout=self.timeout
-            )
+            # Initialize empty DataFrame
+            all_stats = []
             
-            df = pd.DataFrame(stats.get_data_frames()[0])
+            # Get stats for each active player
+            for player_name in active_players:
+                try:
+                    # Get player career stats
+                    stats = self._make_api_call(
+                        playercareerstats.PlayerCareerStats,
+                        player_id=player_name,  # This will be converted to player ID internally
+                        per_mode36='PerGame',
+                        timeout=self.timeout
+                    )
+                    
+                    # Get current season stats
+                    df = pd.DataFrame(stats.get_data_frames()[0])
+                    if not df.empty:
+                        current_season = df[df['SEASON_ID'].str.startswith(season)]
+                        if not current_season.empty:
+                            player_stats = current_season.iloc[0].to_dict()
+                            player_stats['PLAYER_NAME'] = player_name
+                            all_stats.append(player_stats)
+                            
+                except Exception as e:
+                    logger.warning(f"Error getting stats for {player_name}: {str(e)}")
+                    continue
             
-            # Filter for active players only
-            df = df[df['PLAYER_NAME'].isin(active_players)]
+            # Convert to DataFrame
+            df = pd.DataFrame(all_stats)
             
-            # Calculate true shooting percentage
-            df['TS_PCT'] = df.apply(
-                lambda row: self._calculate_true_shooting(
-                    row['PTS'],
-                    row['FGM'],
-                    row['FGA'],
-                    row['FTM'],
-                    row['FTA']
-                ),
-                axis=1
-            )
-            
-            # Cache the results
-            self._set_cache(cache_key, df.to_dict())
+            if not df.empty:
+                # Calculate true shooting percentage
+                df['TS_PCT'] = df.apply(
+                    lambda row: self._calculate_true_shooting(
+                        row['PTS'],
+                        row['FGM'],
+                        row['FGA'],
+                        row['FTM'],
+                        row['FTA']
+                    ),
+                    axis=1
+                )
+                
+                # Cache the results
+                self._set_cache(cache_key, df.to_dict())
             
             return df
             
