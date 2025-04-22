@@ -104,7 +104,8 @@ def get_player_pool():
         for player in player_pool:
             # Remove the $ prefix from cost for API response
             cost = player['cost'].replace('$', '')
-            players_by_cost[cost].append(player)
+            if cost in players_by_cost:
+                players_by_cost[cost].append(player)
             
         return jsonify(players_by_cost)
         
