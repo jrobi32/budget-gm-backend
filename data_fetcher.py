@@ -9,6 +9,7 @@ from requests.exceptions import RequestException
 import random
 import json
 import os
+import gc
 
 # Configure logging
 logging.basicConfig(
@@ -192,68 +193,80 @@ class NBADataFetcher:
                 logger.error("Empty response from NBA API")
                 return pd.DataFrame()
                 
-            # Convert to DataFrame
+            # Convert to DataFrame and immediately clear stats object
             df = pd.DataFrame(stats.get_data_frames()[0])
+            del stats  # Free memory
+            gc.collect()
+            
             if df.empty:
                 logger.error("No player data in response")
                 return pd.DataFrame()
                 
             logger.info(f"Retrieved {len(df)} players from NBA API")
             
-            # Calculate true shooting percentage
-            df['TS_PCT'] = df.apply(
-                lambda row: self._calculate_true_shooting(
-                    row['PTS'],
-                    row['FGM'],
-                    row['FGA'],
-                    row['FTM'],
-                    row['FTA']
-                ),
-                axis=1
-            )
-            
-            # Calculate player rating based on weighted stats
-            weights = {
-                'PTS': 1.0,
-                'AST': 1.0,
-                'REB': 0.8,
-                'STL': 0.7,
-                'BLK': 0.7,
-                'FG_PCT': 0.5,
-                'TS_PCT': 0.5
-            }
-            
-            # Initialize rating column
-            df['rating'] = 0
-            
-            # Add weighted contributions
-            for stat, weight in weights.items():
-                if stat in df.columns:
-                    # Handle percentage stats
-                    if stat in ['FG_PCT', 'TS_PCT']:
-                        df['rating'] += df[stat].fillna(0) * weight * 100
-                    else:
-                        df['rating'] += df[stat].fillna(0) * weight
-            
-            # Add bonuses for exceptional performance
-            df['rating'] += np.where(df['PTS'] >= 25, 10, 0)  # Bonus for high scorers
-            df['rating'] += np.where(df['AST'] >= 8, 8, 0)    # Bonus for playmakers
-            df['rating'] += np.where(df['REB'] >= 10, 8, 0)   # Bonus for rebounders
-            df['rating'] += np.where(df['STL'] >= 2, 5, 0)    # Bonus for defenders
-            df['rating'] += np.where(df['BLK'] >= 2, 5, 0)    # Bonus for rim protectors
+            # Process data in chunks to reduce memory usage
+            chunk_size = 100
+            for i in range(0, len(df), chunk_size):
+                chunk = df.iloc[i:i + chunk_size]
+                
+                # Calculate true shooting percentage
+                chunk['TS_PCT'] = chunk.apply(
+                    lambda row: self._calculate_true_shooting(
+                        row['PTS'],
+                        row['FGM'],
+                        row['FGA'],
+                        row['FTM'],
+                        row['FTA']
+                    ),
+                    axis=1
+                )
+                
+                # Calculate player rating based on weighted stats
+                weights = {
+                    'PTS': 1.0,
+                    'AST': 1.0,
+                    'REB': 0.8,
+                    'STL': 0.7,
+                    'BLK': 0.7,
+                    'FG_PCT': 0.5,
+                    'TS_PCT': 0.5
+                }
+                
+                # Initialize rating column
+                chunk['rating'] = 0
+                
+                # Add weighted contributions
+                for stat, weight in weights.items():
+                    if stat in chunk.columns:
+                        if stat in ['FG_PCT', 'TS_PCT']:
+                            chunk['rating'] += chunk[stat].fillna(0) * weight * 100
+                        else:
+                            chunk['rating'] += chunk[stat].fillna(0) * weight
+                
+                # Add bonuses for exceptional performance
+                chunk['rating'] += np.where(chunk['PTS'] >= 25, 10, 0)
+                chunk['rating'] += np.where(chunk['AST'] >= 8, 8, 0)
+                chunk['rating'] += np.where(chunk['REB'] >= 10, 8, 0)
+                chunk['rating'] += np.where(chunk['STL'] >= 2, 5, 0)
+                chunk['rating'] += np.where(chunk['BLK'] >= 2, 5, 0)
+                
+                # Update the main DataFrame
+                df.iloc[i:i + chunk_size] = chunk
+                
+                # Force garbage collection after each chunk
+                del chunk
+                gc.collect()
             
             # Normalize ratings to 1-100 range
             min_rating = df['rating'].min()
             max_rating = df['rating'].max()
-            if max_rating > min_rating:  # Avoid division by zero
+            if max_rating > min_rating:
                 df['rating'] = ((df['rating'] - min_rating) / (max_rating - min_rating)) * 99 + 1
             else:
-                df['rating'] = 50  # Default rating if all players have same score
+                df['rating'] = 50
             
-            # Calculate percentiles for ratings
+            # Calculate percentiles and costs
             df['percentile'] = df['rating'].rank(pct=True) * 100
-            
-            # Assign costs based on percentiles
             df['cost'] = df['percentile'].apply(self._get_cost_from_percentile)
             
             # Cache the results
@@ -264,6 +277,9 @@ class NBADataFetcher:
         except Exception as e:
             logger.error(f"Error getting player stats: {str(e)}")
             return pd.DataFrame()
+        finally:
+            # Force garbage collection
+            gc.collect()
             
     def _calculate_true_shooting(self, pts: float, fgm: float, fga: float, ftm: float, fta: float) -> float:
         """Calculate true shooting percentage"""
