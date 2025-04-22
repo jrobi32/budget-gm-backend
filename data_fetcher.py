@@ -156,7 +156,6 @@ class NBADataFetcher:
             # Convert to DataFrame
             df = pd.DataFrame(stats.get_data_frames()[0])
             logger.info(f"Retrieved {len(df)} players from NBA API")
-            logger.info(f"Columns: {df.columns.tolist()}")
             
             if not df.empty:
                 # Calculate true shooting percentage
@@ -213,8 +212,12 @@ class NBADataFetcher:
             
         except Exception as e:
             logger.error(f"Error getting player stats: {str(e)}")
-            logger.error(f"Exception type: {type(e)}")
-            logger.error(f"Exception args: {e.args}")
+            # If we have cached data, use it as a fallback
+            if cached_data:
+                logger.info("Using cached player stats as fallback")
+                return pd.DataFrame(cached_data)
+            # If no cached data, return empty DataFrame
+            logger.error("No cached data available")
             return pd.DataFrame(columns=['PLAYER_NAME', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FG_PCT', 'TS_PCT', 'GP', 'rating'])
             
     def _calculate_true_shooting(self, pts: float, fgm: float, fga: float, ftm: float, fta: float) -> float:

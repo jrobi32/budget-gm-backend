@@ -47,8 +47,16 @@ def main():
     df = fetcher.get_player_stats()
     
     if df.empty:
-        logger.error("No player stats available")
-        return
+        logger.error("No player stats available, using fallback player pool")
+        # Load fallback player pool
+        try:
+            with open('fallback_player_pool.json', 'r') as f:
+                fallback_data = json.load(f)
+                logger.info("Successfully loaded fallback player pool")
+                return
+        except Exception as e:
+            logger.error(f"Error loading fallback player pool: {str(e)}")
+            return
     
     # Calculate player ratings
     df['rating'] = df.apply(calculate_player_rating, axis=1)
@@ -116,6 +124,11 @@ def main():
         json.dump(output, f, indent=2)
     
     logger.info(f"Successfully saved {len(player_pool)} players to player_pool.json")
+    
+    # Also save as fallback
+    with open('fallback_player_pool.json', 'w') as f:
+        json.dump(output, f, indent=2)
+    logger.info("Saved fallback player pool")
 
 if __name__ == '__main__':
     main() 

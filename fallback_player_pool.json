@@ -1,0 +1,80 @@
+{
+  "last_updated": "2025-04-22T03:00:00",
+  "players": [
+    {
+      "name": "LeBron James",
+      "cost": "$5",
+      "rating": 95.0,
+      "stats": {
+        "pts": 25.0,
+        "ast": 7.0,
+        "reb": 7.0,
+        "stl": 1.5,
+        "blk": 0.5,
+        "fg_pct": 50.0,
+        "ts_pct": 60.0,
+        "gp": 60
+      }
+    },
+    {
+      "name": "Stephen Curry",
+      "cost": "$5",
+      "rating": 94.0,
+      "stats": {
+        "pts": 26.0,
+        "ast": 6.0,
+        "reb": 4.0,
+        "stl": 1.0,
+        "blk": 0.2,
+        "fg_pct": 48.0,
+        "ts_pct": 65.0,
+        "gp": 65
+      }
+    },
+    {
+      "name": "Nikola Jokic",
+      "cost": "$5",
+      "rating": 96.0,
+      "stats": {
+        "pts": 24.0,
+        "ast": 9.0,
+        "reb": 12.0,
+        "stl": 1.0,
+        "blk": 0.8,
+        "fg_pct": 55.0,
+        "ts_pct": 65.0,
+        "gp": 70
+      }
+    },
+    {
+      "name": "Giannis Antetokounmpo",
+      "cost": "$5",
+      "rating": 95.0,
+      "stats": {
+        "pts": 28.0,
+        "ast": 5.0,
+        "reb": 11.0,
+        "stl": 1.0,
+        "blk": 1.5,
+        "fg_pct": 55.0,
+        "ts_pct": 60.0,
+        "gp": 65
+      }
+    },
+    {
+      "name": "Luka Doncic",
+      "cost": "$5",
+      "rating": 94.0,
+      "stats": {
+        "pts": 27.0,
+        "ast": 8.0,
+        "reb": 8.0,
+        "stl": 1.0,
+        "blk": 0.5,
+        "fg_pct": 48.0,
+        "ts_pct": 60.0,
+        "gp": 60
+      }
+    }
+  ]
+} 
