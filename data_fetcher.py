@@ -1,4 +1,4 @@
-from nba_api.stats.endpoints import leaguedashplayerstats
+from nba_api.stats.endpoints import leaguedashplayerstats, commonplayerinfo
 import pandas as pd
 import numpy as np
 import logging
@@ -6,6 +6,7 @@ from typing import Dict, List, Optional
 from datetime import datetime, timedelta
 import time
 from requests.exceptions import RequestException
+import random
 
 # Configure logging
 logging.basicConfig(
@@ -20,6 +21,7 @@ class NBADataFetcher:
         self.cache_expiry = {}
         self.max_retries = 3
         self.retry_delay = 5
+        self.timeout = 30
         
     def _get_from_cache(self, key: str) -> Optional[Dict]:
         """Get data from cache if it's not expired"""
@@ -40,13 +42,15 @@ class NBADataFetcher:
         """Make API call with retry logic"""
         for attempt in range(self.max_retries):
             try:
+                # Add random delay between retries
+                if attempt > 0:
+                    time.sleep(self.retry_delay + random.uniform(1, 3))
                 return func(*args, **kwargs)
             except RequestException as e:
                 if attempt == self.max_retries - 1:
                     logger.error(f"API call failed after {self.max_retries} attempts: {str(e)}")
                     raise
                 logger.warning(f"API call failed (attempt {attempt + 1}/{self.max_retries}): {str(e)}")
-                time.sleep(self.retry_delay)
         
     def get_player_stats(self, season: str = None) -> pd.DataFrame:
         """Get player stats for a given season"""
@@ -61,6 +65,7 @@ class NBADataFetcher:
             return pd.DataFrame(cached_data)
             
         try:
+            # Try to get player stats with a shorter timeout first
             stats = self._make_api_call(
                 leaguedashplayerstats.LeagueDashPlayerStats,
                 per_mode_detailed='PerGame',
@@ -70,7 +75,7 @@ class NBADataFetcher:
                 plus_minus='N',
                 pace_adjust='N',
                 rank='N',
-                timeout=60
+                timeout=self.timeout
             )
             
             df = pd.DataFrame(stats.get_data_frames()[0])

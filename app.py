@@ -8,6 +8,7 @@ from datetime import datetime
 import random
 import logging
 from player_pool import PlayerPool
+from data_fetcher import NBADataFetcher
 
 # Configure logging
 logging.basicConfig(
@@ -37,6 +38,9 @@ player_pool = PlayerPool()
 
 # Initialize team simulator
 simulator = TeamSimulator()
+
+# Initialize data fetcher
+data_fetcher = NBADataFetcher()
 
 @app.route('/')
 def index():
@@ -71,44 +75,62 @@ def logout():
 
 @app.route('/api/player-pool', methods=['GET'])
 def get_player_pool():
-    """Get the current player pool"""
     try:
-        # Get players by category
-        players_by_category = {
-            '5': [],  # Superstars
-            '4': [],  # All-Stars
-            '3': [],  # Quality starters
-            '2': [],  # Solid role players
-            '1': []   # Role players
+        # Get current season stats
+        df = data_fetcher.get_player_stats()
+        
+        if df.empty:
+            return jsonify({
+                'error': 'Unable to fetch player data',
+                'players': {
+                    '5': [],
+                    '4': [],
+                    '3': [],
+                    '2': [],
+                    '1': []
+                }
+            }), 503
+            
+        # Categorize players by cost
+        players_by_cost = {
+            '5': [],
+            '4': [],
+            '3': [],
+            '2': [],
+            '1': []
         }
         
-        for player_name, data in player_pool.players.items():
-            cost = data['cost']
-            stats = player_pool.get_player_stats(player_name)
-            players_by_category[str(cost)].append({
-                'name': player_name,
-                'stats': stats.to_dict()
-            })
+        for _, row in df.iterrows():
+            player_data = {
+                'name': row['PLAYER_NAME'],
+                'stats': {
+                    'PTS': float(row['PTS']),
+                    'REB': float(row['REB']),
+                    'AST': float(row['AST']),
+                    'STL': float(row['STL']),
+                    'BLK': float(row['BLK']),
+                    'FG_PCT': float(row['FG_PCT']),
+                    'TS_PCT': float(row['TS_PCT'])
+                }
+            }
+            cost = data_fetcher.calculate_player_cost(player_data['stats'])
+            players_by_cost[str(cost)].append(player_data)
             
-        return jsonify({
-            'timestamp': datetime.now().isoformat(),
-            'players': players_by_category
-        })
+        return jsonify(players_by_cost)
         
     except Exception as e:
         logger.error(f"Error getting player pool: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/simulate-team', methods=['POST'])
 def simulate_team():
-    """Simulate a team's season"""
     try:
         data = request.get_json()
         if not data or 'players' not in data:
-            return jsonify({'error': 'No players provided'}), 400
+            return jsonify({'error': 'Invalid request data'}), 400
             
         # Create team simulator
-        simulator = TeamSimulator(budget=15)  # $15 budget
+        simulator = TeamSimulator()
         
         # Add players to team
         for player_data in data['players']:
@@ -130,18 +152,17 @@ def simulate_team():
         
     except Exception as e:
         logger.error(f"Error simulating team: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/validate-team', methods=['POST'])
 def validate_team():
-    """Validate if a team is within budget and has 5 players"""
     try:
         data = request.get_json()
         if not data or 'players' not in data:
-            return jsonify({'error': 'No players provided'}), 400
+            return jsonify({'error': 'Invalid request data'}), 400
             
         # Create team simulator
-        simulator = TeamSimulator(budget=15)  # $15 budget
+        simulator = TeamSimulator()
         
         # Add players to team
         for player_data in data['players']:
@@ -152,15 +173,15 @@ def validate_team():
             simulator.add_player(player)
             
         return jsonify({
-            'is_valid': simulator.is_team_valid(),
-            'total_cost': simulator.get_team_cost(),
+            'is_valid': simulator.is_valid(),
+            'total_cost': simulator.get_total_cost(),
             'remaining_budget': simulator.get_remaining_budget(),
-            'is_complete': simulator.is_team_complete()
+            'is_complete': simulator.is_complete()
         })
         
     except Exception as e:
         logger.error(f"Error validating team: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/leaderboard')
 def leaderboard():
@@ -249,5 +270,5 @@ def get_challenge_by_date(date):
     })
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port) 
