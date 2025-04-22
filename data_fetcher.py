@@ -19,29 +19,49 @@ logger = logging.getLogger(__name__)
 
 class NBADataFetcher:
     def __init__(self):
-        self.cache_dir = 'cache'
+        self.cache_dir = os.path.join(os.path.dirname(__file__), 'cache')
         self.cache_duration = timedelta(hours=24)
         os.makedirs(self.cache_dir, exist_ok=True)
-        self.max_retries = 3
-        self.retry_delay = 5
-        self.timeout = 30
+        self.max_retries = 5
+        self.retry_delay = 10
+        self.timeout = 60
         
+    def _get_cost_from_percentile(self, percentile: float) -> str:
+        """Calculate player cost based on percentile"""
+        if percentile >= 95:    # Top 5%
+            return '$5'
+        elif percentile >= 80:  # Next 15%
+            return '$4'
+        elif percentile >= 60:  # Next 20%
+            return '$3'
+        elif percentile >= 30:  # Next 30%
+            return '$2'
+        else:                   # Bottom 30%
+            return '$1'
+            
     def _get_from_cache(self, cache_key):
-        cache_file = os.path.join(self.cache_dir, f"{cache_key}.json")
-        if os.path.exists(cache_file):
-            with open(cache_file, 'r') as f:
-                cached_data = json.load(f)
-                if datetime.fromisoformat(cached_data['timestamp']) + self.cache_duration > datetime.now():
-                    return cached_data['data']
-        return None
+        try:
+            cache_file = os.path.join(self.cache_dir, f"{cache_key}.json")
+            if os.path.exists(cache_file):
+                with open(cache_file, 'r') as f:
+                    cached_data = json.load(f)
+                    if datetime.fromisoformat(cached_data['timestamp']) + self.cache_duration > datetime.now():
+                        return cached_data['data']
+            return None
+        except Exception as e:
+            logger.error(f"Error reading from cache: {str(e)}")
+            return None
 
     def _set_cache(self, cache_key, data):
-        cache_file = os.path.join(self.cache_dir, f"{cache_key}.json")
-        with open(cache_file, 'w') as f:
-            json.dump({
-                'timestamp': datetime.now().isoformat(),
-                'data': data
-            }, f)
+        try:
+            cache_file = os.path.join(self.cache_dir, f"{cache_key}.json")
+            with open(cache_file, 'w') as f:
+                json.dump({
+                    'timestamp': datetime.now().isoformat(),
+                    'data': data
+                }, f)
+        except Exception as e:
+            logger.error(f"Error writing to cache: {str(e)}")
         
     def _make_api_call(self, func, *args, **kwargs):
         """Make API call with retry logic"""
@@ -61,7 +81,8 @@ class NBADataFetcher:
             try:
                 # Add random delay between retries
                 if attempt > 0:
-                    time.sleep(self.retry_delay + random.uniform(1, 3))
+                    delay = self.retry_delay * (2 ** attempt)  # Exponential backoff
+                    time.sleep(delay + random.uniform(1, 3))
                     
                 # Add headers to kwargs
                 if 'headers' in kwargs:
@@ -69,14 +90,23 @@ class NBADataFetcher:
                 else:
                     kwargs['headers'] = headers
                     
-                return func(*args, **kwargs)
+                # Add timeout to kwargs
+                if 'timeout' not in kwargs:
+                    kwargs['timeout'] = self.timeout
+                    
+                response = func(*args, **kwargs)
+                if response is None:
+                    raise RequestException("Empty response from API")
+                return response
             except RequestException as e:
                 if attempt == self.max_retries - 1:
                     logger.error(f"API call failed after {self.max_retries} attempts: {str(e)}")
                     raise
                 logger.warning(f"API call failed (attempt {attempt + 1}/{self.max_retries}): {str(e)}")
-                # Increase delay for subsequent retries
-                self.retry_delay *= 2
+            except Exception as e:
+                logger.error(f"Unexpected error in API call: {str(e)}")
+                if attempt == self.max_retries - 1:
+                    raise
         
     def get_active_players(self) -> List[Dict]:
         """Get a list of active NBA players with their stats and costs"""
@@ -145,11 +175,11 @@ class NBADataFetcher:
     def get_player_stats(self) -> pd.DataFrame:
         """Get player stats for a given season"""
         cache_key = 'player_stats'
-        cached_data = self._get_from_cache(cache_key)
-        if cached_data:
-            return pd.DataFrame(cached_data)
-            
         try:
+            cached_data = self._get_from_cache(cache_key)
+            if cached_data:
+                return pd.DataFrame(cached_data)
+                
             # Get all player stats in one request
             stats = self._make_api_call(
                 leaguedashplayerstats.LeagueDashPlayerStats,
@@ -158,93 +188,82 @@ class NBADataFetcher:
                 timeout=self.timeout
             )
             
+            if not stats or not stats.get_data_frames():
+                logger.error("Empty response from NBA API")
+                return pd.DataFrame()
+                
             # Convert to DataFrame
             df = pd.DataFrame(stats.get_data_frames()[0])
+            if df.empty:
+                logger.error("No player data in response")
+                return pd.DataFrame()
+                
             logger.info(f"Retrieved {len(df)} players from NBA API")
             
-            if not df.empty:
-                # Calculate true shooting percentage
-                df['TS_PCT'] = df.apply(
-                    lambda row: self._calculate_true_shooting(
-                        row['PTS'],
-                        row['FGM'],
-                        row['FGA'],
-                        row['FTM'],
-                        row['FTA']
-                    ),
-                    axis=1
-                )
-                
-                # Calculate player rating based on weighted stats
-                weights = {
-                    'PTS': 1.0,
-                    'AST': 1.0,
-                    'REB': 0.8,
-                    'STL': 0.7,
-                    'BLK': 0.7,
-                    'FG_PCT': 0.5,
-                    'TS_PCT': 0.5
-                }
-                
-                # Initialize rating column
-                df['rating'] = 0
-                
-                # Add weighted contributions
-                for stat, weight in weights.items():
-                    if stat in df.columns:
-                        # Handle percentage stats
-                        if stat in ['FG_PCT', 'TS_PCT']:
-                            df['rating'] += df[stat].fillna(0) * weight * 100
-                        else:
-                            df['rating'] += df[stat].fillna(0) * weight
-                
-                # Add bonuses for exceptional performance
-                df['rating'] += np.where(df['PTS'] >= 25, 10, 0)  # Bonus for high scorers
-                df['rating'] += np.where(df['AST'] >= 8, 8, 0)    # Bonus for playmakers
-                df['rating'] += np.where(df['REB'] >= 10, 8, 0)   # Bonus for rebounders
-                df['rating'] += np.where(df['STL'] >= 2, 5, 0)    # Bonus for defenders
-                df['rating'] += np.where(df['BLK'] >= 2, 5, 0)    # Bonus for rim protectors
-                
-                # Normalize ratings to 1-100 range
-                min_rating = df['rating'].min()
-                max_rating = df['rating'].max()
-                if max_rating > min_rating:  # Avoid division by zero
-                    df['rating'] = ((df['rating'] - min_rating) / (max_rating - min_rating)) * 99 + 1
-                else:
-                    df['rating'] = 50  # Default rating if all players have same score
-                
-                # Calculate percentiles for ratings
-                df['percentile'] = df['rating'].rank(pct=True) * 100
-                
-                # Assign costs based on percentiles
-                def get_cost(percentile):
-                    if percentile >= 94:    # Top 6%
-                        return '$5'
-                    elif percentile >= 85:  # Next 9%
-                        return '$4'
-                    elif percentile >= 70:  # Next 15%
-                        return '$3'
-                    elif percentile >= 50:  # Next 20%
-                        return '$2'
-                    else:                   # Bottom 50%
-                        return '$1'
-                
-                df['cost'] = df['percentile'].apply(get_cost)
-                
-                # Cache the results
-                self._set_cache(cache_key, df.to_dict('records'))
+            # Calculate true shooting percentage
+            df['TS_PCT'] = df.apply(
+                lambda row: self._calculate_true_shooting(
+                    row['PTS'],
+                    row['FGM'],
+                    row['FGA'],
+                    row['FTM'],
+                    row['FTA']
+                ),
+                axis=1
+            )
+            
+            # Calculate player rating based on weighted stats
+            weights = {
+                'PTS': 1.0,
+                'AST': 1.0,
+                'REB': 0.8,
+                'STL': 0.7,
+                'BLK': 0.7,
+                'FG_PCT': 0.5,
+                'TS_PCT': 0.5
+            }
+            
+            # Initialize rating column
+            df['rating'] = 0
+            
+            # Add weighted contributions
+            for stat, weight in weights.items():
+                if stat in df.columns:
+                    # Handle percentage stats
+                    if stat in ['FG_PCT', 'TS_PCT']:
+                        df['rating'] += df[stat].fillna(0) * weight * 100
+                    else:
+                        df['rating'] += df[stat].fillna(0) * weight
+            
+            # Add bonuses for exceptional performance
+            df['rating'] += np.where(df['PTS'] >= 25, 10, 0)  # Bonus for high scorers
+            df['rating'] += np.where(df['AST'] >= 8, 8, 0)    # Bonus for playmakers
+            df['rating'] += np.where(df['REB'] >= 10, 8, 0)   # Bonus for rebounders
+            df['rating'] += np.where(df['STL'] >= 2, 5, 0)    # Bonus for defenders
+            df['rating'] += np.where(df['BLK'] >= 2, 5, 0)    # Bonus for rim protectors
+            
+            # Normalize ratings to 1-100 range
+            min_rating = df['rating'].min()
+            max_rating = df['rating'].max()
+            if max_rating > min_rating:  # Avoid division by zero
+                df['rating'] = ((df['rating'] - min_rating) / (max_rating - min_rating)) * 99 + 1
+            else:
+                df['rating'] = 50  # Default rating if all players have same score
+            
+            # Calculate percentiles for ratings
+            df['percentile'] = df['rating'].rank(pct=True) * 100
+            
+            # Assign costs based on percentiles
+            df['cost'] = df['percentile'].apply(self._get_cost_from_percentile)
+            
+            # Cache the results
+            self._set_cache(cache_key, df.to_dict('records'))
             
             return df
             
         except Exception as e:
             logger.error(f"Error getting player stats: {str(e)}")
-            # If we have cached data, use it as a fallback
-            if cached_data:
-                logger.info("Using cached player stats as fallback")
-                return pd.DataFrame(cached_data)
-            # If no cached data, return empty DataFrame
-            logger.error("No cached data available")
-            return pd.DataFrame(columns=['PLAYER_NAME', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FG_PCT', 'TS_PCT', 'GP', 'rating', 'cost'])
+            return pd.DataFrame()
             
     def _calculate_true_shooting(self, pts: float, fgm: float, fga: float, ftm: float, fta: float) -> float:
         """Calculate true shooting percentage"""

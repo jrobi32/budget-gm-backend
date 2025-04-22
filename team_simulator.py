@@ -15,92 +15,36 @@ class Player:
     def __init__(self, name: str, stats: Dict):
         self.name = name
         self.stats = stats
-        self.cost = self._calculate_cost()
+        self.cost = int(stats.get('cost', '$1').replace('$', ''))  # Use cost from stats
         
-    def _calculate_cost(self) -> int:
-        """Calculate player cost based on their stats"""
-        # Basic stats weights
+    def get_rating(self) -> float:
+        """Calculate player rating based on stats"""
         weights = {
-            'PTS': 0.40,      # Points (major factor)
-            'AST': 0.25,      # Assists (playmaking)
-            'REB': 0.20,      # Rebounds
-            'STL': 0.05,      # Steals
-            'BLK': 0.05,      # Blocks
-            'FG_PCT': 0.05,   # Field Goal Percentage
-            'TS_PCT': 0.05    # True Shooting Percentage
+            'pts': 1.0,      # Points (major factor)
+            'ast': 1.0,      # Assists (playmaking)
+            'reb': 0.8,      # Rebounds
+            'stl': 0.7,      # Steals
+            'blk': 0.7,      # Blocks
+            'fg_pct': 0.5,   # Field Goal Percentage
+            'ts_pct': 0.5    # True Shooting Percentage
         }
         
-        # Calculate weighted score
-        score = 0
+        rating = 0
         for stat, weight in weights.items():
             if stat in self.stats:
-                if stat in ['FG_PCT', 'TS_PCT']:
-                    # Convert percentages to 0-1 scale
-                    score += (self.stats[stat] / 100) * weight * 10
+                if stat in ['fg_pct', 'ts_pct']:
+                    rating += (self.stats[stat] / 100) * weight * 100
                 else:
-                    # Scale counting stats appropriately
-                    score += self.stats[stat] * weight
+                    rating += self.stats[stat] * weight
         
         # Add bonuses for exceptional performance
-        if self.stats['PTS'] >= 30:  # MVP-level scoring
-            score += 20
-        elif self.stats['PTS'] >= 25:  # All-Star level scoring
-            score += 15
-        elif self.stats['PTS'] >= 20:  # High-end starter scoring
-            score += 10
-        elif self.stats['PTS'] >= 15:  # Solid starter scoring
-            score += 5
-            
-        if self.stats['AST'] >= 10:   # Elite playmaking
-            score += 15
-        elif self.stats['AST'] >= 7:  # All-Star playmaking
-            score += 10
-        elif self.stats['AST'] >= 5:  # Good playmaking
-            score += 5
-            
-        if self.stats['REB'] >= 12:  # Elite rebounding
-            score += 15
-        elif self.stats['REB'] >= 10:  # All-Star rebounding
-            score += 10
-        elif self.stats['REB'] >= 7:  # Good rebounding
-            score += 5
-            
-        if self.stats['STL'] + self.stats['BLK'] >= 3.0:  # Elite defense
-            score += 10
-        elif self.stats['STL'] + self.stats['BLK'] >= 2.0:  # Very good defense
-            score += 5
-            
-        if self.stats['TS_PCT'] >= 0.65:  # Elite efficiency
-            score += 10
-        elif self.stats['TS_PCT'] >= 0.60:  # Very good efficiency
-            score += 5
-            
-        # Apply games played adjustment
-        games_played = self.stats.get('GP', 0)
-        games_played_percentage = min(games_played / 246, 1.0)  # Cap at 100%
+        if self.stats.get('pts', 0) >= 25: rating += 10
+        if self.stats.get('ast', 0) >= 8: rating += 8
+        if self.stats.get('reb', 0) >= 10: rating += 8
+        if self.stats.get('stl', 0) >= 2: rating += 5
+        if self.stats.get('blk', 0) >= 2: rating += 5
         
-        if games_played_percentage < 0.5:
-            score *= (games_played_percentage * 0.7)
-        else:
-            score *= (0.5 + (games_played_percentage - 0.5) * 0.8)
-        
-        # Normalize score to 1-5 range with new thresholds:
-        # $5: Superstars (score > 50)
-        # $4: All-Stars (score > 40)
-        # $3: Quality starters (score > 30)
-        # $2: Solid role players (score > 20)
-        # $1: Role players (score <= 20)
-        
-        if score > 50:
-            return 5
-        elif score > 40:
-            return 4
-        elif score > 30:
-            return 3
-        elif score > 20:
-            return 2
-        else:
-            return 1
+        return rating
 
 class TeamSimulator:
     def __init__(self, budget: int = 15):
@@ -128,37 +72,25 @@ class TeamSimulator:
             self.win_probability = 0.5
             return
             
-        # Calculate team quality based on player stats
-        quality_metrics = {
-            'PTS': 0.30,  # Scoring
-            'AST': 0.20,  # Playmaking
-            'REB': 0.15,  # Rebounding
-            'STL': 0.10,  # Defense
-            'BLK': 0.10,  # Defense
-            'FG_PCT': 0.10,  # Efficiency
-            'TS_PCT': 0.05   # Efficiency
-        }
+        # Calculate team quality based on player ratings
+        total_rating = sum(p.get_rating() for p in self.players)
+        avg_rating = total_rating / len(self.players)
         
-        # Calculate average stats for the team
-        team_stats = {}
-        for stat in quality_metrics.keys():
-            values = [p.stats.get(stat, 0) for p in self.players]
-            team_stats[stat] = sum(values) / len(values)
+        # Calculate team balance (how well players complement each other)
+        balance_score = 0
+        if len(self.players) > 1:
+            # Check for complementary skills
+            has_scorer = any(p.stats.get('pts', 0) >= 20 for p in self.players)
+            has_playmaker = any(p.stats.get('ast', 0) >= 6 for p in self.players)
+            has_defender = any(p.stats.get('stl', 0) + p.stats.get('blk', 0) >= 2 for p in self.players)
+            has_rebounder = any(p.stats.get('reb', 0) >= 8 for p in self.players)
             
-        # Calculate team quality score
-        quality_score = 0
-        for stat, weight in quality_metrics.items():
-            if stat in team_stats:
-                if stat in ['FG_PCT', 'TS_PCT']:
-                    quality_score += (team_stats[stat] / 100) * weight * 10
-                else:
-                    quality_score += team_stats[stat] * weight
-                    
-        # Normalize quality score to 0-1 range
-        self.team_quality = min(max(quality_score / 100, 0), 1)
+            balance_score = sum([has_scorer, has_playmaker, has_defender, has_rebounder]) / 4
         
-        # Calculate win probability based on team quality
-        # Using a sigmoid function to map quality to win probability
+        # Combine ratings and balance
+        self.team_quality = (avg_rating * 0.7 + balance_score * 0.3) / 100
+        
+        # Calculate win probability using sigmoid function
         self.win_probability = 1 / (1 + np.exp(-10 * (self.team_quality - 0.5)))
         
     def simulate_game(self) -> bool:
@@ -194,7 +126,7 @@ class TeamSimulator:
             return {}
             
         stats = {}
-        for stat in ['PTS', 'AST', 'REB', 'STL', 'BLK', 'FG_PCT', 'TS_PCT']:
+        for stat in ['pts', 'ast', 'reb', 'stl', 'blk', 'fg_pct', 'ts_pct']:
             values = [p.stats.get(stat, 0) for p in self.players]
             stats[stat] = sum(values) / len(values)
             
@@ -248,14 +180,28 @@ def simulate():
     try:
         data = request.get_json()
         if not data or 'players' not in data:
-            return jsonify({'error': 'Missing players in request'}), 400
-
-        players = data['players']
-        result = simulator.simulate_team(players)
-        if result:
-            return jsonify(result)
-        else:
-            return jsonify({'error': 'Failed to simulate team'}), 500
+            return jsonify({'error': 'Invalid request data'}), 400
+            
+        # Create team from request data
+        team = TeamSimulator()
+        for player_data in data['players']:
+            try:
+                player = Player(player_data['name'], player_data['stats'])
+                team.add_player(player)
+            except ValueError as e:
+                return jsonify({'error': str(e)}), 400
+                
+        # Simulate season
+        wins, losses = team.simulate_season()
+        
+        return jsonify({
+            'wins': wins,
+            'losses': losses,
+            'win_probability': team.win_probability,
+            'team_quality': team.team_quality,
+            'team_stats': team.get_team_stats()
+        })
+        
     except Exception as e:
         logger.error(f"Error in simulate: {str(e)}")
         return jsonify({'error': str(e)}), 500

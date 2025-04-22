@@ -9,6 +9,7 @@ import random
 import logging
 from player_pool import PlayerPool
 from data_fetcher import NBADataFetcher
+import time
 
 # Configure logging
 logging.basicConfig(
@@ -79,78 +80,43 @@ def logout():
 @app.route('/api/player-pool', methods=['GET'])
 def get_player_pool():
     try:
-        # Try to get cached player pool first
-        cache_file = 'data/player_pool_cache.json'
+        # Check if we have a cached player pool
+        cache_file = os.path.join('cache', 'player_pool.json')
         if os.path.exists(cache_file):
             with open(cache_file, 'r') as f:
-                cached_data = json.load(f)
-                # Check if cache is less than 1 hour old
-                if datetime.fromisoformat(cached_data['timestamp']) + timedelta(hours=1) > datetime.now():
-                    logger.info("Using cached player pool...")
-                    return jsonify(cached_data['data'])
-
-        # If no cache or cache is old, get fresh data
-        logger.info("Fetching fresh player pool...")
-        player_pool = data_fetcher.get_player_pool()
-        
-        if not player_pool:
-            return jsonify({
-                'error': 'Unable to fetch player data',
-                'players': {
-                    '5': [],
-                    '4': [],
-                    '3': [],
-                    '2': [],
-                    '1': []
-                }
-            }), 503
+                return jsonify(json.load(f))
+                
+        # Get active players
+        players = data_fetcher.get_active_players()
+        if not players:
+            return jsonify({'error': 'Failed to fetch players'}), 500
             
-        # Categorize players by cost
-        players_by_cost = {
-            '5': [],
-            '4': [],
-            '3': [],
-            '2': [],
-            '1': []
-        }
-        
-        for player in player_pool:
-            cost = str(player.get('cost', '1')).replace('$', '')
-            if cost in players_by_cost:
-                players_by_cost[cost].append(player)
-        
+        # Get player stats in batches
+        player_stats = []
+        batch_size = 50
+        for i in range(0, len(players), batch_size):
+            batch = players[i:i + batch_size]
+            try:
+                stats = data_fetcher.get_player_stats(batch)
+                player_stats.extend(stats)
+                # Add small delay between batches
+                time.sleep(1)
+            except Exception as e:
+                logger.error(f"Error fetching stats for batch {i//batch_size}: {str(e)}")
+                continue
+                
+        if not player_stats:
+            return jsonify({'error': 'Failed to fetch player stats'}), 500
+            
         # Cache the results
-        os.makedirs('data', exist_ok=True)
         with open(cache_file, 'w') as f:
-            json.dump({
-                'timestamp': datetime.now().isoformat(),
-                'data': players_by_cost
-            }, f)
-        
-        return jsonify(players_by_cost)
+            json.dump(player_stats, f)
+            
+        return jsonify(player_stats)
         
     except Exception as e:
-        logger.error(f"Error getting player pool: {str(e)}")
-        # Try to return cached data even if it's old
-        try:
-            if os.path.exists(cache_file):
-                with open(cache_file, 'r') as f:
-                    cached_data = json.load(f)
-                    logger.warning("Using old cached data due to error")
-                    return jsonify(cached_data['data'])
-        except:
-            pass
-            
-        return jsonify({
-            'error': 'Internal server error',
-            'players': {
-                '5': [],
-                '4': [],
-                '3': [],
-                '2': [],
-                '1': []
-            }
-        }), 500
+        logger.error(f"Error in get_player_pool: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/simulate-team', methods=['POST'])
 def simulate_team():
