@@ -1,4 +1,4 @@
-from nba_api.stats.endpoints import leaguedashplayerstats, commonplayerinfo
+from nba_api.stats.endpoints import leaguedashplayerstats, commonallplayers
 import pandas as pd
 import numpy as np
 import logging
@@ -52,6 +52,36 @@ class NBADataFetcher:
                     raise
                 logger.warning(f"API call failed (attempt {attempt + 1}/{self.max_retries}): {str(e)}")
         
+    def get_active_players(self) -> List[str]:
+        """Get list of active NBA players"""
+        cache_key = "active_players"
+        cached_data = self._get_from_cache(cache_key)
+        if cached_data:
+            return cached_data
+            
+        try:
+            # Get all players
+            players = self._make_api_call(
+                commonallplayers.CommonAllPlayers,
+                is_only_current_season=1,
+                timeout=self.timeout
+            )
+            
+            # Convert to DataFrame
+            df = pd.DataFrame(players.get_data_frames()[0])
+            
+            # Filter for active players
+            active_players = df[df['ROSTERSTATUS'] == 'Active']['DISPLAY_FIRST_LAST'].tolist()
+            
+            # Cache the results
+            self._set_cache(cache_key, active_players)
+            
+            return active_players
+            
+        except Exception as e:
+            logger.error(f"Error getting active players: {str(e)}")
+            return []
+            
     def get_player_stats(self, season: str = None) -> pd.DataFrame:
         """Get player stats for a given season"""
         if season is None:
@@ -65,7 +95,10 @@ class NBADataFetcher:
             return pd.DataFrame(cached_data)
             
         try:
-            # Try to get player stats with a shorter timeout first
+            # Get active players first
+            active_players = self.get_active_players()
+            
+            # Get player stats
             stats = self._make_api_call(
                 leaguedashplayerstats.LeagueDashPlayerStats,
                 per_mode_detailed='PerGame',
@@ -79,6 +112,9 @@ class NBADataFetcher:
             )
             
             df = pd.DataFrame(stats.get_data_frames()[0])
+            
+            # Filter for active players only
+            df = df[df['PLAYER_NAME'].isin(active_players)]
             
             # Calculate true shooting percentage
             df['TS_PCT'] = df.apply(
@@ -107,32 +143,6 @@ class NBADataFetcher:
         if fga + 0.44 * fta == 0:
             return 0
         return pts / (2 * (fga + 0.44 * fta))
-        
-    def get_active_players(self) -> List[str]:
-        """Get list of active NBA players"""
-        cache_key = "active_players"
-        cached_data = self._get_from_cache(cache_key)
-        if cached_data:
-            return cached_data
-            
-        try:
-            # Get current season stats
-            df = self.get_player_stats()
-            
-            # Filter for players who have played at least 10 games
-            if not df.empty and 'GP' in df.columns:
-                active_players = df[df['GP'] >= 10]['PLAYER_NAME'].tolist()
-            else:
-                active_players = []
-            
-            # Cache the results
-            self._set_cache(cache_key, active_players)
-            
-            return active_players
-            
-        except Exception as e:
-            logger.error(f"Error getting active players: {str(e)}")
-            return []
             
     def get_top_scorers(self, limit: int = 10) -> List[Dict]:
         """Get top scorers in the league"""
