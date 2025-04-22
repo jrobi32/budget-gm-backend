@@ -393,10 +393,66 @@ class NBADataFetcher:
             logger.error(f"Error calculating player cost: {str(e)}")
             return '$1'
 
+    def store_categorized_players(self, players: List[Dict]) -> None:
+        """Store players in a categorized format by cost"""
+        try:
+            categorized_players = {
+                '$5': [],
+                '$4': [],
+                '$3': [],
+                '$2': [],
+                '$1': []
+            }
+            
+            for player in players:
+                cost = player.get('cost', '$1')
+                if cost in categorized_players:
+                    categorized_players[cost].append(player)
+            
+            # Store the categorized players
+            cache_file = os.path.join(self.cache_dir, 'categorized_players.json')
+            with open(cache_file, 'w') as f:
+                json.dump(categorized_players, f)
+            
+            logger.info(f"Stored {len(players)} players in categorized format")
+            
+        except Exception as e:
+            logger.error(f"Error storing categorized players: {str(e)}")
+
+    def get_categorized_players(self) -> Dict[str, List[Dict]]:
+        """Get players from the categorized cache"""
+        try:
+            cache_file = os.path.join(self.cache_dir, 'categorized_players.json')
+            if os.path.exists(cache_file):
+                with open(cache_file, 'r') as f:
+                    return json.load(f)
+            return {
+                '$5': [],
+                '$4': [],
+                '$3': [],
+                '$2': [],
+                '$1': []
+            }
+        except Exception as e:
+            logger.error(f"Error reading categorized players: {str(e)}")
+            return {
+                '$5': [],
+                '$4': [],
+                '$3': [],
+                '$2': [],
+                '$1': []
+            }
+
     def get_player_pool(self) -> List[Dict]:
         """Get a list of active NBA players with their stats and costs"""
         try:
-            # Get player stats DataFrame
+            # First try to get from categorized cache
+            categorized_players = self.get_categorized_players()
+            if any(categorized_players.values()):
+                logger.info("Using categorized player pool from cache")
+                return categorized_players
+            
+            # If no categorized cache, get player stats DataFrame
             df = self.get_player_stats()
             
             if df.empty:
@@ -411,21 +467,13 @@ class NBADataFetcher:
             # Calculate percentiles for ratings
             df['percentile'] = df['rating'].rank(pct=True) * 100
             
-            # Assign costs based on percentiles
-            def get_cost(percentile):
-                if percentile >= 80: return '5'
-                elif percentile >= 60: return '4'
-                elif percentile >= 40: return '3'
-                elif percentile >= 20: return '2'
-                else: return '1'
-            
             # Convert DataFrame to list of dictionaries efficiently
             players = []
             for _, row in df.iterrows():
                 player = {
                     'name': row['PLAYER_NAME'],
                     'id': row['PLAYER_ID'],
-                    'cost': get_cost(row['percentile']),
+                    'cost': self._get_cost_from_percentile(row['percentile']),
                     'stats': {
                         'pts': float(row.get('PTS', 0)),
                         'ast': float(row.get('AST', 0)),
@@ -438,9 +486,18 @@ class NBADataFetcher:
                 }
                 players.append(player)
             
+            # Store the categorized players
+            self.store_categorized_players(players)
+            
             logger.info(f"Loaded {len(players)} players from today's pool")
-            return players
+            return self.get_categorized_players()
             
         except Exception as e:
             logger.error(f"Error in get_player_pool: {str(e)}")
-            return [] 
+            return {
+                '$5': [],
+                '$4': [],
+                '$3': [],
+                '$2': [],
+                '$1': []
+            } 

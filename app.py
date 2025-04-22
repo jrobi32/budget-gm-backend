@@ -86,60 +86,21 @@ def logout():
 @app.route('/api/player-pool', methods=['GET'])
 def get_player_pool():
     try:
-        # Use connection pool for data fetching
-        def fetch_players():
-            players = data_fetcher.get_active_players()
-            if not players:
-                return {'error': 'Failed to fetch players'}, 500
-                
-            # Get player stats in batches with pooling
-            player_stats = []
-            batch_size = 50
-            
-            def process_batch(batch):
-                try:
-                    stats = data_fetcher.get_player_stats(batch)
-                    return stats
-                except Exception as e:
-                    logger.error(f"Error processing batch: {str(e)}")
-                    return []
-            
-            # Process batches in parallel using the connection pool
-            batches = [players[i:i + batch_size] for i in range(0, len(players), batch_size)]
-            results = pool.map(process_batch, batches)
-            
-            # Combine results
-            for batch_stats in results:
-                player_stats.extend(batch_stats)
-            
-            if not player_stats:
-                return {'error': 'Failed to fetch player stats'}, 500
-                
-            # Cache the results
-            cache_file = os.path.join('cache', 'player_pool.json')
-            with open(cache_file, 'w') as f:
-                json.dump(player_stats, f)
-                
-            return player_stats
-            
-        # Check cache first
-        cache_file = os.path.join('cache', 'player_pool.json')
-        if os.path.exists(cache_file):
-            with open(cache_file, 'r') as f:
-                return jsonify(json.load(f))
-                
-        # Fetch new data if cache miss
-        result = fetch_players()
-        if isinstance(result, tuple):  # Error case
-            return jsonify(result[0]), result[1]
-        return jsonify(result)
+        # Get categorized player pool
+        player_pool = data_fetcher.get_player_pool()
+        
+        # Return the categorized pool directly
+        return jsonify(player_pool)
         
     except Exception as e:
         logger.error(f"Error in get_player_pool: {str(e)}")
-        return jsonify({'error': str(e)}), 500
-    finally:
-        # Force garbage collection
-        gc.collect()
+        return jsonify({
+            '$5': [],
+            '$4': [],
+            '$3': [],
+            '$2': [],
+            '$1': []
+        }), 500
 
 @app.route('/api/simulate-team', methods=['POST'])
 def simulate_team():
