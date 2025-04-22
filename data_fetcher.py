@@ -1,5 +1,6 @@
-import requests
+from nba_api.stats.endpoints import leaguedashplayerstats
 import pandas as pd
+import numpy as np
 import logging
 from typing import Dict, List, Optional
 from datetime import datetime, timedelta
@@ -13,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 class NBADataFetcher:
     def __init__(self):
-        self.base_url = "https://api.balldontlie.io/v1"
         self.cache = {}
         self.cache_expiry = {}
         
@@ -32,20 +32,58 @@ class NBADataFetcher:
         self.cache[key] = data
         self.cache_expiry[key] = datetime.now() + timedelta(hours=expiry_hours)
         
-    def _make_request(self, endpoint: str, params: Dict = None) -> Dict:
-        """Make a request to the NBA API"""
-        try:
-            url = f"{self.base_url}/{endpoint}"
-            headers = {
-                'Authorization': 'Bearer YOUR_API_KEY'  # Replace with actual API key
-            }
-            response = requests.get(url, params=params, headers=headers)
-            response.raise_for_status()
-            return response.json()
-        except requests.exceptions.RequestException as e:
-            logger.error(f"Error making request to {endpoint}: {str(e)}")
-            return {}
+    def get_player_stats(self, season: str = None) -> pd.DataFrame:
+        """Get player stats for a given season"""
+        if season is None:
+            current_year = datetime.now().year
+            current_month = datetime.now().month
+            season = f"{current_year-1}-{str(current_year)[2:]}" if current_month < 10 else f"{current_year}-{str(current_year+1)[2:]}"
             
+        cache_key = f"player_stats_{season}"
+        cached_data = self._get_from_cache(cache_key)
+        if cached_data:
+            return pd.DataFrame(cached_data)
+            
+        try:
+            stats = leaguedashplayerstats.LeagueDashPlayerStats(
+                per_mode_detailed='PerGame',
+                season=season,
+                season_type_all_star='Regular Season',
+                measure_type_detailed_defense='Base',
+                plus_minus='N',
+                pace_adjust='N',
+                rank='N'
+            )
+            
+            df = pd.DataFrame(stats.get_data_frames()[0])
+            
+            # Calculate true shooting percentage
+            df['TS_PCT'] = df.apply(
+                lambda row: self._calculate_true_shooting(
+                    row['PTS'],
+                    row['FGM'],
+                    row['FGA'],
+                    row['FTM'],
+                    row['FTA']
+                ),
+                axis=1
+            )
+            
+            # Cache the results
+            self._set_cache(cache_key, df.to_dict())
+            
+            return df
+            
+        except Exception as e:
+            logger.error(f"Error getting player stats: {str(e)}")
+            return pd.DataFrame()
+            
+    def _calculate_true_shooting(self, pts: float, fgm: float, fga: float, ftm: float, fta: float) -> float:
+        """Calculate true shooting percentage"""
+        if fga + 0.44 * fta == 0:
+            return 0
+        return pts / (2 * (fga + 0.44 * fta))
+        
     def get_active_players(self) -> List[str]:
         """Get list of active NBA players"""
         cache_key = "active_players"
@@ -54,116 +92,20 @@ class NBADataFetcher:
             return cached_data
             
         try:
-            # Get all players
-            data = self._make_request("players")
-            players = data.get('data', [])
+            # Get current season stats
+            df = self.get_player_stats()
             
-            # Filter for active players
-            active_players = [
-                f"{player['first_name']} {player['last_name']}"
-                for player in players
-                if player.get('active', False)
-            ]
+            # Filter for players who have played at least 10 games
+            active_players = df[df['GP'] >= 10]['PLAYER_NAME'].tolist()
             
+            # Cache the results
             self._set_cache(cache_key, active_players)
+            
             return active_players
             
         except Exception as e:
             logger.error(f"Error getting active players: {str(e)}")
             return []
-            
-    def get_player_stats(self, player_name: str) -> Optional[pd.Series]:
-        """Get current season stats for a player"""
-        cache_key = f"player_stats_{player_name}"
-        cached_data = self._get_from_cache(cache_key)
-        if cached_data:
-            return pd.Series(cached_data)
-            
-        try:
-            # Get player ID
-            first_name, last_name = player_name.split(' ', 1)
-            params = {
-                'search': player_name,
-                'per_page': 1
-            }
-            data = self._make_request("players", params)
-            players = data.get('data', [])
-            
-            if not players:
-                logger.warning(f"Player not found: {player_name}")
-                return None
-                
-            player_id = players[0]['id']
-            
-            # Get current season stats
-            current_season = datetime.now().year
-            params = {
-                'player_ids[]': player_id,
-                'seasons[]': current_season,
-                'per_page': 1
-            }
-            data = self._make_request("season_averages", params)
-            stats = data.get('data', [])
-            
-            if not stats:
-                logger.warning(f"No stats found for {player_name}")
-                return None
-                
-            # Convert stats to Series
-            stats_series = pd.Series(stats[0])
-            
-            # Calculate additional metrics
-            stats_series['TS_PCT'] = self._calculate_true_shooting(
-                stats_series.get('pts', 0),
-                stats_series.get('fgm', 0),
-                stats_series.get('fga', 0),
-                stats_series.get('ftm', 0),
-                stats_series.get('fta', 0)
-            )
-            
-            # Cache the stats
-            self._set_cache(cache_key, stats_series.to_dict())
-            
-            return stats_series
-            
-        except Exception as e:
-            logger.error(f"Error getting stats for {player_name}: {str(e)}")
-            return None
-            
-    def _calculate_true_shooting(self, pts: float, fgm: float, fga: float, ftm: float, fta: float) -> float:
-        """Calculate true shooting percentage"""
-        if fga + 0.44 * fta == 0:
-            return 0
-        return pts / (2 * (fga + 0.44 * fta))
-        
-    def get_team_performance(self, team_id: int) -> Dict:
-        """Get team performance metrics"""
-        cache_key = f"team_performance_{team_id}"
-        cached_data = self._get_from_cache(cache_key)
-        if cached_data:
-            return cached_data
-            
-        try:
-            # Get team stats
-            params = {
-                'team_ids[]': team_id,
-                'seasons[]': datetime.now().year,
-                'per_page': 1
-            }
-            data = self._make_request("team_stats", params)
-            stats = data.get('data', [])
-            
-            if not stats:
-                return {}
-                
-            # Cache the stats
-            self._set_cache(cache_key, stats[0])
-            
-            return stats[0]
-            
-        except Exception as e:
-            logger.error(f"Error getting team performance for {team_id}: {str(e)}")
-            return {}
             
     def get_top_scorers(self, limit: int = 10) -> List[Dict]:
         """Get top scorers in the league"""
@@ -173,21 +115,16 @@ class NBADataFetcher:
             return cached_data
             
         try:
-            # Get all players' season averages
-            params = {
-                'seasons[]': datetime.now().year,
-                'per_page': 100
-            }
-            data = self._make_request("season_averages", params)
-            stats = data.get('data', [])
+            df = self.get_player_stats()
+            top_scorers = df.nlargest(limit, 'PTS')
             
-            # Sort by points and get top scorers
-            top_scorers = sorted(stats, key=lambda x: x.get('pts', 0), reverse=True)[:limit]
+            # Convert to list of dictionaries
+            result = top_scorers[['PLAYER_NAME', 'PTS', 'REB', 'AST', 'TS_PCT']].to_dict('records')
             
             # Cache the results
-            self._set_cache(cache_key, top_scorers)
+            self._set_cache(cache_key, result)
             
-            return top_scorers
+            return result
             
         except Exception as e:
             logger.error(f"Error getting top scorers: {str(e)}")
@@ -201,22 +138,59 @@ class NBADataFetcher:
             return cached_data
             
         try:
-            # Get all players' season averages
-            params = {
-                'seasons[]': datetime.now().year,
-                'per_page': 100
-            }
-            data = self._make_request("season_averages", params)
-            stats = data.get('data', [])
+            df = self.get_player_stats()
+            bottom_scorers = df.nsmallest(limit, 'PTS')
             
-            # Sort by points and get bottom scorers
-            bottom_scorers = sorted(stats, key=lambda x: x.get('pts', 0))[:limit]
+            # Convert to list of dictionaries
+            result = bottom_scorers[['PLAYER_NAME', 'PTS', 'REB', 'AST', 'TS_PCT']].to_dict('records')
             
             # Cache the results
-            self._set_cache(cache_key, bottom_scorers)
+            self._set_cache(cache_key, result)
             
-            return bottom_scorers
+            return result
             
         except Exception as e:
             logger.error(f"Error getting bottom scorers: {str(e)}")
-            return [] 
+            return []
+            
+    def calculate_player_cost(self, stats: Dict) -> int:
+        """Calculate player cost based on performance metrics"""
+        # Weights for different statistics
+        weights = {
+            'PTS': 1.0,
+            'REB': 0.7,
+            'AST': 0.7,
+            'STL': 0.5,
+            'BLK': 0.5,
+            'FG_PCT': 0.4,
+            'FG3_PCT': 0.3,
+            'FT_PCT': 0.3,
+            'TOV': -0.3,
+            'GP': 0.1
+        }
+        
+        # Calculate weighted score
+        score = (
+            stats['PTS'] * weights['PTS'] +
+            stats['REB'] * weights['REB'] +
+            stats['AST'] * weights['AST'] +
+            stats['STL'] * weights['STL'] +
+            stats['BLK'] * weights['BLK'] +
+            stats['FG_PCT'] * weights['FG_PCT'] * 100 +
+            stats['FG3_PCT'] * weights['FG3_PCT'] * 100 +
+            stats['FT_PCT'] * weights['FT_PCT'] * 100 -
+            stats['TOV'] * weights['TOV'] +
+            stats['GP'] * weights['GP']
+        )
+        
+        # Normalize score to 1-5 range
+        if score > 50:
+            return 5
+        elif score > 40:
+            return 4
+        elif score > 30:
+            return 3
+        elif score > 20:
+            return 2
+        else:
+            return 1 
