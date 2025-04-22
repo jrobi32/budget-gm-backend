@@ -4,6 +4,8 @@ import numpy as np
 import logging
 from typing import Dict, List, Optional
 from datetime import datetime, timedelta
+import time
+from requests.exceptions import RequestException
 
 # Configure logging
 logging.basicConfig(
@@ -16,6 +18,8 @@ class NBADataFetcher:
     def __init__(self):
         self.cache = {}
         self.cache_expiry = {}
+        self.max_retries = 3
+        self.retry_delay = 5
         
     def _get_from_cache(self, key: str) -> Optional[Dict]:
         """Get data from cache if it's not expired"""
@@ -32,6 +36,18 @@ class NBADataFetcher:
         self.cache[key] = data
         self.cache_expiry[key] = datetime.now() + timedelta(hours=expiry_hours)
         
+    def _make_api_call(self, func, *args, **kwargs):
+        """Make API call with retry logic"""
+        for attempt in range(self.max_retries):
+            try:
+                return func(*args, **kwargs)
+            except RequestException as e:
+                if attempt == self.max_retries - 1:
+                    logger.error(f"API call failed after {self.max_retries} attempts: {str(e)}")
+                    raise
+                logger.warning(f"API call failed (attempt {attempt + 1}/{self.max_retries}): {str(e)}")
+                time.sleep(self.retry_delay)
+        
     def get_player_stats(self, season: str = None) -> pd.DataFrame:
         """Get player stats for a given season"""
         if season is None:
@@ -45,14 +61,16 @@ class NBADataFetcher:
             return pd.DataFrame(cached_data)
             
         try:
-            stats = leaguedashplayerstats.LeagueDashPlayerStats(
+            stats = self._make_api_call(
+                leaguedashplayerstats.LeagueDashPlayerStats,
                 per_mode_detailed='PerGame',
                 season=season,
                 season_type_all_star='Regular Season',
                 measure_type_detailed_defense='Base',
                 plus_minus='N',
                 pace_adjust='N',
-                rank='N'
+                rank='N',
+                timeout=60
             )
             
             df = pd.DataFrame(stats.get_data_frames()[0])
@@ -76,7 +94,8 @@ class NBADataFetcher:
             
         except Exception as e:
             logger.error(f"Error getting player stats: {str(e)}")
-            return pd.DataFrame()
+            # Return empty DataFrame with expected columns
+            return pd.DataFrame(columns=['PLAYER_NAME', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FG_PCT', 'TS_PCT', 'GP'])
             
     def _calculate_true_shooting(self, pts: float, fgm: float, fga: float, ftm: float, fta: float) -> float:
         """Calculate true shooting percentage"""
@@ -96,7 +115,10 @@ class NBADataFetcher:
             df = self.get_player_stats()
             
             # Filter for players who have played at least 10 games
-            active_players = df[df['GP'] >= 10]['PLAYER_NAME'].tolist()
+            if not df.empty and 'GP' in df.columns:
+                active_players = df[df['GP'] >= 10]['PLAYER_NAME'].tolist()
+            else:
+                active_players = []
             
             # Cache the results
             self._set_cache(cache_key, active_players)
@@ -116,10 +138,11 @@ class NBADataFetcher:
             
         try:
             df = self.get_player_stats()
-            top_scorers = df.nlargest(limit, 'PTS')
-            
-            # Convert to list of dictionaries
-            result = top_scorers[['PLAYER_NAME', 'PTS', 'REB', 'AST', 'TS_PCT']].to_dict('records')
+            if not df.empty and 'PTS' in df.columns:
+                top_scorers = df.nlargest(limit, 'PTS')
+                result = top_scorers[['PLAYER_NAME', 'PTS', 'REB', 'AST', 'TS_PCT']].to_dict('records')
+            else:
+                result = []
             
             # Cache the results
             self._set_cache(cache_key, result)
@@ -139,10 +162,11 @@ class NBADataFetcher:
             
         try:
             df = self.get_player_stats()
-            bottom_scorers = df.nsmallest(limit, 'PTS')
-            
-            # Convert to list of dictionaries
-            result = bottom_scorers[['PLAYER_NAME', 'PTS', 'REB', 'AST', 'TS_PCT']].to_dict('records')
+            if not df.empty and 'PTS' in df.columns:
+                bottom_scorers = df.nsmallest(limit, 'PTS')
+                result = bottom_scorers[['PLAYER_NAME', 'PTS', 'REB', 'AST', 'TS_PCT']].to_dict('records')
+            else:
+                result = []
             
             # Cache the results
             self._set_cache(cache_key, result)
