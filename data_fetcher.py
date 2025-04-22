@@ -88,6 +88,11 @@ class NBADataFetcher:
                 logger.error("No player stats available")
                 return []
             
+            # Ensure rating column exists
+            if 'rating' not in df.columns:
+                logger.error("Rating column not found in DataFrame")
+                return []
+            
             # Calculate percentiles for ratings
             df['percentile'] = df['rating'].rank(pct=True) * 100
             
@@ -203,7 +208,10 @@ class NBADataFetcher:
                 # Normalize ratings to 1-100 range
                 min_rating = df['rating'].min()
                 max_rating = df['rating'].max()
-                df['rating'] = ((df['rating'] - min_rating) / (max_rating - min_rating)) * 99 + 1
+                if max_rating > min_rating:  # Avoid division by zero
+                    df['rating'] = ((df['rating'] - min_rating) / (max_rating - min_rating)) * 99 + 1
+                else:
+                    df['rating'] = 50  # Default rating if all players have same score
                 
                 # Cache the results
                 self._set_cache(cache_key, df.to_dict('records'))
