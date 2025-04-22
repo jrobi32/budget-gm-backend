@@ -23,10 +23,12 @@ CORS(app, resources={
         "origins": [
             "https://budgetgm.netlify.app",
             "https://budget-gm-frontend.onrender.com",
-            "http://localhost:3000"
+            "http://localhost:3000",
+            "https://budget-gm-frontend.onrender.com"
         ],
         "methods": ["GET", "POST", "OPTIONS"],
-        "allow-headers": ["Content-Type", "Authorization"]
+        "allow-headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
     }
 })
 app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')  # Use environment variable if available
