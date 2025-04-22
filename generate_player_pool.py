@@ -1,245 +1,121 @@
+from data_fetcher import NBADataFetcher
 import json
-import requests
-import pandas as pd
-import random
-from typing import Dict, List
+import logging
+import numpy as np
+from datetime import datetime
 
-def fetch_nba_players():
-    """Fetch top 350 players by points per game from NBA API"""
-    url = "https://stats.nba.com/stats/leaguedashplayerstats"
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Referer': 'https://www.nba.com/'
-    }
-    params = {
-        'College': '',
-        'Conference': '',
-        'Country': '',
-        'DateFrom': '',
-        'DateTo': '',
-        'Division': '',
-        'DraftPick': '',
-        'DraftYear': '',
-        'GameScope': '',
-        'GameSegment': '',
-        'Height': '',
-        'LastNGames': '0',
-        'LeagueID': '00',
-        'Location': '',
-        'MeasureType': 'Base',
-        'Month': '0',
-        'OpponentTeamID': '0',
-        'Outcome': '',
-        'PORound': '0',
-        'PaceAdjust': 'N',
-        'PerMode': 'PerGame',
-        'Period': '0',
-        'PlayerExperience': '',
-        'PlayerPosition': '',
-        'PlusMinus': 'N',
-        'Rank': 'Y',
-        'Season': '2023-24',
-        'SeasonSegment': '',
-        'SeasonType': 'Regular Season',
-        'ShotClockRange': '',
-        'StarterBench': '',
-        'TeamID': '0',
-        'TwoWay': '0',
-        'VsConference': '',
-        'VsDivision': '',
-        'Weight': ''
-    }
-    
-    response = requests.get(url, headers=headers, params=params)
-    data = response.json()
-    
-    # Extract player data
-    headers = data['resultSets'][0]['headers']
-    rows = data['resultSets'][0]['rowSet']
-    
-    # Convert to DataFrame
-    df = pd.DataFrame(rows, columns=headers)
-    
-    # Select relevant columns and rename them
-    df = df[['PLAYER_ID', 'PLAYER_NAME', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FG_PCT', 'FT_PCT', 'FG3_PCT', 'GP', 'MIN']]
-    df.columns = ['id', 'name', 'points', 'rebounds', 'assists', 'steals', 'blocks', 'fg_pct', 'ft_pct', 'three_pct', 'games_played', 'minutes']
-    
-    # Sort by points and take top 350
-    df = df.sort_values('points', ascending=False).head(350)
-    
-    return df
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
-def calculate_player_cost(stats: pd.Series) -> int:
-    """Calculate player cost based on performance metrics"""
+def calculate_player_rating(row):
+    """Calculate player rating based on stats"""
     # Basic stats weights
     weights = {
-        'points': 0.40,      # Points (major factor)
-        'assists': 0.25,     # Assists (playmaking)
-        'rebounds': 0.20,    # Rebounds
-        'steals': 0.05,      # Steals
-        'blocks': 0.05,      # Blocks
-        'fg_pct': 0.05,      # Field Goal Percentage
-        'ts_pct': 0.05       # True Shooting Percentage
+        'PTS': 1.0,
+        'AST': 1.0,
+        'REB': 0.8,
+        'STL': 0.7,
+        'BLK': 0.7,
+        'FG_PCT': 0.5,
+        'TS_PCT': 0.5
     }
     
-    # Calculate weighted score
-    score = 0
+    rating = 0
     for stat, weight in weights.items():
-        if stat in stats:
-            if stat in ['fg_pct', 'ts_pct']:
-                # Convert percentages to 0-1 scale
-                score += (stats[stat] / 100) * weight * 10
-            else:
-                # Scale counting stats appropriately
-                score += stats[stat] * weight
+        if stat in ['FG_PCT', 'TS_PCT']:
+            rating += float(row[stat]) * weight * 100
+        else:
+            rating += float(row[stat]) * weight
     
     # Add bonuses for exceptional performance
-    if stats['points'] >= 30:  # MVP-level scoring
-        score += 20
-    elif stats['points'] >= 25:  # All-Star level scoring
-        score += 15
-    elif stats['points'] >= 20:  # High-end starter scoring
-        score += 10
-    elif stats['points'] >= 15:  # Solid starter scoring
-        score += 5
-        
-    if stats['assists'] >= 10:   # Elite playmaking
-        score += 15
-    elif stats['assists'] >= 7:  # All-Star playmaking
-        score += 10
-    elif stats['assists'] >= 5:  # Good playmaking
-        score += 5
-        
-    if stats['rebounds'] >= 12:  # Elite rebounding
-        score += 15
-    elif stats['rebounds'] >= 10:  # All-Star rebounding
-        score += 10
-    elif stats['rebounds'] >= 7:  # Good rebounding
-        score += 5
-        
-    if stats['steals'] + stats['blocks'] >= 3.0:  # Elite defense
-        score += 10
-    elif stats['steals'] + stats['blocks'] >= 2.0:  # Very good defense
-        score += 5
-        
-    if stats['ts_pct'] >= 0.65:  # Elite efficiency
-        score += 10
-    elif stats['ts_pct'] >= 0.60:  # Very good efficiency
-        score += 5
-        
-    # Apply games played adjustment
-    games_played_percentage = min(stats['games_played'] / 246, 1.0)  # Cap at 100%
+    if row['PTS'] >= 25: rating += 10  # Bonus for high scorers
+    if row['AST'] >= 8: rating += 8    # Bonus for playmakers
+    if row['REB'] >= 10: rating += 8   # Bonus for rebounders
+    if row['STL'] >= 2: rating += 5    # Bonus for defenders
+    if row['BLK'] >= 2: rating += 5    # Bonus for rim protectors
     
-    if games_played_percentage < 0.5:
-        score *= (games_played_percentage * 0.7)
-    else:
-        score *= (0.5 + (games_played_percentage - 0.5) * 0.8)
-    
-    # Normalize score to 1-5 range with new thresholds:
-    # $5: Superstars (score > 50)
-    # $4: All-Stars (score > 40)
-    # $3: Quality starters (score > 30)
-    # $2: Solid role players (score > 20)
-    # $1: Role players (score <= 20)
-    
-    if score > 50:
-        return 5
-    elif score > 40:
-        return 4
-    elif score > 30:
-        return 3
-    elif score > 20:
-        return 2
-    else:
-        return 1
-
-def select_random_players(categorized_players: Dict) -> Dict:
-    """Randomly select 5 players from each category"""
-    selected_players = {
-        '$5': [],
-        '$4': [],
-        '$3': [],
-        '$2': [],
-        '$1': []
-    }
-    
-    for category in selected_players:
-        # Get all players in this category
-        available_players = categorized_players[category]
-        
-        # If we have more than 5 players, randomly select 5
-        if len(available_players) > 5:
-            selected = random.sample(available_players, 5)
-        else:
-            # If we have 5 or fewer, take all of them
-            selected = available_players
-        
-        selected_players[category] = selected
-    
-    return selected_players
+    return rating
 
 def main():
-    # Fetch player data
-    print("Fetching NBA player data...")
-    players_df = fetch_nba_players()
+    fetcher = NBADataFetcher()
     
-    # Initialize categorized players
-    categorized_players = {
-        '$5': [],  # Superstars
-        '$4': [],  # All-Stars
-        '$3': [],  # Quality starters
-        '$2': [],  # Solid role players
-        '$1': []   # Role players
-    }
+    # Get player stats DataFrame
+    df = fetcher.get_player_stats()
+    
+    if df.empty:
+        logger.error("No player stats available")
+        return
+    
+    # Calculate player ratings
+    df['rating'] = df.apply(calculate_player_rating, axis=1)
+    
+    # Normalize ratings to 1-100 range
+    min_rating = df['rating'].min()
+    max_rating = df['rating'].max()
+    df['rating'] = ((df['rating'] - min_rating) / (max_rating - min_rating)) * 99 + 1
+    
+    # Calculate percentiles for ratings
+    df['percentile'] = df['rating'].rank(pct=True) * 100
+    
+    # Assign costs based on percentiles
+    def get_cost(percentile):
+        if percentile >= 94:    # Top 6%
+            return '$5'
+        elif percentile >= 85:  # Next 9%
+            return '$4'
+        elif percentile >= 70:  # Next 15%
+            return '$3'
+        elif percentile >= 50:  # Next 20%
+            return '$2'
+        else:                   # Bottom 50%
+            return '$1'
+    
+    df['cost'] = df['percentile'].apply(get_cost)
+    
+    # Initialize cost distribution counter
+    cost_distribution = {'$5': 0, '$4': 0, '$3': 0, '$2': 0, '$1': 0}
+    player_pool = []
     
     # Process each player
-    for _, player in players_df.iterrows():
-        cost = calculate_player_cost(player)
-        player_data = {
-            'id': int(player['id']),
-            'name': player['name'],
-            'stats': {
-                'games_played': float(player['games_played']),
-                'points': float(player['points']),
-                'rebounds': float(player['rebounds']),
-                'assists': float(player['assists']),
-                'steals': float(player['steals']),
-                'blocks': float(player['blocks']),
-                'fg_pct': float(player['fg_pct']),
-                'ft_pct': float(player['ft_pct']),
-                'three_pct': float(player['three_pct']),
-                'minutes': float(player['minutes'])
+    for _, row in df.iterrows():
+        if row['GP'] > 0:  # Only include players who have played games
+            player_data = {
+                'name': row['PLAYER_NAME'],
+                'cost': row['cost'],
+                'rating': round(row['rating'], 1),
+                'stats': {
+                    'pts': round(row['PTS'], 1),
+                    'ast': round(row['AST'], 1),
+                    'reb': round(row['REB'], 1),
+                    'stl': round(row['STL'], 1),
+                    'blk': round(row['BLK'], 1),
+                    'fg_pct': round(row['FG_PCT'] * 100, 1),
+                    'ts_pct': round(row['TS_PCT'] * 100, 1),
+                    'gp': int(row['GP'])
+                }
             }
-        }
-        categorized_players[f'${cost}'].append(player_data)
+            cost_distribution[player_data['cost']] += 1
+            player_pool.append(player_data)
     
-    # Sort players in each category by points and assists
-    for category in categorized_players:
-        categorized_players[category].sort(
-            key=lambda x: (x['stats']['points'], x['stats']['assists']),
-            reverse=True
-        )
+    # Log cost distribution
+    logger.info("Cost distribution:")
+    for cost, count in cost_distribution.items():
+        logger.info(f"{cost}: {count} players")
     
-    # Print total players in each category before selection
-    print("\nTotal players in each category:")
-    for category, players in categorized_players.items():
-        print(f"{category}: {len(players)} players")
+    # Save to JSON file
+    output = {
+        'last_updated': datetime.now().isoformat(),
+        'players': player_pool
+    }
     
-    # Save full player pool to a separate file for reference
-    with open('full_player_pool.json', 'w') as f:
-        json.dump(categorized_players, f, indent=4)
-    print("\nFull player pool saved to full_player_pool.json")
-    
-    # Select random players from each category for the game
-    selected_players = select_random_players(categorized_players)
-    
-    # Save selected players to the main player pool file
     with open('player_pool.json', 'w') as f:
-        json.dump(selected_players, f, indent=4)
+        json.dump(output, f, indent=2)
     
-    print("\nGenerated game player pool with:")
-    for category, players in selected_players.items():
-        print(f"{category}: {len(players)} players")
+    logger.info(f"Successfully saved {len(player_pool)} players to player_pool.json")
 
 if __name__ == '__main__':
     main() 
