@@ -1,4 +1,4 @@
-from nba_api.stats.endpoints import playercareerstats, commonallplayers
+from nba_api.stats.endpoints import commonallplayers, playercareerstats
 import pandas as pd
 import numpy as np
 import logging
@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import time
 from requests.exceptions import RequestException
 import random
+import requests
 
 # Configure logging
 logging.basicConfig(
@@ -22,6 +23,17 @@ class NBADataFetcher:
         self.max_retries = 3
         self.retry_delay = 5
         self.timeout = 30
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'x-nba-stats-origin': 'stats',
+            'x-nba-stats-token': 'true',
+            'Connection': 'keep-alive',
+            'Host': 'stats.nba.com',
+            'Referer': 'https://www.nba.com/'
+        }
         
     def _get_from_cache(self, key: str) -> Optional[Dict]:
         """Get data from cache if it's not expired"""
@@ -45,6 +57,11 @@ class NBADataFetcher:
                 # Add random delay between retries
                 if attempt > 0:
                     time.sleep(self.retry_delay + random.uniform(1, 3))
+                    
+                # Add headers to the request
+                if 'headers' not in kwargs:
+                    kwargs['headers'] = self.headers
+                    
                 return func(*args, **kwargs)
             except RequestException as e:
                 if attempt == self.max_retries - 1:
