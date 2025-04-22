@@ -37,9 +37,11 @@ class DailyChallenge:
     def _generate_new_challenge(self):
         """Generate a new daily challenge"""
         try:
+            logger.info("Starting to generate new challenge...")
             # Load player pool
             with open('player_pool.json', 'r') as f:
                 player_pool = json.load(f)
+                logger.info(f"Loaded player pool with {len(player_pool['players'])} players")
                 
             # Select players from each category
             categories = ['5', '4', '3', '2', '1']
@@ -53,21 +55,30 @@ class DailyChallenge:
                     players_by_cost[cost] = []
                 players_by_cost[cost].append(player)
             
+            logger.info("Players grouped by cost:")
+            for cost, players in players_by_cost.items():
+                logger.info(f"${cost}: {len(players)} players")
+            
             # Select players from each category
             for category in categories:
                 players = players_by_cost.get(category, [])
                 if players:
                     selected = random.sample(players, min(5, len(players)))
                     selected_players.extend(selected)
+                    logger.info(f"Selected {len(selected)} players from ${category} category")
                     
             self.players = selected_players
             self.submissions = []
             
+            logger.info(f"Generated challenge with {len(self.players)} total players")
+            
             # Save the new challenge
             self._save_challenge()
+            logger.info(f"Challenge saved for date {self.date}")
             
         except Exception as e:
             logger.error(f"Error generating new challenge: {str(e)}")
+            logger.exception("Full traceback:")
             self.players = []
             self.submissions = []
             
