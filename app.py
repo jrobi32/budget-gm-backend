@@ -76,10 +76,10 @@ def logout():
 @app.route('/api/player-pool', methods=['GET'])
 def get_player_pool():
     try:
-        # Get current season stats
-        df = data_fetcher.get_player_stats()
+        # Get player pool using the fetcher's consolidated logic
+        player_pool = data_fetcher.get_player_pool()
         
-        if df.empty:
+        if not player_pool:
             return jsonify({
                 'error': 'Unable to fetch player data',
                 'players': {
@@ -100,21 +100,10 @@ def get_player_pool():
             '1': []
         }
         
-        for _, row in df.iterrows():
-            player_data = {
-                'name': row['PLAYER_NAME'],
-                'stats': {
-                    'PTS': float(row['PTS']),
-                    'REB': float(row['REB']),
-                    'AST': float(row['AST']),
-                    'STL': float(row['STL']),
-                    'BLK': float(row['BLK']),
-                    'FG_PCT': float(row['FG_PCT']),
-                    'TS_PCT': float(row['TS_PCT'])
-                }
-            }
-            cost = data_fetcher.calculate_player_cost(player_data['stats'])
-            players_by_cost[str(cost)].append(player_data)
+        for player in player_pool:
+            # Remove the $ prefix from cost for API response
+            cost = player['cost'].replace('$', '')
+            players_by_cost[cost].append(player)
             
         return jsonify(players_by_cost)
         

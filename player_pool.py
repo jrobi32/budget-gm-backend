@@ -29,14 +29,14 @@ class PlayerPool:
                     print("Using today's cached player pool...")
                     with open('player_pool.json', 'r') as f:
                         data = json.load(f)
-                        categorized_players = data['players']
+                        player_pool = data['players']
                         
                     # Convert JSON data to internal format
-                    for cost, player_list in categorized_players.items():
-                        for player_data in player_list:
-                            player_name = player_data['name']
-                            self.players[player_name] = {'cost': int(cost)}
-                            self.player_stats[player_name] = pd.Series(player_data['stats'])
+                    for player_data in player_pool:
+                        player_name = player_data['name']
+                        cost = int(player_data['cost'].replace('$', ''))
+                        self.players[player_name] = {'cost': cost}
+                        self.player_stats[player_name] = pd.Series(player_data['stats'])
                             
                     print(f"Loaded {len(self.players)} players from today's pool")
                     return
@@ -55,9 +55,9 @@ class PlayerPool:
         """
         print("Building complete NBA player pool...")
         
-        # Get all active players
-        active_players = self.data_fetcher.get_active_players()
-        print(f"Found {len(active_players)} active players")
+        # Get player pool using the fetcher's consolidated logic
+        player_pool = self.data_fetcher.get_player_pool()
+        print(f"Found {len(player_pool)} active players")
         
         # Initialize categorized players
         categorized_players = {
@@ -69,26 +69,25 @@ class PlayerPool:
         }
         
         # Process each player
-        for i, player in enumerate(active_players, 1):
-            print(f"Processing player {i}/{len(active_players)}: {player}")
-            
+        for player_data in player_pool:
             try:
-                stats = self.data_fetcher.get_player_stats(player)
-                if stats is not None:
-                    cost = self._calculate_player_cost(stats)
-                    categorized_players[str(cost)].append({
-                        'name': player,
-                        'stats': stats.to_dict()
-                    })
-                    print(f"Added {player} to ${cost} category")
+                # Remove $ prefix from cost for internal storage
+                cost = int(player_data['cost'].replace('$', ''))
+                categorized_players[str(cost)].append(player_data)
+                
+                # Store in internal format
+                player_name = player_data['name']
+                self.players[player_name] = {'cost': cost}
+                self.player_stats[player_name] = pd.Series(player_data['stats'])
+                
             except Exception as e:
-                print(f"Error processing {player}: {str(e)}")
+                print(f"Error processing player: {str(e)}")
                 continue
         
         # Save to JSON file with timestamp
         data = {
             'timestamp': datetime.now().isoformat(),
-            'players': categorized_players
+            'players': player_pool
         }
         
         with open('player_pool.json', 'w') as f:
@@ -99,13 +98,6 @@ class PlayerPool:
         for cost, players in categorized_players.items():
             print(f"${cost}: {len(players)} players")
             
-        # Load the saved data into memory
-        for cost, player_list in categorized_players.items():
-            for player_data in player_list:
-                player_name = player_data['name']
-                self.players[player_name] = {'cost': int(cost)}
-                self.player_stats[player_name] = pd.Series(player_data['stats'])
-        
     def get_random_players(self, cost, count=5):
         """
         Get random players from a specific cost category
