@@ -10,6 +10,12 @@ import logging
 from player_pool import PlayerPool
 from data_fetcher import NBADataFetcher
 import time
+import gc
+from dotenv import load_dotenv
+from gevent.pool import Pool
+
+# Load environment variables
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -17,6 +23,9 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+# Initialize connection pool
+pool = Pool(100)  # Limit concurrent operations
 
 app = Flask(__name__)
 CORS(app, resources={
@@ -32,19 +41,16 @@ CORS(app, resources={
         "supports_credentials": True
     }
 })
-app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')  # Use environment variable if available
+app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')
 
-# Ensure data directory exists
+# Ensure data directories exist
 os.makedirs('data/challenges', exist_ok=True)
+os.makedirs('cache', exist_ok=True)
 
-# Initialize player pool
-player_pool = PlayerPool()
-
-# Initialize team simulator
-simulator = TeamSimulator()
-
-# Initialize data fetcher
+# Initialize services with connection pooling
 data_fetcher = NBADataFetcher()
+player_pool = PlayerPool()
+simulator = TeamSimulator()
 
 @app.route('/')
 def index():
@@ -80,43 +86,60 @@ def logout():
 @app.route('/api/player-pool', methods=['GET'])
 def get_player_pool():
     try:
-        # Check if we have a cached player pool
+        # Use connection pool for data fetching
+        def fetch_players():
+            players = data_fetcher.get_active_players()
+            if not players:
+                return {'error': 'Failed to fetch players'}, 500
+                
+            # Get player stats in batches with pooling
+            player_stats = []
+            batch_size = 50
+            
+            def process_batch(batch):
+                try:
+                    stats = data_fetcher.get_player_stats(batch)
+                    return stats
+                except Exception as e:
+                    logger.error(f"Error processing batch: {str(e)}")
+                    return []
+            
+            # Process batches in parallel using the connection pool
+            batches = [players[i:i + batch_size] for i in range(0, len(players), batch_size)]
+            results = pool.map(process_batch, batches)
+            
+            # Combine results
+            for batch_stats in results:
+                player_stats.extend(batch_stats)
+            
+            if not player_stats:
+                return {'error': 'Failed to fetch player stats'}, 500
+                
+            # Cache the results
+            cache_file = os.path.join('cache', 'player_pool.json')
+            with open(cache_file, 'w') as f:
+                json.dump(player_stats, f)
+                
+            return player_stats
+            
+        # Check cache first
         cache_file = os.path.join('cache', 'player_pool.json')
         if os.path.exists(cache_file):
             with open(cache_file, 'r') as f:
                 return jsonify(json.load(f))
                 
-        # Get active players
-        players = data_fetcher.get_active_players()
-        if not players:
-            return jsonify({'error': 'Failed to fetch players'}), 500
-            
-        # Get player stats in batches
-        player_stats = []
-        batch_size = 50
-        for i in range(0, len(players), batch_size):
-            batch = players[i:i + batch_size]
-            try:
-                stats = data_fetcher.get_player_stats(batch)
-                player_stats.extend(stats)
-                # Add small delay between batches
-                time.sleep(1)
-            except Exception as e:
-                logger.error(f"Error fetching stats for batch {i//batch_size}: {str(e)}")
-                continue
-                
-        if not player_stats:
-            return jsonify({'error': 'Failed to fetch player stats'}), 500
-            
-        # Cache the results
-        with open(cache_file, 'w') as f:
-            json.dump(player_stats, f)
-            
-        return jsonify(player_stats)
+        # Fetch new data if cache miss
+        result = fetch_players()
+        if isinstance(result, tuple):  # Error case
+            return jsonify(result[0]), result[1]
+        return jsonify(result)
         
     except Exception as e:
         logger.error(f"Error in get_player_pool: {str(e)}")
         return jsonify({'error': str(e)}), 500
+    finally:
+        # Force garbage collection
+        gc.collect()
 
 @app.route('/api/simulate-team', methods=['POST'])
 def simulate_team():
@@ -126,29 +149,35 @@ def simulate_team():
             return jsonify({'error': 'Invalid request data'}), 400
             
         # Create team simulator
-        simulator = TeamSimulator()
+        team = TeamSimulator()
         
         # Add players to team
         for player_data in data['players']:
-            player = Player(
-                name=player_data['name'],
-                stats=player_data['stats']
-            )
-            simulator.add_player(player)
-            
+            try:
+                player = Player(
+                    name=player_data['name'],
+                    stats=player_data['stats']
+                )
+                team.add_player(player)
+            except ValueError as e:
+                return jsonify({'error': str(e)}), 400
+                
         # Simulate season
-        wins, losses = simulator.simulate_season()
+        wins, losses = team.simulate_season()
         
         return jsonify({
             'wins': wins,
             'losses': losses,
-            'win_probability': simulator.win_probability,
-            'team_stats': simulator.get_team_stats()
+            'win_probability': team.win_probability,
+            'team_stats': team.get_team_stats()
         })
         
     except Exception as e:
         logger.error(f"Error simulating team: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
+    finally:
+        # Force garbage collection
+        gc.collect()
 
 @app.route('/api/validate-team', methods=['POST'])
 def validate_team():
@@ -158,26 +187,32 @@ def validate_team():
             return jsonify({'error': 'Invalid request data'}), 400
             
         # Create team simulator
-        simulator = TeamSimulator()
+        team = TeamSimulator()
         
         # Add players to team
         for player_data in data['players']:
-            player = Player(
-                name=player_data['name'],
-                stats=player_data['stats']
-            )
-            simulator.add_player(player)
-            
+            try:
+                player = Player(
+                    name=player_data['name'],
+                    stats=player_data['stats']
+                )
+                team.add_player(player)
+            except ValueError as e:
+                return jsonify({'error': str(e)}), 400
+                
         return jsonify({
-            'is_valid': simulator.is_valid(),
-            'total_cost': simulator.get_total_cost(),
-            'remaining_budget': simulator.get_remaining_budget(),
-            'is_complete': simulator.is_complete()
+            'is_valid': team.is_team_valid(),
+            'total_cost': team.get_team_cost(),
+            'remaining_budget': team.get_remaining_budget(),
+            'is_complete': team.is_team_complete()
         })
         
     except Exception as e:
         logger.error(f"Error validating team: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
+    finally:
+        # Force garbage collection
+        gc.collect()
 
 @app.route('/leaderboard')
 def leaderboard():
