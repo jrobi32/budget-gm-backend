@@ -1,4 +1,4 @@
-from nba_api.stats.endpoints import commonallplayers, playercareerstats
+from nba_api.stats.endpoints import leaguedashplayerstats
 import pandas as pd
 import numpy as np
 import logging
@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 import time
 from requests.exceptions import RequestException
 import random
-import requests
 
 # Configure logging
 logging.basicConfig(
@@ -23,17 +22,6 @@ class NBADataFetcher:
         self.max_retries = 3
         self.retry_delay = 5
         self.timeout = 30
-        self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Accept': 'application/json, text/plain, */*',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'x-nba-stats-origin': 'stats',
-            'x-nba-stats-token': 'true',
-            'Connection': 'keep-alive',
-            'Host': 'stats.nba.com',
-            'Referer': 'https://www.nba.com/'
-        }
         
     def _get_from_cache(self, key: str) -> Optional[Dict]:
         """Get data from cache if it's not expired"""
@@ -57,11 +45,6 @@ class NBADataFetcher:
                 # Add random delay between retries
                 if attempt > 0:
                     time.sleep(self.retry_delay + random.uniform(1, 3))
-                    
-                # Add headers to the request
-                if 'headers' not in kwargs:
-                    kwargs['headers'] = self.headers
-                    
                 return func(*args, **kwargs)
             except RequestException as e:
                 if attempt == self.max_retries - 1:
@@ -77,18 +60,19 @@ class NBADataFetcher:
             return cached_data
             
         try:
-            # Get all players
-            players = self._make_api_call(
-                commonallplayers.CommonAllPlayers,
-                is_only_current_season=1,
+            # Get all players with their stats
+            stats = self._make_api_call(
+                leaguedashplayerstats.LeagueDashPlayerStats,
+                measure_type_detailed_defense='Base',
+                per_mode_detailed='PerGame',
                 timeout=self.timeout
             )
             
             # Convert to DataFrame
-            df = pd.DataFrame(players.get_data_frames()[0])
+            df = pd.DataFrame(stats.get_data_frames()[0])
             
-            # Filter for active players
-            active_players = df[df['ROSTERSTATUS'] == 'Active']['DISPLAY_FIRST_LAST'].tolist()
+            # Get active players (those who have played at least one game)
+            active_players = df[df['GP'] > 0]['PLAYER_NAME'].tolist()
             
             # Cache the results
             self._set_cache(cache_key, active_players)
@@ -112,38 +96,16 @@ class NBADataFetcher:
             return pd.DataFrame(cached_data)
             
         try:
-            # Get active players first
-            active_players = self.get_active_players()
-            
-            # Initialize empty DataFrame
-            all_stats = []
-            
-            # Get stats for each active player
-            for player_name in active_players:
-                try:
-                    # Get player career stats
-                    stats = self._make_api_call(
-                        playercareerstats.PlayerCareerStats,
-                        player_id=player_name,  # This will be converted to player ID internally
-                        per_mode36='PerGame',
-                        timeout=self.timeout
-                    )
-                    
-                    # Get current season stats
-                    df = pd.DataFrame(stats.get_data_frames()[0])
-                    if not df.empty:
-                        current_season = df[df['SEASON_ID'].str.startswith(season)]
-                        if not current_season.empty:
-                            player_stats = current_season.iloc[0].to_dict()
-                            player_stats['PLAYER_NAME'] = player_name
-                            all_stats.append(player_stats)
-                            
-                except Exception as e:
-                    logger.warning(f"Error getting stats for {player_name}: {str(e)}")
-                    continue
+            # Get all player stats in one request
+            stats = self._make_api_call(
+                leaguedashplayerstats.LeagueDashPlayerStats,
+                measure_type_detailed_defense='Base',
+                per_mode_detailed='PerGame',
+                timeout=self.timeout
+            )
             
             # Convert to DataFrame
-            df = pd.DataFrame(all_stats)
+            df = pd.DataFrame(stats.get_data_frames()[0])
             
             if not df.empty:
                 # Calculate true shooting percentage
