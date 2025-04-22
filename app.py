@@ -41,7 +41,8 @@ simulator = TeamSimulator()
 @app.route('/')
 def index():
     # Get the current challenge
-    challenge = DailyChallenge()
+    today = datetime.now().strftime('%Y-%m-%d')
+    challenge = DailyChallenge(today)
     
     # Check if user has already submitted for today
     player_name = session.get('player_name')
@@ -171,7 +172,8 @@ def leaderboard():
         challenge = DailyChallenge(date)
     else:
         # Get the current challenge
-        challenge = DailyChallenge()
+        today = datetime.now().strftime('%Y-%m-%d')
+        challenge = DailyChallenge(today)
     
     leaderboard_data = challenge.get_leaderboard()
     
@@ -202,7 +204,8 @@ def check_submission():
         return jsonify({'error': 'Missing player name'}), 400
     
     # Get the challenge for the specified date or today
-    challenge = DailyChallenge(date) if date else DailyChallenge()
+    today = datetime.now().strftime('%Y-%m-%d')
+    challenge = DailyChallenge(date) if date else DailyChallenge(today)
     
     submission = challenge.get_player_submission(player_name)
     return jsonify({
@@ -219,7 +222,8 @@ def get_submitted_team():
         return jsonify({'error': 'Missing player name'}), 400
     
     # Get the challenge for the specified date or today
-    challenge = DailyChallenge(date) if date else DailyChallenge()
+    today = datetime.now().strftime('%Y-%m-%d')
+    challenge = DailyChallenge(date) if date else DailyChallenge(today)
     
     submission = challenge.get_player_submission(player_name)
     if not submission:
@@ -229,19 +233,19 @@ def get_submitted_team():
 
 @app.route('/api/available_dates')
 def get_available_dates():
-    challenge = DailyChallenge()
+    challenge = DailyChallenge(datetime.now().strftime('%Y-%m-%d'))
     dates = challenge.get_available_dates()
     return jsonify(dates)
 
 @app.route('/api/challenge/<date>')
 def get_challenge_by_date(date):
     challenge = DailyChallenge(date)
-    if not challenge.player_pool:
+    if not challenge.players:
         return jsonify({'error': 'Challenge not found'}), 404
     
     return jsonify({
         'date': challenge.date,
-        'player_pool': challenge.player_pool
+        'players': challenge.players
     })
 
 if __name__ == '__main__':

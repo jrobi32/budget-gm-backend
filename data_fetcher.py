@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class NBADataFetcher:
     def __init__(self):
-        self.base_url = "https://www.balldontlie.io/api/v1"
+        self.base_url = "https://api.balldontlie.io/v1"
         self.cache = {}
         self.cache_expiry = {}
         
@@ -36,7 +36,10 @@ class NBADataFetcher:
         """Make a request to the NBA API"""
         try:
             url = f"{self.base_url}/{endpoint}"
-            response = requests.get(url, params=params)
+            headers = {
+                'Authorization': 'Bearer YOUR_API_KEY'  # Replace with actual API key
+            }
+            response = requests.get(url, params=params, headers=headers)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
