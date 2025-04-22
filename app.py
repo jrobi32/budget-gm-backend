@@ -21,11 +21,12 @@ app = Flask(__name__)
 CORS(app, resources={
     r"/api/*": {
         "origins": [
+            "https://budgetgm.netlify.app",
             "https://budget-gm-frontend.onrender.com",
             "http://localhost:3000"
         ],
         "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
+        "allow-headers": ["Content-Type", "Authorization"]
     }
 })
 app.secret_key = os.environ.get('SECRET_KEY', 'your-secret-key-here')  # Use environment variable if available
