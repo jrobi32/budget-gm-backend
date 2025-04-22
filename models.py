@@ -45,8 +45,17 @@ class DailyChallenge:
             categories = ['5', '4', '3', '2', '1']
             selected_players = []
             
+            # Group players by cost
+            players_by_cost = {}
+            for player in player_pool['players']:
+                cost = player['cost'].replace('$', '')
+                if cost not in players_by_cost:
+                    players_by_cost[cost] = []
+                players_by_cost[cost].append(player)
+            
+            # Select players from each category
             for category in categories:
-                players = player_pool['players'].get(category, [])
+                players = players_by_cost.get(category, [])
                 if players:
                     selected = random.sample(players, min(5, len(players)))
                     selected_players.extend(selected)
