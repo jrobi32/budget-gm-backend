@@ -213,6 +213,24 @@ class NBADataFetcher:
                 else:
                     df['rating'] = 50  # Default rating if all players have same score
                 
+                # Calculate percentiles for ratings
+                df['percentile'] = df['rating'].rank(pct=True) * 100
+                
+                # Assign costs based on percentiles
+                def get_cost(percentile):
+                    if percentile >= 94:    # Top 6%
+                        return '$5'
+                    elif percentile >= 85:  # Next 9%
+                        return '$4'
+                    elif percentile >= 70:  # Next 15%
+                        return '$3'
+                    elif percentile >= 50:  # Next 20%
+                        return '$2'
+                    else:                   # Bottom 50%
+                        return '$1'
+                
+                df['cost'] = df['percentile'].apply(get_cost)
+                
                 # Cache the results
                 self._set_cache(cache_key, df.to_dict('records'))
             
@@ -226,7 +244,7 @@ class NBADataFetcher:
                 return pd.DataFrame(cached_data)
             # If no cached data, return empty DataFrame
             logger.error("No cached data available")
-            return pd.DataFrame(columns=['PLAYER_NAME', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FG_PCT', 'TS_PCT', 'GP', 'rating'])
+            return pd.DataFrame(columns=['PLAYER_NAME', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FG_PCT', 'TS_PCT', 'GP', 'rating', 'cost'])
             
     def _calculate_true_shooting(self, pts: float, fgm: float, fga: float, ftm: float, fta: float) -> float:
         """Calculate true shooting percentage"""
@@ -348,24 +366,31 @@ class NBADataFetcher:
             
         player_pool = []
         for _, row in df.iterrows():
-            player_data = row.to_dict()
-            cost = self.calculate_player_cost(player_data)
-            player_pool.append({
-                'name': player_data['PLAYER_NAME'],
-                'team': player_data.get('TEAM_ABBREVIATION', ''),
-                'position': player_data.get('POSITION', 'Unknown'),
-                'stats': {
-                    'PTS': player_data['PTS'],
-                    'REB': player_data['REB'],
-                    'AST': player_data['AST'],
-                    'STL': player_data['STL'],
-                    'BLK': player_data['BLK'],
-                    'FG_PCT': player_data['FG_PCT'],
-                    'TS_PCT': player_data['TS_PCT'],
-                    'TOV': player_data.get('TOV', 0),
-                    'GP': player_data['GP']
-                },
-                'cost': cost
-            })
+            if row['GP'] > 0:  # Only include players who have played games
+                player_data = {
+                    'name': row['PLAYER_NAME'],
+                    'cost': row['cost'],
+                    'rating': round(row['rating'], 1),
+                    'stats': {
+                        'pts': round(row['PTS'], 1),
+                        'ast': round(row['AST'], 1),
+                        'reb': round(row['REB'], 1),
+                        'stl': round(row['STL'], 1),
+                        'blk': round(row['BLK'], 1),
+                        'fg_pct': round(row['FG_PCT'] * 100, 1),
+                        'ts_pct': round(row['TS_PCT'] * 100, 1),
+                        'gp': int(row['GP'])
+                    }
+                }
+                player_pool.append(player_data)
+        
+        # Log cost distribution
+        cost_distribution = {'$5': 0, '$4': 0, '$3': 0, '$2': 0, '$1': 0}
+        for player in player_pool:
+            cost_distribution[player['cost']] += 1
+        
+        logger.info("Cost distribution:")
+        for cost, count in cost_distribution.items():
+            logger.info(f"{cost}: {count} players")
             
         return player_pool 
