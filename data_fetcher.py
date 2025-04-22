@@ -204,10 +204,12 @@ class NBADataFetcher:
                 
             logger.info(f"Retrieved {len(df)} players from NBA API")
             
-            # Process data in chunks to reduce memory usage
-            chunk_size = 100
+            # Process data in smaller chunks to reduce memory usage
+            chunk_size = 50  # Reduced chunk size
+            processed_chunks = []
+            
             for i in range(0, len(df), chunk_size):
-                chunk = df.iloc[i:i + chunk_size]
+                chunk = df.iloc[i:i + chunk_size].copy()
                 
                 # Calculate true shooting percentage
                 chunk['TS_PCT'] = chunk.apply(
@@ -250,12 +252,20 @@ class NBADataFetcher:
                 chunk['rating'] += np.where(chunk['STL'] >= 2, 5, 0)
                 chunk['rating'] += np.where(chunk['BLK'] >= 2, 5, 0)
                 
-                # Update the main DataFrame
-                df.iloc[i:i + chunk_size] = chunk
+                # Store processed chunk
+                processed_chunks.append(chunk)
                 
                 # Force garbage collection after each chunk
                 del chunk
                 gc.collect()
+                
+                # Add small delay between chunks
+                time.sleep(0.1)
+            
+            # Combine processed chunks
+            df = pd.concat(processed_chunks, ignore_index=True)
+            del processed_chunks
+            gc.collect()
             
             # Normalize ratings to 1-100 range
             min_rating = df['rating'].min()
@@ -404,10 +414,26 @@ class NBADataFetcher:
                 '$1': []
             }
             
-            for player in players:
-                cost = player.get('cost', '$1')
-                if cost in categorized_players:
-                    categorized_players[cost].append(player)
+            # Process players in chunks
+            chunk_size = 100
+            for i in range(0, len(players), chunk_size):
+                chunk = players[i:i + chunk_size]
+                for player in chunk:
+                    cost = player.get('cost', '$1')
+                    if cost in categorized_players:
+                        # Only store essential data
+                        categorized_players[cost].append({
+                            'name': player['name'],
+                            'id': player['id'],
+                            'stats': player['stats']
+                        })
+            
+                # Force garbage collection after each chunk
+                del chunk
+                gc.collect()
+                
+                # Add small delay between chunks
+                time.sleep(0.1)
             
             # Store the categorized players
             cache_file = os.path.join(self.cache_dir, 'categorized_players.json')
@@ -418,6 +444,9 @@ class NBADataFetcher:
             
         except Exception as e:
             logger.error(f"Error storing categorized players: {str(e)}")
+        finally:
+            # Force garbage collection
+            gc.collect()
 
     def get_categorized_players(self) -> Dict[str, List[Dict]]:
         """Get players from the categorized cache"""
