@@ -4,7 +4,7 @@ from team_simulator import TeamSimulator, Player
 from models import DailyChallenge
 import os
 from flask_cors import CORS
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 import logging
 from player_pool import PlayerPool
@@ -79,7 +79,18 @@ def logout():
 @app.route('/api/player-pool', methods=['GET'])
 def get_player_pool():
     try:
-        # Get player pool using the fetcher's consolidated logic
+        # Try to get cached player pool first
+        cache_file = 'data/player_pool_cache.json'
+        if os.path.exists(cache_file):
+            with open(cache_file, 'r') as f:
+                cached_data = json.load(f)
+                # Check if cache is less than 1 hour old
+                if datetime.fromisoformat(cached_data['timestamp']) + timedelta(hours=1) > datetime.now():
+                    logger.info("Using cached player pool...")
+                    return jsonify(cached_data['data'])
+
+        # If no cache or cache is old, get fresh data
+        logger.info("Fetching fresh player pool...")
         player_pool = data_fetcher.get_player_pool()
         
         if not player_pool:
@@ -104,16 +115,42 @@ def get_player_pool():
         }
         
         for player in player_pool:
-            # Remove the $ prefix from cost for API response
-            cost = player['cost'].replace('$', '')
+            cost = str(player.get('cost', '1')).replace('$', '')
             if cost in players_by_cost:
                 players_by_cost[cost].append(player)
-            
+        
+        # Cache the results
+        os.makedirs('data', exist_ok=True)
+        with open(cache_file, 'w') as f:
+            json.dump({
+                'timestamp': datetime.now().isoformat(),
+                'data': players_by_cost
+            }, f)
+        
         return jsonify(players_by_cost)
         
     except Exception as e:
         logger.error(f"Error getting player pool: {str(e)}")
-        return jsonify({'error': 'Internal server error'}), 500
+        # Try to return cached data even if it's old
+        try:
+            if os.path.exists(cache_file):
+                with open(cache_file, 'r') as f:
+                    cached_data = json.load(f)
+                    logger.warning("Using old cached data due to error")
+                    return jsonify(cached_data['data'])
+        except:
+            pass
+            
+        return jsonify({
+            'error': 'Internal server error',
+            'players': {
+                '5': [],
+                '4': [],
+                '3': [],
+                '2': [],
+                '1': []
+            }
+        }), 500
 
 @app.route('/api/simulate-team', methods=['POST'])
 def simulate_team():

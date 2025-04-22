@@ -359,38 +359,53 @@ class NBADataFetcher:
             return '$1'
 
     def get_player_pool(self) -> List[Dict]:
-        """Get the complete player pool with costs"""
-        df = self.get_player_stats()
-        if df.empty:
-            return []
+        """Get a list of active NBA players with their stats and costs"""
+        try:
+            # Get player stats DataFrame
+            df = self.get_player_stats()
             
-        player_pool = []
-        for _, row in df.iterrows():
-            if row['GP'] > 0:  # Only include players who have played games
-                player_data = {
+            if df.empty:
+                logger.error("No player stats available")
+                return []
+            
+            # Ensure rating column exists
+            if 'rating' not in df.columns:
+                logger.error("Rating column not found in DataFrame")
+                return []
+            
+            # Calculate percentiles for ratings
+            df['percentile'] = df['rating'].rank(pct=True) * 100
+            
+            # Assign costs based on percentiles
+            def get_cost(percentile):
+                if percentile >= 80: return '5'
+                elif percentile >= 60: return '4'
+                elif percentile >= 40: return '3'
+                elif percentile >= 20: return '2'
+                else: return '1'
+            
+            # Convert DataFrame to list of dictionaries efficiently
+            players = []
+            for _, row in df.iterrows():
+                player = {
                     'name': row['PLAYER_NAME'],
-                    'cost': row['cost'],
-                    'rating': round(row['rating'], 1),
+                    'id': row['PLAYER_ID'],
+                    'cost': get_cost(row['percentile']),
                     'stats': {
-                        'pts': round(row['PTS'], 1),
-                        'ast': round(row['AST'], 1),
-                        'reb': round(row['REB'], 1),
-                        'stl': round(row['STL'], 1),
-                        'blk': round(row['BLK'], 1),
-                        'fg_pct': round(row['FG_PCT'] * 100, 1),
-                        'ts_pct': round(row['TS_PCT'] * 100, 1),
-                        'gp': int(row['GP'])
+                        'pts': float(row.get('PTS', 0)),
+                        'ast': float(row.get('AST', 0)),
+                        'reb': float(row.get('REB', 0)),
+                        'stl': float(row.get('STL', 0)),
+                        'blk': float(row.get('BLK', 0)),
+                        'fg_pct': float(row.get('FG_PCT', 0)),
+                        'three_pct': float(row.get('FG3_PCT', 0))
                     }
                 }
-                player_pool.append(player_data)
-        
-        # Log cost distribution
-        cost_distribution = {'$5': 0, '$4': 0, '$3': 0, '$2': 0, '$1': 0}
-        for player in player_pool:
-            cost_distribution[player['cost']] += 1
-        
-        logger.info("Cost distribution:")
-        for cost, count in cost_distribution.items():
-            logger.info(f"{cost}: {count} players")
+                players.append(player)
             
-        return player_pool 
+            logger.info(f"Loaded {len(players)} players from today's pool")
+            return players
+            
+        except Exception as e:
+            logger.error(f"Error in get_player_pool: {str(e)}")
+            return [] 
