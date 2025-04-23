@@ -4,11 +4,15 @@ import numpy as np
 import random
 import math
 import logging
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 from datetime import datetime
+from .player_stats import get_player_stats, get_player_3_season_avg
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 class Player:
@@ -47,106 +51,194 @@ class Player:
         return rating
 
 class TeamSimulator:
-    def __init__(self, budget: int = 15):
-        self.budget = budget
-        self.players = []
-        self.team_quality = 0
-        self.win_probability = 0.5
+    def __init__(self):
+        # Cache for player ratings to avoid recalculating
+        self._player_rating_cache = {}
+        # Cache for team ratings
+        self._team_rating_cache = {}
         
-    def add_player(self, player: Player):
-        """Add a player to the team"""
-        if len(self.players) >= 5:
-            raise ValueError("Team already has 5 players")
-            
-        total_cost = sum(p.cost for p in self.players) + player.cost
-        if total_cost > self.budget:
-            raise ValueError(f"Adding this player would exceed the ${self.budget} budget")
-            
-        self.players.append(player)
-        self._update_team_quality()
-        
-    def _update_team_quality(self):
-        """Update team quality based on current players"""
-        if not self.players:
-            self.team_quality = 0
-            self.win_probability = 0.5
-            return
-            
-        # Calculate team quality based on player ratings
-        total_rating = sum(p.get_rating() for p in self.players)
-        avg_rating = total_rating / len(self.players)
-        
-        # Calculate team balance (how well players complement each other)
-        balance_score = 0
-        if len(self.players) > 1:
-            # Check for complementary skills
-            has_scorer = any(p.stats.get('pts', 0) >= 20 for p in self.players)
-            has_playmaker = any(p.stats.get('ast', 0) >= 6 for p in self.players)
-            has_defender = any(p.stats.get('stl', 0) + p.stats.get('blk', 0) >= 2 for p in self.players)
-            has_rebounder = any(p.stats.get('reb', 0) >= 8 for p in self.players)
-            
-            balance_score = sum([has_scorer, has_playmaker, has_defender, has_rebounder]) / 4
-        
-        # Combine ratings and balance
-        self.team_quality = (avg_rating * 0.7 + balance_score * 0.3) / 100
-        
-        # Calculate win probability using sigmoid function
-        self.win_probability = 1 / (1 + np.exp(-10 * (self.team_quality - 0.5)))
-        
-    def simulate_game(self) -> bool:
-        """Simulate a single game and return whether the team won"""
-        if not self.players:
-            raise ValueError("Cannot simulate game with empty team")
-            
-        # Add some randomness to the win probability
-        adjusted_prob = self.win_probability + random.uniform(-0.1, 0.1)
-        adjusted_prob = max(min(adjusted_prob, 0.95), 0.05)  # Keep between 5% and 95%
-        
-        return random.random() < adjusted_prob
-        
-    def simulate_season(self, num_games: int = 82) -> Tuple[int, int]:
-        """Simulate a full season and return wins and losses"""
-        if not self.players:
-            raise ValueError("Cannot simulate season with empty team")
-            
-        wins = 0
-        losses = 0
-        
-        for _ in range(num_games):
-            if self.simulate_game():
-                wins += 1
-            else:
-                losses += 1
+    def calculate_player_rating(self, player_name: str) -> float:
+        """Calculate a player's rating based on their stats"""
+        try:
+            # Check cache first
+            if player_name in self._player_rating_cache:
+                return self._player_rating_cache[player_name]
                 
-        return wins, losses
-        
-    def get_team_stats(self) -> Dict:
-        """Get team statistics"""
-        if not self.players:
+            player_data = get_player_stats(player_name)
+            if not player_data:
+                return 0.0
+                
+            stats = player_data['stats']
+            rating = 0
+            
+            # Calculate base rating from weighted stats
+            weights = {
+                'pts': 1.0,      # Points (major factor)
+                'ast': 1.0,      # Assists (playmaking)
+                'reb': 0.8,      # Rebounds
+                'stl': 0.7,      # Steals
+                'blk': 0.7,      # Blocks
+                'fg_pct': 0.5,   # Field Goal Percentage
+                'ts_pct': 0.5    # True Shooting Percentage
+            }
+            
+            for stat, weight in weights.items():
+                if stat in stats:
+                    if stat in ['fg_pct', 'ts_pct']:
+                        rating += (float(stats[stat]) / 100) * weight * 100
+                    else:
+                        rating += float(stats[stat]) * weight
+            
+            # Add bonuses for exceptional performance
+            if float(stats.get('pts', 0)) >= 25: rating += 10
+            if float(stats.get('ast', 0)) >= 8: rating += 8
+            if float(stats.get('reb', 0)) >= 10: rating += 8
+            if float(stats.get('stl', 0)) >= 2: rating += 5
+            if float(stats.get('blk', 0)) >= 2: rating += 5
+            
+            # Cache the result
+            self._player_rating_cache[player_name] = round(rating, 1)
+            return self._player_rating_cache[player_name]
+            
+        except Exception as e:
+            logger.error(f"Error calculating rating for {player_name}: {str(e)}")
+            return 0.0
+            
+    def calculate_team_rating(self, team: List[str]) -> float:
+        """Calculate a team's rating based on its players"""
+        try:
+            # Create a cache key
+            team_key = tuple(sorted(team))
+            if team_key in self._team_rating_cache:
+                return self._team_rating_cache[team_key]
+                
+            # Calculate team rating
+            team_rating = sum(self.calculate_player_rating(player) for player in team)
+            
+            # Cache the result
+            self._team_rating_cache[team_key] = round(team_rating, 1)
+            return self._team_rating_cache[team_key]
+            
+        except Exception as e:
+            logger.error(f"Error calculating team rating: {str(e)}")
+            return 0.0
+            
+    def simulate_game(self, team1: List[str], team2: List[str]) -> Dict:
+        """Simulate a game between two teams"""
+        try:
+            # Calculate team ratings
+            team1_rating = self.calculate_team_rating(team1)
+            team2_rating = self.calculate_team_rating(team2)
+            
+            # Add some randomness
+            team1_rating += random.uniform(-5, 5)
+            team2_rating += random.uniform(-5, 5)
+            
+            # Determine winner
+            if team1_rating > team2_rating:
+                winner = team1
+                loser = team2
+                score_diff = int((team1_rating - team2_rating) * 0.5)
+            else:
+                winner = team2
+                loser = team1
+                score_diff = int((team2_rating - team1_rating) * 0.5)
+                
+            # Generate realistic score
+            base_score = random.randint(90, 120)
+            winner_score = base_score + score_diff
+            loser_score = base_score - score_diff
+            
+            return {
+                'winner': winner,
+                'loser': loser,
+                'score': f"{winner_score}-{loser_score}",
+                'team1_rating': round(team1_rating, 1),
+                'team2_rating': round(team2_rating, 1)
+            }
+            
+        except Exception as e:
+            logger.error(f"Error simulating game: {str(e)}")
             return {}
             
-        stats = {}
-        for stat in ['pts', 'ast', 'reb', 'stl', 'blk', 'fg_pct', 'ts_pct']:
-            values = [p.stats.get(stat, 0) for p in self.players]
-            stats[stat] = sum(values) / len(values)
+    def simulate_season(self, teams: Dict[str, List[str]], games_per_team: int = 82) -> Dict:
+        """Simulate a full season for all teams"""
+        try:
+            standings = {team: {'wins': 0, 'losses': 0, 'points_for': 0, 'points_against': 0} for team in teams.keys()}
             
-        return stats
-        
-    def get_team_cost(self) -> int:
-        """Get total cost of the team"""
-        return sum(p.cost for p in self.players)
-        
-    def get_remaining_budget(self) -> int:
-        """Get remaining budget"""
-        return self.budget - self.get_team_cost()
-        
-    def is_team_complete(self) -> bool:
-        """Check if team has 5 players"""
-        return len(self.players) == 5
-        
-    def is_team_valid(self) -> bool:
-        """Check if team is valid (5 players and within budget)"""
-        return self.is_team_complete() and self.get_team_cost() <= self.budget
+            # Simulate games
+            for _ in range(games_per_team):
+                for team1_name, team1 in teams.items():
+                    # Randomly select opponent
+                    team2_name = random.choice([t for t in teams.keys() if t != team1_name])
+                    team2 = teams[team2_name]
+                    
+                    # Simulate game
+                    result = self.simulate_game(team1, team2)
+                    if not result:
+                        continue
+                        
+                    # Update standings
+                    if team1_name in result['winner']:
+                        standings[team1_name]['wins'] += 1
+                        standings[team2_name]['losses'] += 1
+                    else:
+                        standings[team1_name]['losses'] += 1
+                        standings[team2_name]['wins'] += 1
+                        
+                    # Update points
+                    winner_score, loser_score = map(int, result['score'].split('-'))
+                    if team1_name in result['winner']:
+                        standings[team1_name]['points_for'] += winner_score
+                        standings[team1_name]['points_against'] += loser_score
+                        standings[team2_name]['points_for'] += loser_score
+                        standings[team2_name]['points_against'] += winner_score
+                    else:
+                        standings[team1_name]['points_for'] += loser_score
+                        standings[team1_name]['points_against'] += winner_score
+                        standings[team2_name]['points_for'] += winner_score
+                        standings[team2_name]['points_against'] += loser_score
+            
+            # Calculate point differential
+            for team in standings:
+                standings[team]['point_diff'] = standings[team]['points_for'] - standings[team]['points_against']
+            
+            # Sort standings by wins, then point differential
+            sorted_standings = dict(sorted(
+                standings.items(),
+                key=lambda x: (x[1]['wins'], x[1]['point_diff']),
+                reverse=True
+            ))
+            
+            return sorted_standings
+            
+        except Exception as e:
+            logger.error(f"Error simulating season: {str(e)}")
+            return {}
+            
+    def get_player_stats_summary(self, player_name: str) -> Dict:
+        """Get a summary of a player's stats including 3-season average"""
+        try:
+            player_data = get_player_stats(player_name)
+            if not player_data:
+                return {}
+                
+            current_stats = player_data['stats']
+            three_season_avg = player_data['3_season_avg']
+            
+            return {
+                'name': player_name,
+                'position': player_data['position'],
+                'team': player_data['team'],
+                'cost': player_data['cost'],
+                'rating': player_data['rating'],
+                'current_stats': current_stats,
+                'three_season_avg': three_season_avg
+            }
+            
+        except Exception as e:
+            logger.error(f"Error getting stats summary for {player_name}: {str(e)}")
+            return {}
 
 def main():
     # Test the simulator
