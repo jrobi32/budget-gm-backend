@@ -13,6 +13,9 @@ import time
 import gc
 from dotenv import load_dotenv
 from gevent.pool import Pool
+from player_stats import get_player_stats, get_all_player_stats, get_player_3_season_avg
+from team_builder import TeamBuilder
+from static_player_pool import get_static_player_pool
 
 # Load environment variables
 load_dotenv()
@@ -52,6 +55,33 @@ data_fetcher = NBADataFetcher()
 player_pool = PlayerPool()
 simulator = TeamSimulator()
 
+# Initialize team builder and simulator
+team_builder = TeamBuilder()
+team_simulator = TeamSimulator()
+
+# Cache for player pool
+_player_pool_cache = None
+_last_cache_update = 0
+CACHE_DURATION = 3600  # 1 hour in seconds
+
+def get_cached_player_pool():
+    """Get cached player pool with time-based refresh"""
+    global _player_pool_cache, _last_cache_update
+    
+    current_time = time.time()
+    if _player_pool_cache is None or (current_time - _last_cache_update) > CACHE_DURATION:
+        try:
+            logger.info("Refreshing player pool cache...")
+            _player_pool_cache = get_static_player_pool()
+            _last_cache_update = current_time
+            logger.info(f"Successfully cached {len(_player_pool_cache)} players")
+        except Exception as e:
+            logger.error(f"Error refreshing player pool cache: {str(e)}")
+            if _player_pool_cache is None:
+                raise
+    
+    return _player_pool_cache
+
 @app.route('/')
 def index():
     # Get the current challenge
@@ -86,21 +116,60 @@ def logout():
 @app.route('/api/player-pool', methods=['GET'])
 def get_player_pool():
     try:
-        # Get categorized player pool
-        player_pool = data_fetcher.get_player_pool()
+        # Load the tiered player pool
+        with open('tiered_player_pool.json', 'r') as f:
+            player_pool = json.load(f)
         
-        # Return the categorized pool directly
+        # Ensure we have exactly 5 players per tier
+        for tier in ['$5', '$4', '$3', '$2', '$1']:
+            if len(player_pool[tier]) != 5:
+                raise ValueError(f"Expected 5 players in {tier} tier, got {len(player_pool[tier])}")
+        
         return jsonify(player_pool)
-        
     except Exception as e:
-        logger.error(f"Error in get_player_pool: {str(e)}")
-        return jsonify({
-            '$5': [],
-            '$4': [],
-            '$3': [],
-            '$2': [],
-            '$1': []
-        }), 500
+        logger.error(f"Error getting player pool: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/team', methods=['POST'])
+def create_team():
+    try:
+        data = request.get_json()
+        if not data or 'players' not in data:
+            return jsonify({'error': 'Invalid request data'}), 400
+            
+        team = TeamBuilder()
+        for player in data['players']:
+            if not team.add_player(player):
+                return jsonify({'error': f'Failed to add player {player}'}), 400
+                
+        return jsonify(team.get_team_summary())
+    except Exception as e:
+        logger.error(f"Error in create_team: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/simulate', methods=['POST'])
+def simulate_game():
+    try:
+        data = request.get_json()
+        if not data or 'team1' not in data or 'team2' not in data:
+            return jsonify({'error': 'Invalid request data'}), 400
+            
+        result = team_simulator.simulate_game(data['team1'], data['team2'])
+        return jsonify(result)
+    except Exception as e:
+        logger.error(f"Error in simulate_game: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/player/<player_name>', methods=['GET'])
+def get_player(player_name):
+    try:
+        player_data = get_player_stats(player_name)
+        if not player_data:
+            return jsonify({'error': 'Player not found'}), 404
+        return jsonify(player_data)
+    except Exception as e:
+        logger.error(f"Error in get_player: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/simulate-team', methods=['POST'])
 def simulate_team():
@@ -145,35 +214,40 @@ def validate_team():
     try:
         data = request.get_json()
         if not data or 'players' not in data:
-            return jsonify({'error': 'Invalid request data'}), 400
-            
-        # Create team simulator
-        team = TeamSimulator()
+            return jsonify({'error': 'No players provided'}), 400
         
-        # Add players to team
-        for player_data in data['players']:
-            try:
-                player = Player(
-                    name=player_data['name'],
-                    stats=player_data['stats']
-                )
-                team.add_player(player)
-            except ValueError as e:
-                return jsonify({'error': str(e)}), 400
-                
+        # Load the tiered player pool
+        with open('tiered_player_pool.json', 'r') as f:
+            player_pool = json.load(f)
+        
+        # Validate each player exists in the pool
+        total_cost = 0
+        for player in data['players']:
+            found = False
+            for tier in ['$5', '$4', '$3', '$2', '$1']:
+                if any(p['name'] == player['name'] for p in player_pool[tier]):
+                    total_cost += int(tier.replace('$', ''))
+                    found = True
+                    break
+            if not found:
+                return jsonify({'error': f'Player {player["name"]} not found in pool'}), 400
+        
+        # Check budget constraint
+        if total_cost > 15:
+            return jsonify({'error': f'Team cost ${total_cost} exceeds budget of $15'}), 400
+        
+        # Check minimum players
+        if len(data['players']) < 5:
+            return jsonify({'error': 'Team must have at least 5 players'}), 400
+        
         return jsonify({
-            'is_valid': team.is_team_valid(),
-            'total_cost': team.get_team_cost(),
-            'remaining_budget': team.get_remaining_budget(),
-            'is_complete': team.is_team_complete()
+            'valid': True,
+            'total_cost': total_cost,
+            'remaining_budget': 15 - total_cost
         })
-        
     except Exception as e:
         logger.error(f"Error validating team: {str(e)}")
-        return jsonify({'error': 'Internal server error'}), 500
-    finally:
-        # Force garbage collection
-        gc.collect()
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/leaderboard')
 def leaderboard():
@@ -260,6 +334,104 @@ def get_challenge_by_date(date):
         'date': challenge.date,
         'players': challenge.players
     })
+
+@app.route('/api/players', methods=['GET'])
+def get_players():
+    """Get all players with their stats"""
+    try:
+        players = get_all_player_stats()
+        return jsonify({
+            'success': True,
+            'data': players
+        })
+    except Exception as e:
+        logger.error(f"Error getting players: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/players/<player_name>/stats', methods=['GET'])
+def get_player_stats_endpoint(player_name: str):
+    """Get current and 3-season average stats for a player"""
+    try:
+        current_stats = get_player_stats(player_name)
+        three_season_avg = get_player_3_season_avg(player_name)
+        
+        if not current_stats or not three_season_avg:
+            return jsonify({
+                'success': False,
+                'error': f"Stats not found for player {player_name}"
+            }), 404
+            
+        return jsonify({
+            'success': True,
+            'data': {
+                'current': current_stats['stats'],
+                'three_season_avg': three_season_avg
+            }
+        })
+    except Exception as e:
+        logger.error(f"Error getting stats for {player_name}: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/simulate/season', methods=['POST'])
+def simulate_season():
+    try:
+        data = request.get_json()
+        if not data or 'players' not in data:
+            return jsonify({'error': 'No players provided'}), 400
+        
+        # Load the tiered player pool to get full player stats
+        with open('tiered_player_pool.json', 'r') as f:
+            player_pool = json.load(f)
+        
+        # Get full player data for each selected player
+        selected_players = []
+        for player in data['players']:
+            # Find the player in our pool
+            for tier in ['$5', '$4', '$3', '$2', '$1']:
+                found_player = next((p for p in player_pool[tier] if p['name'] == player['name']), None)
+                if found_player:
+                    selected_players.append(found_player)
+                    break
+        
+        if len(selected_players) != len(data['players']):
+            return jsonify({'error': 'Could not find all selected players in the pool'}), 400
+        
+        # Simulate the season
+        simulator = TeamSimulator()
+        results = simulator.simulate_season(selected_players)
+        
+        return jsonify(results)
+    except Exception as e:
+        logger.error(f"Error simulating season: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/player/stats/summary/<player_name>', methods=['GET'])
+def get_player_stats_summary(player_name: str):
+    """Get a comprehensive stats summary for a player"""
+    try:
+        summary = simulator.get_player_stats_summary(player_name)
+        if not summary:
+            return jsonify({
+                'success': False,
+                'error': f"Stats summary not found for player {player_name}"
+            }), 404
+            
+        return jsonify({
+            'success': True,
+            'data': summary
+        })
+    except Exception as e:
+        logger.error(f"Error getting stats summary for {player_name}: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
