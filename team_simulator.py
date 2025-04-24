@@ -6,7 +6,7 @@ import math
 import logging
 from typing import Dict, List, Tuple, Optional
 from datetime import datetime
-from .player_stats import get_player_stats, get_player_3_season_avg
+from player_stats import get_player_stats, get_player_3_season_avg
 
 # Configure logging
 logging.basicConfig(
@@ -52,10 +52,22 @@ class Player:
 
 class TeamSimulator:
     def __init__(self):
-        # Cache for player ratings to avoid recalculating
+        # Cache for player ratings
         self._player_rating_cache = {}
         # Cache for team ratings
         self._team_rating_cache = {}
+        # Cache for player stats
+        self._player_stats_cache = {}
+        
+    def _get_player_stats(self, player_name: str) -> Optional[Dict]:
+        """Get player stats with caching"""
+        if player_name in self._player_stats_cache:
+            return self._player_stats_cache[player_name]
+            
+        stats = get_player_stats(player_name)
+        if stats:
+            self._player_stats_cache[player_name] = stats
+        return stats
         
     def calculate_player_rating(self, player_name: str) -> float:
         """Calculate a player's rating based on their stats"""
@@ -64,7 +76,7 @@ class TeamSimulator:
             if player_name in self._player_rating_cache:
                 return self._player_rating_cache[player_name]
                 
-            player_data = get_player_stats(player_name)
+            player_data = self._get_player_stats(player_name)
             if not player_data:
                 return 0.0
                 
@@ -239,6 +251,12 @@ class TeamSimulator:
         except Exception as e:
             logger.error(f"Error getting stats summary for {player_name}: {str(e)}")
             return {}
+
+    def clear_cache(self):
+        """Clear all caches to free memory"""
+        self._player_rating_cache.clear()
+        self._team_rating_cache.clear()
+        self._player_stats_cache.clear()
 
 def main():
     # Test the simulator

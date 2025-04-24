@@ -6,10 +6,10 @@ bind = "0.0.0.0:" + str(os.getenv("PORT", "10000"))
 backlog = 2048
 
 # Worker processes
-workers = multiprocessing.cpu_count() * 2 + 1
+workers = 2  # Reduce worker count to prevent memory issues
 worker_class = 'gevent'  # Use gevent for async support
-worker_connections = 1000
-timeout = 120  # Increase timeout to 120 seconds
+worker_connections = 100
+timeout = 300  # Increase timeout to 300 seconds
 keepalive = 2
 
 # Logging
@@ -27,6 +27,17 @@ umask = 0
 user = None
 group = None
 tmp_upload_dir = None
+
+# SSL
+keyfile = None
+certfile = None
+
+# Memory management
+max_requests = 100
+max_requests_jitter = 10
+preload_app = True  # Preload app to share memory between workers
+max_worker_lifetime = 3600  # Restart workers every hour
+worker_tmp_dir = "/dev/shm"  # Use shared memory for temporary files
 
 # SSL
 keyfile = None

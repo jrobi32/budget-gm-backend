@@ -10,6 +10,8 @@ import random
 import json
 import os
 import gc
+from .static_player_pool import get_static_player_pool, get_players_by_cost, get_all_players
+from .player_stats import get_player_stats, get_all_player_stats, get_player_3_season_avg, get_all_player_3_season_avg
 
 # Configure logging
 logging.basicConfig(
@@ -112,245 +114,80 @@ class NBADataFetcher:
     def get_active_players(self) -> List[Dict]:
         """Get a list of active NBA players with their stats and costs"""
         try:
-            # Get player stats DataFrame
-            df = self.get_player_stats()
-            
-            if df.empty:
-                logger.error("No player stats available")
-                return []
-            
-            # Ensure rating column exists
-            if 'rating' not in df.columns:
-                logger.error("Rating column not found in DataFrame")
-                return []
-            
-            # Calculate percentiles for ratings
-            df['percentile'] = df['rating'].rank(pct=True) * 100
-            
-            # Assign costs based on percentiles
-            def get_cost(percentile):
-                if percentile >= 95:    # Top 5%
-                    return '$5'
-                elif percentile >= 80:  # Next 15%
-                    return '$4'
-                elif percentile >= 60:  # Next 20%
-                    return '$3'
-                elif percentile >= 30:  # Next 30%
-                    return '$2'
-                else:                   # Bottom 30%
-                    return '$1'
-            
-            df['cost'] = df['percentile'].apply(get_cost)
-            
-            # Convert to list of dictionaries with selected stats
-            players = []
-            for _, row in df.iterrows():
-                if row['GP'] > 0:  # Only include players who have played games
-                    player = {
-                        'name': row['PLAYER_NAME'],
-                        'cost': row['cost'],
-                        'rating': round(row['rating'], 1),
-                        'stats': {
-                            'pts': round(row['PTS'], 1),
-                            'ast': round(row['AST'], 1),
-                            'reb': round(row['REB'], 1),
-                            'stl': round(row['STL'], 1),
-                            'blk': round(row['BLK'], 1),
-                            'fg_pct': round(row['FG_PCT'] * 100, 1),
-                            'ts_pct': round(row['TS_PCT'] * 100, 1),
-                            'gp': int(row['GP'])
-                        }
-                    }
-                    players.append(player)
-            
-            # Log distribution of costs
-            cost_distribution = df['cost'].value_counts().sort_index()
-            logger.info(f"Player cost distribution: {cost_distribution.to_dict()}")
-            
-            return players
-            
+            # Use static player pool instead of making API calls
+            return get_all_players()
         except Exception as e:
             logger.error(f"Error getting active players: {str(e)}")
             return []
             
+    def get_player_pool(self) -> List[Dict]:
+        """Get a curated player pool optimized for the game"""
+        try:
+            # Use static player pool instead of making API calls
+            return get_all_players()
+        except Exception as e:
+            logger.error(f"Error generating player pool: {str(e)}")
+            return []
+            
     def get_player_stats(self) -> pd.DataFrame:
         """Get player stats for a given season"""
-        cache_key = 'player_stats'
         try:
-            cached_data = self._get_from_cache(cache_key)
-            if cached_data:
-                return pd.DataFrame(cached_data)
-                
-            # Get all player stats in one request
-            stats = self._make_api_call(
-                leaguedashplayerstats.LeagueDashPlayerStats,
-                measure_type_detailed_defense='Base',
-                per_mode_detailed='PerGame',
-                timeout=self.timeout
-            )
-            
-            if not stats or not stats.get_data_frames():
-                logger.error("Empty response from NBA API")
+            # Convert static player pool to DataFrame
+            players = get_all_players()
+            if not players:
                 return pd.DataFrame()
                 
-            # Convert to DataFrame and immediately clear stats object
-            df = pd.DataFrame(stats.get_data_frames()[0])
-            del stats  # Free memory
-            gc.collect()
+            # Convert to DataFrame
+            df = pd.DataFrame(players)
             
-            if df.empty:
-                logger.error("No player data in response")
-                return pd.DataFrame()
-                
-            logger.info(f"Retrieved {len(df)} players from NBA API")
-            
-            # Process data in smaller chunks to reduce memory usage
-            chunk_size = 50  # Reduced chunk size
-            processed_chunks = []
-            
-            for i in range(0, len(df), chunk_size):
-                chunk = df.iloc[i:i + chunk_size].copy()
-                
-                # Calculate true shooting percentage
-                chunk['TS_PCT'] = chunk.apply(
-                    lambda row: self._calculate_true_shooting(
-                        row['PTS'],
-                        row['FGM'],
-                        row['FGA'],
-                        row['FTM'],
-                        row['FTA']
-                    ),
-                    axis=1
-                )
-                
-                # Calculate player rating based on weighted stats
-                weights = {
-                    'PTS': 1.0,
-                    'AST': 1.0,
-                    'REB': 0.8,
-                    'STL': 0.7,
-                    'BLK': 0.7,
-                    'FG_PCT': 0.5,
-                    'TS_PCT': 0.5
-                }
-                
-                # Initialize rating column
-                chunk['rating'] = 0
-                
-                # Add weighted contributions
-                for stat, weight in weights.items():
-                    if stat in chunk.columns:
-                        if stat in ['FG_PCT', 'TS_PCT']:
-                            chunk['rating'] += chunk[stat].fillna(0) * weight * 100
-                        else:
-                            chunk['rating'] += chunk[stat].fillna(0) * weight
-                
-                # Add bonuses for exceptional performance
-                chunk['rating'] += np.where(chunk['PTS'] >= 25, 10, 0)
-                chunk['rating'] += np.where(chunk['AST'] >= 8, 8, 0)
-                chunk['rating'] += np.where(chunk['REB'] >= 10, 8, 0)
-                chunk['rating'] += np.where(chunk['STL'] >= 2, 5, 0)
-                chunk['rating'] += np.where(chunk['BLK'] >= 2, 5, 0)
-                
-                # Store processed chunk
-                processed_chunks.append(chunk)
-                
-                # Force garbage collection after each chunk
-                del chunk
-                gc.collect()
-                
-                # Add small delay between chunks
-                time.sleep(0.1)
-            
-            # Combine processed chunks
-            df = pd.concat(processed_chunks, ignore_index=True)
-            del processed_chunks
-            gc.collect()
-            
-            # Normalize ratings to 1-100 range
-            min_rating = df['rating'].min()
-            max_rating = df['rating'].max()
-            if max_rating > min_rating:
-                df['rating'] = ((df['rating'] - min_rating) / (max_rating - min_rating)) * 99 + 1
-            else:
-                df['rating'] = 50
-            
-            # Calculate percentiles and costs
-            df['percentile'] = df['rating'].rank(pct=True) * 100
-            df['cost'] = df['percentile'].apply(self._get_cost_from_percentile)
-            
-            # Cache the results
-            self._set_cache(cache_key, df.to_dict('records'))
+            # Explode stats dictionary into columns
+            stats_df = pd.json_normalize(df['stats'])
+            df = pd.concat([df.drop(['stats'], axis=1), stats_df], axis=1)
             
             return df
             
         except Exception as e:
             logger.error(f"Error getting player stats: {str(e)}")
             return pd.DataFrame()
-        finally:
-            # Force garbage collection
-            gc.collect()
-            
-    def _calculate_true_shooting(self, pts: float, fgm: float, fga: float, ftm: float, fta: float) -> float:
-        """Calculate true shooting percentage"""
-        if fga + 0.44 * fta == 0:
-            return 0
-        return pts / (2 * (fga + 0.44 * fta))
-            
-    def get_top_scorers(self, limit: int = 10) -> List[Dict]:
-        """Get top scorers in the league"""
-        cache_key = f"top_scorers_{limit}"
-        cached_data = self._get_from_cache(cache_key)
-        if cached_data:
-            return cached_data
-            
+
+    def get_player_3_season_avg(self, player_name: str) -> Dict:
+        """Get 3-season average stats for a specific player"""
         try:
-            df = self.get_player_stats()
-            if not df.empty and 'PTS' in df.columns:
-                top_scorers = df.nlargest(limit, 'PTS')
-                result = top_scorers[['PLAYER_NAME', 'PTS', 'REB', 'AST', 'TS_PCT']].to_dict('records')
-            else:
-                result = []
-            
-            # Cache the results
-            self._set_cache(cache_key, result)
-            
-            return result
-            
+            return get_player_3_season_avg(player_name)
         except Exception as e:
-            logger.error(f"Error getting top scorers: {str(e)}")
-            return []
-            
-    def get_bottom_scorers(self, limit: int = 10) -> List[Dict]:
-        """Get bottom scorers in the league"""
-        cache_key = f"bottom_scorers_{limit}"
-        cached_data = self._get_from_cache(cache_key)
-        if cached_data:
-            return cached_data
-            
+            logger.error(f"Error getting 3-season average for {player_name}: {str(e)}")
+            return {}
+
+    def get_all_player_3_season_avg(self) -> Dict:
+        """Get 3-season average stats for all players"""
         try:
-            df = self.get_player_stats()
-            if not df.empty and 'PTS' in df.columns:
-                bottom_scorers = df.nsmallest(limit, 'PTS')
-                result = bottom_scorers[['PLAYER_NAME', 'PTS', 'REB', 'AST', 'TS_PCT']].to_dict('records')
-            else:
-                result = []
-            
-            # Cache the results
-            self._set_cache(cache_key, result)
-            
-            return result
-            
+            return get_all_player_3_season_avg()
         except Exception as e:
-            logger.error(f"Error getting bottom scorers: {str(e)}")
-            return []
+            logger.error(f"Error getting all player 3-season averages: {str(e)}")
+            return {}
+
+    def get_player_details(self, player_name: str) -> Dict:
+        """Get detailed player information including current and 3-season average stats"""
+        try:
+            return get_player_stats(player_name)
+        except Exception as e:
+            logger.error(f"Error getting details for {player_name}: {str(e)}")
+            return {}
+            
+    def get_all_player_details(self) -> Dict:
+        """Get detailed information for all players"""
+        try:
+            return get_all_player_stats()
+        except Exception as e:
+            logger.error(f"Error getting all player details: {str(e)}")
+            return {}
             
     def calculate_player_cost(self, stats: Dict) -> str:
         """Calculate player cost based on rating percentiles"""
         try:
-            # Get all player ratings
-            df = self.get_player_stats()
-            if df.empty:
+            # Get all players
+            players = get_all_players()
+            if not players:
                 return '$1'
             
             # Calculate the rating for this player
@@ -379,13 +216,11 @@ class NBADataFetcher:
             if float(stats.get('STL', 0)) >= 2: rating += 5
             if float(stats.get('BLK', 0)) >= 2: rating += 5
             
-            # Normalize to 1-100 range
-            min_rating = df['rating'].min()
-            max_rating = df['rating'].max()
-            rating = ((rating - min_rating) / (max_rating - min_rating)) * 99 + 1
+            # Get all ratings
+            all_ratings = [p['rating'] for p in players]
             
             # Calculate percentile
-            percentile = (df['rating'] < rating).mean() * 100
+            percentile = (sum(1 for r in all_ratings if r < rating) / len(all_ratings)) * 100
             
             # Assign cost based on percentile ranges
             if percentile >= 95:    # Top 5%
@@ -402,6 +237,36 @@ class NBADataFetcher:
         except Exception as e:
             logger.error(f"Error calculating player cost: {str(e)}")
             return '$1'
+
+    def get_top_scorers(self, limit: int = 10) -> List[Dict]:
+        """Get top scorers in the league"""
+        try:
+            players = get_all_players()
+            if not players:
+                return []
+            
+            # Sort by points and get top limit
+            top_scorers = sorted(players, key=lambda x: x['stats']['pts'], reverse=True)[:limit]
+            return top_scorers
+            
+        except Exception as e:
+            logger.error(f"Error getting top scorers: {str(e)}")
+            return []
+            
+    def get_bottom_scorers(self, limit: int = 10) -> List[Dict]:
+        """Get bottom scorers in the league"""
+        try:
+            players = get_all_players()
+            if not players:
+                return []
+            
+            # Sort by points and get bottom limit
+            bottom_scorers = sorted(players, key=lambda x: x['stats']['pts'])[:limit]
+            return bottom_scorers
+            
+        except Exception as e:
+            logger.error(f"Error getting bottom scorers: {str(e)}")
+            return []
 
     def store_categorized_players(self, players: List[Dict]) -> None:
         """Store players in a categorized format by cost"""
@@ -464,65 +329,6 @@ class NBADataFetcher:
             }
         except Exception as e:
             logger.error(f"Error reading categorized players: {str(e)}")
-            return {
-                '$5': [],
-                '$4': [],
-                '$3': [],
-                '$2': [],
-                '$1': []
-            }
-
-    def get_player_pool(self) -> List[Dict]:
-        """Get a list of active NBA players with their stats and costs"""
-        try:
-            # First try to get from categorized cache
-            categorized_players = self.get_categorized_players()
-            if any(categorized_players.values()):
-                logger.info("Using categorized player pool from cache")
-                return categorized_players
-            
-            # If no categorized cache, get player stats DataFrame
-            df = self.get_player_stats()
-            
-            if df.empty:
-                logger.error("No player stats available")
-                return []
-            
-            # Ensure rating column exists
-            if 'rating' not in df.columns:
-                logger.error("Rating column not found in DataFrame")
-                return []
-            
-            # Calculate percentiles for ratings
-            df['percentile'] = df['rating'].rank(pct=True) * 100
-            
-            # Convert DataFrame to list of dictionaries efficiently
-            players = []
-            for _, row in df.iterrows():
-                player = {
-                    'name': row['PLAYER_NAME'],
-                    'id': row['PLAYER_ID'],
-                    'cost': self._get_cost_from_percentile(row['percentile']),
-                    'stats': {
-                        'pts': float(row.get('PTS', 0)),
-                        'ast': float(row.get('AST', 0)),
-                        'reb': float(row.get('REB', 0)),
-                        'stl': float(row.get('STL', 0)),
-                        'blk': float(row.get('BLK', 0)),
-                        'fg_pct': float(row.get('FG_PCT', 0)),
-                        'three_pct': float(row.get('FG3_PCT', 0))
-                    }
-                }
-                players.append(player)
-            
-            # Store the categorized players
-            self.store_categorized_players(players)
-            
-            logger.info(f"Loaded {len(players)} players from today's pool")
-            return self.get_categorized_players()
-            
-        except Exception as e:
-            logger.error(f"Error in get_player_pool: {str(e)}")
             return {
                 '$5': [],
                 '$4': [],
